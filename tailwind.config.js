@@ -10,6 +10,7 @@ module.exports = {
     screens: { // for IPhone and PC
       sm: "27.5rem", // Custom small screen (440px)
       xl: "90rem",   // Custom large screen (1440px)
+      ...screens
     },
     extend: {
       backgroundImage: { // Gradients
