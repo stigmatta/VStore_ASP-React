@@ -17,7 +17,7 @@ module.exports = {
         "green-gradient": "linear-gradient(to right, #7BC74D 10%, #82CA77 90%)",
         "page-gradient": "linear-gradient(to right, #222831 55%, #1B3A2F 100%)",
         "footer-gradient": "linear-gradient(90deg, rgba(27,58,47,1) 0%, rgba(34,40,49,1) 55%, rgba(27,58,47,1) 100%)",
-        "header-gradient": "linear-gradient(90deg, rgba(55,60,67,1) 70%, rgba(37,40,45,1) 80%);"
+        "header-gradient": "linear-gradient(90deg, rgba(55,60,67,1) 35%, rgba(37,40,45,1) 80%);"
       },
       fontFamily: { // it`s used by default for body
         roboto: ["Roboto", "sans-serif"],

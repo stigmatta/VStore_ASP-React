@@ -2,13 +2,17 @@ import VLogo from '../images/logo.png';
 import GrayButton from './GrayButton';
 import GreenButton from './GreenButton';
 import Searchbar from './Searchbar';
+import { useWindowWidth } from '../hooks/useWindowWidth';
 
 export default function Header() {
+
+  const windowWidth = useWindowWidth();
+
   return (
     <header className="flex h-[3.9375rem] bg-header-gradient pl-[1.5625rem] pr-[1.125em] items-center">
       <div className='flex gap-4'>
         <img className="w-[1.875rem] h-[1.6875em]" src={VLogo} alt="vlogo" />
-        <h1 className='text-title font-bold'>STORE</h1>
+        <h1 className='text-title/[100%] font-bold'>STORE</h1>
       </div>
 
       <nav className='flex gap-9 mx-10'>
@@ -17,7 +21,7 @@ export default function Header() {
         <ul className='hoverLink'>News</ul>
       </nav>
 
-      <Searchbar />
+      {windowWidth > 1060 && <Searchbar />}
 
       <div className='flex gap-4 ml-auto items-center'>
         <svg className='hoverSvg' width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,7 +36,6 @@ export default function Header() {
 
         <GrayButton text="Sign in" width="4.5rem" height="2.4375rem"></GrayButton>
         <GreenButton text="Download" width="6.0625rem" height="2.4375rem"></GreenButton>
-
 
       </div>
 
