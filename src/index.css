@@ -4,14 +4,29 @@
 
 body {
   margin: 0;
-  font-family: 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Roboto';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html,body,#root{
+  height: 100vh;
+  @apply text-gray-lightest;
+  @apply font-roboto;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/*common styles*/
+.hoverLink:hover{
+  @apply text-green transition-colors duration-300
+}
+.hoverSvg{
+  @apply transition-all duration-150;
+}
+.hoverSvg:hover{
+  filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(1652%) hue-rotate(48deg) brightness(88%) contrast(86%);
 }
