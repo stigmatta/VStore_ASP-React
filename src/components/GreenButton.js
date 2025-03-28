@@ -1,7 +1,11 @@
-export default function GreenButton({ text, width, height }) {
+import { useWindowWidth } from '../hooks/useWindowWidth';
+import { Download } from "lucide-react";
+
+export default function GreenButton({ text, px, height }) {
+    const windowWidth = useWindowWidth();
     return (
-      <button style={{ width: width, height: height }} className="bg-green rounded-md text-gray">
-        {text}
+      <button style={{ paddingInline: px, height: height }} className="w-fit flex justify-center items-center bg-green rounded-md text-gray">
+            {windowWidth > 1060 ? text : <Download size={16} />}
       </button>
     );
 }
