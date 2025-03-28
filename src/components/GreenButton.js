@@ -1,5 +1,5 @@
-import { useWindowWidth } from '../hooks/useWindowWidth';
 import { Download } from "lucide-react";
+import useWindowWidth from "../hooks/useWindowWidth";
 
 export default function GreenButton({ text, px, height }) {
     const windowWidth = useWindowWidth();
