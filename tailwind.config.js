@@ -9,6 +9,8 @@ module.exports = {
   theme: {
     screens: { // for IPhone and PC
       sm: "27.5rem", // Custom small screen (440px)
+      md: "42.8125rem", // (685px)
+      lg: "66.25rem", // (1060px)
       xl: "90rem",   // Custom large screen (1440px)
       ...screens
     },
@@ -34,6 +36,7 @@ module.exports = {
       colors: { //overrided colors 
         green: {
           DEFAULT: "#7BC74D",
+          lighter: "#9FE277"
         },
         gray: {
           DEFAULT: "#222831",

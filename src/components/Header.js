@@ -17,7 +17,7 @@ export default function Header() {
   return (
     <header className="flex h-[3.9375rem] bg-header-gradient pl-[1.5625rem] pr-[1.125em] items-center">
       <Link to = "/">
-        <div className='flex gap-4'>
+        <div className='flex gap-3 md:gap-4'>
           <img className="w-[1.875rem] h-[1.6875em]" src={VLogo} alt="vlogo" />
           <h1 className='~text-highlightedText/title font-bold'>STORE</h1>
         </div>
@@ -25,7 +25,7 @@ export default function Header() {
 
       <div className="hidden md:block">
         <nav className='flex gap-9 mx-10'>
-          <Link to = "/Main">
+          <Link to = "/">
             <ul className='hoverLink'>Discover</ul>
           </Link>
 
@@ -43,7 +43,7 @@ export default function Header() {
         <Searchbar/>
       </div>
       
-      <div className='flex gap-4 ml-auto items-center'>
+      <div className='flex gap-3 md:gap-4 ml-auto items-center'>
         <Link to = "/Profile">
           <svg className='hoverSvg' width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4.16797 17.349C4.41548 16.5252 4.92194 15.8032 5.61222 15.29C6.30249 14.7768 7.13982 14.4997 7.99997 14.5H12C12.8612 14.4997 13.6996 14.7774 14.3904 15.2918C15.0811 15.8062 15.5874 16.5298 15.834 17.355M1 10.5C1 11.6819 1.23279 12.8522 1.68508 13.9442C2.13738 15.0361 2.80031 16.0282 3.63604 16.864C4.47177 17.6997 5.46392 18.3626 6.55585 18.8149C7.64778 19.2672 8.8181 19.5 10 19.5C11.1819 19.5 12.3522 19.2672 13.4442 18.8149C14.5361 18.3626 15.5282 17.6997 16.364 16.864C17.1997 16.0282 17.8626 15.0361 18.3149 13.9442C18.7672 12.8522 19 11.6819 19 10.5C19 9.3181 18.7672 8.14778 18.3149 7.05585C17.8626 5.96392 17.1997 4.97177 16.364 4.13604C15.5282 3.30031 14.5361 2.63738 13.4442 2.18508C12.3522 1.73279 11.1819 1.5 10 1.5C8.8181 1.5 7.64778 1.73279 6.55585 2.18508C5.46392 2.63738 4.47177 3.30031 3.63604 4.13604C2.80031 4.97177 2.13738 5.96392 1.68508 7.05585C1.23279 8.14778 1 9.3181 1 10.5ZM7 8.5C7 9.29565 7.31607 10.0587 7.87868 10.6213C8.44129 11.1839 9.20435 11.5 10 11.5C10.7956 11.5 11.5587 11.1839 12.1213 10.6213C12.6839 10.0587 13 9.29565 13 8.5C13 7.70435 12.6839 6.94129 12.1213 6.37868C11.5587 5.81607 10.7956 5.5 10 5.5C9.20435 5.5 8.44129 5.81607 7.87868 6.37868C7.31607 6.94129 7 7.70435 7 8.5Z" stroke="#EEEEEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
