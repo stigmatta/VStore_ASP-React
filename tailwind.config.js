@@ -18,21 +18,22 @@ module.exports = {
       backgroundImage: { // Gradients
         "green-gradient": "linear-gradient(to right, #7BC74D 10%, #82CA77 90%)",
         "page-gradient": "linear-gradient(to right, #222831 55%, #1B3A2F 100%)",
-        "footer-gradient": "linear-gradient(90deg, rgba(27,58,47,1) 0%, rgba(34,40,49,1) 55%, rgba(27,58,47,1) 100%)",
-        "header-gradient": "linear-gradient(90deg, rgba(55,60,67,1) 35%, rgba(37,40,45,1) 80%);"
+        "header-gradient": "linear-gradient(90deg, rgba(55,60,67,1) 35%, rgba(37,40,45,1) 80%)",
+        "footer-gradient": "linear-gradient(90deg, rgba(123, 199, 77, 0.2) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(122, 199, 77, 0.2) 100%)"
       },
       fontFamily: { // it`s used by default for body
         roboto: ["Roboto", "sans-serif"],
       },
       fontSize: { // all font-sizes
-        subtext: "0.75rem",
-        text: "0.875rem",
-        button: "1rem",
-        bigButton: "1.125rem",
-        highlightedText: "1.25rem",
-        title: "1.5rem",
-        header: "3rem",
+        subtext: "0.75rem",       // 12px
+        text: "0.875rem",         // 14px
+        button: "1rem",           // 16px
+        bigButton: "1.125rem",    // 18px
+        highlightedText: "1.25rem", // 20px
+        title: "1.5rem",          // 24px
+        header: "3rem",           // 48px
       },
+      
       colors: { //overrided colors 
         green: {
           DEFAULT: "#7BC74D",
@@ -42,6 +43,7 @@ module.exports = {
           DEFAULT: "#222831",
           light: "#393E46",
           lighterInput:"#4E5258",
+          footer:"rgb(55, 60, 67)",
           lighter: "#606976",
           lightest: "#EEEEEE",
         },
