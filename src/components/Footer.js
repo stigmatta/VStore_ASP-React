@@ -2,7 +2,7 @@ import VLogo from "./VLogo";
 
 export default function Footer(){
     return(
-        <footer className="flex absolute bottom-0 h-fit w-full py-8 px-80 bg-gray-footer bg-footer-gradient bg-blend-overlay">
+        <footer className="flex absolute bottom-0 h-fit w-full ~py-5/8 ~px-5/80 bg-gray-footer bg-footer-gradient bg-blend-overlay">
             <div className= "flex w-full flex-col gap-10">
                 <div name="first-row" className="flex w-full justify-between">
                     <div className="flex gap-6 items-center h-fit">
@@ -26,14 +26,14 @@ export default function Footer(){
                 </div>
 
                 <div name="second-row" className="flex w-full justify-between">
-                    <p className="font-medium text-text/5 w-2/3 opacity-80">© 2025 Valve Corporation. All rights reserved. All trademarks are property of their respective owners in the US and other countries.
+                    <p className="font-medium text-text/5 w-5/6 md:w-2/3  opacity-80">© 2025 Valve Corporation. All rights reserved. All trademarks are property of their respective owners in the US and other countries.
                         <br/>
                         VAT included in all prices where applicable
                     </p>
                     <VLogo width={39} height={39}/>
                 </div>
 
-                <div name = "third-row" className="flex gap-6">
+                <div name = "third-row" className="flex gap-6 flex-wrap">
                     <p>Terms of service</p>
                     <p>Jobs</p>
                     <p>Rules</p>

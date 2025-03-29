@@ -21,12 +21,16 @@ code {
 }
 
 /*common styles*/
-.hoverLink:hover{
-  @apply text-green transition-colors duration-300
-}
+
 .hoverSvg{
-  @apply transition-all duration-150;
+  @apply transition-all duration-500;
 }
+
 .hoverSvg:hover{
   filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(1652%) hue-rotate(48deg) brightness(88%) contrast(86%);
 }
+
+.activeSvg {
+  filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(1652%) hue-rotate(48deg) brightness(88%) contrast(86%);
+}
+

@@ -7,12 +7,16 @@ module.exports = {
     extract, 
   ],
   theme: {
+
+    /** @type {import('fluid-tailwind').FluidThemeConfig} */
+    fluid: ({ theme }) => ({
+      defaultScreens: [theme('screens.sm'), theme('screens.xl')] 
+    }),
     screens: { // for IPhone and PC
       sm: "27.5rem", // Custom small screen (440px)
       md: "42.8125rem", // (685px)
       lg: "66.25rem", // (1060px)
       xl: "90rem",   // Custom large screen (1440px)
-      ...screens
     },
     extend: {
       backgroundImage: { // Gradients
