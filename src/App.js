@@ -24,7 +24,6 @@ function App() {
           <Searchbar />
         </div>
       )}
-
       <Routes>
         <Route path="/Login" element={<LoginPage />} />
       </Routes>

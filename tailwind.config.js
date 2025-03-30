@@ -16,6 +16,7 @@ module.exports = {
       sm: "27.5rem", // Custom small screen (440px)
       md: "42.8125rem", // (685px)
       lg: "66.25rem", // (1060px)
+      l:"78.125rem", // (1250px)
       xl: "90rem",   // Custom large screen (1440px)
     },
     extend: {

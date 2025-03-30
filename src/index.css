@@ -44,7 +44,7 @@ code {
 }
 
 .formInput{
-  @apply w-fit h-fit rounded-3xl bg-form-gradient p-11 mt-11 mx-auto
+  @apply w-fit h-fit rounded-3xl bg-form-gradient p-11 mx-auto
 }
 
 

@@ -1,18 +1,14 @@
 import GrayButton from './GrayButton';
-import GreenButton from './GreenButton';
 import Searchbar from './Searchbar';
 import { useState } from 'react';
 import HeaderDropdown from './HeaderDropdown';
 import { NavLink } from 'react-router-dom';
 import VLogo from './VLogo';
-import useWindowWidth from '../hooks/useWindowWidth';
-import { Download } from 'lucide-react';
 import DownloadButton from './Download';
 
 export default function Header() {
 
   const [dropdownOpened, setDropdownOpening] = useState(false); 
-  const windowWidth = useWindowWidth();
 
   const toggleDropdown = () => {
     setDropdownOpening(!dropdownOpened); 
@@ -87,8 +83,7 @@ export default function Header() {
         <NavLink to = "/Login">
           <GrayButton text="Sign in" width="4.5rem" height="2.4375rem"/>
         </NavLink>
-        {windowWidth > 1060 ? <GreenButton size="1rem" weight="500" text="Download" px="0.8125rem" height="2.4375rem"/> : <DownloadButton/>}
-
+        <DownloadButton/>
         <div className='block md:hidden'>
           <svg name='dropdownImg' onClick={toggleDropdown} width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1 12.5C0.71667 12.5 0.479337 12.404 0.288004 12.212C0.0966702 12.02 0.000670115 11.7827 3.44827e-06 11.5C-0.000663218 11.2173 0.0953369 10.98 0.288004 10.788C0.48067 10.596 0.718003 10.5 1 10.5H17C17.2833 10.5 17.521 10.596 17.713 10.788C17.905 10.98 18.0007 11.2173 18 11.5C17.9993 11.7827 17.9033 12.0203 17.712 12.213C17.5207 12.4057 17.2833 12.5013 17 12.5H1ZM1 7.5C0.71667 7.5 0.479337 7.404 0.288004 7.212C0.0966702 7.02 0.000670115 6.78267 3.44827e-06 6.5C-0.000663218 6.21733 0.0953369 5.98 0.288004 5.788C0.48067 5.596 0.718003 5.5 1 5.5H17C17.2833 5.5 17.521 5.596 17.713 5.788C17.905 5.98 18.0007 6.21733 18 6.5C17.9993 6.78267 17.9033 7.02033 17.712 7.213C17.5207 7.40567 17.2833 7.50133 17 7.5H1ZM1 2.5C0.71667 2.5 0.479337 2.404 0.288004 2.212C0.0966702 2.02 0.000670115 1.78267 3.44827e-06 1.5C-0.000663218 1.21733 0.0953369 0.98 0.288004 0.788C0.48067 0.596 0.718003 0.5 1 0.5H17C17.2833 0.5 17.521 0.596 17.713 0.788C17.905 0.98 18.0007 1.21733 18 1.5C17.9993 1.78267 17.9033 2.02033 17.712 2.213C17.5207 2.40567 17.2833 2.50133 17 2.5H1Z" fill="#EEEEEE"/>
