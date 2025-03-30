@@ -23,7 +23,8 @@ module.exports = {
         "green-gradient": "linear-gradient(to right, #7BC74D 10%, #82CA77 90%)",
         "page-gradient": "linear-gradient(to right, #222831 55%, #1B3A2F 100%)",
         "header-gradient": "linear-gradient(90deg, rgba(55,60,67,1) 35%, rgba(37,40,45,1) 80%)",
-        "footer-gradient": "linear-gradient(90deg, rgba(123, 199, 77, 0.2) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(122, 199, 77, 0.2) 100%)"
+        "footer-gradient": "linear-gradient(90deg, rgba(123, 199, 77, 0.2) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(122, 199, 77, 0.2) 100%)",
+        "form-gradient": "linear-gradient(180deg, rgba(43,47,53,1) 58%, rgba(37,40,45,1) 100%)"
       },
       fontFamily: { // it`s used by default for body
         roboto: ["Roboto", "sans-serif"],
@@ -35,6 +36,7 @@ module.exports = {
         bigButton: "1.125rem",    // 18px
         highlightedText: "1.25rem", // 20px
         title: "1.5rem",          // 24px
+        formTitle:"2.25rem",      // 36px
         header: "3rem",           // 48px
       },
       
@@ -47,6 +49,7 @@ module.exports = {
           DEFAULT: "#222831",
           light: "#393E46",
           lighterInput:"#4E5258",
+          formInput:"#60697666",
           footer:"rgb(55, 60, 67)",
           lighter: "#606976",
           lightest: "#EEEEEE",

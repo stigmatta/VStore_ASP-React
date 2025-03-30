@@ -5,10 +5,14 @@ import { useState } from 'react';
 import HeaderDropdown from './HeaderDropdown';
 import { NavLink } from 'react-router-dom';
 import VLogo from './VLogo';
+import useWindowWidth from '../hooks/useWindowWidth';
+import { Download } from 'lucide-react';
+import DownloadButton from './Download';
 
 export default function Header() {
 
   const [dropdownOpened, setDropdownOpening] = useState(false); 
+  const windowWidth = useWindowWidth();
 
   const toggleDropdown = () => {
     setDropdownOpening(!dropdownOpened); 
@@ -83,7 +87,7 @@ export default function Header() {
         <NavLink to = "/Login">
           <GrayButton text="Sign in" width="4.5rem" height="2.4375rem"/>
         </NavLink>
-        <GreenButton text="Download" px="0.8125rem"  height="2.4375rem"/>
+        {windowWidth > 1060 ? <GreenButton size="1rem" weight="500" text="Download" px="0.8125rem" height="2.4375rem"/> : <DownloadButton/>}
 
         <div className='block md:hidden'>
           <svg name='dropdownImg' onClick={toggleDropdown} width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">

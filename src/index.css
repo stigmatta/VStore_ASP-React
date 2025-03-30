@@ -2,12 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+*,
+*::before,
+*::after {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+}
+body {
   font-family: 'Roboto';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 
 html,body,#root{
   height: 100vh;
@@ -33,4 +42,9 @@ code {
 .activeSvg {
   filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(1652%) hue-rotate(48deg) brightness(88%) contrast(86%);
 }
+
+.formInput{
+  @apply w-fit h-fit rounded-3xl bg-form-gradient p-11 mt-11 mx-auto
+}
+
 
