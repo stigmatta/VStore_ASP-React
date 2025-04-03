@@ -7,7 +7,7 @@ import useWindowWidth from '../../hooks/useWindowWidth';
 export default function LoginPage() {
   const windowWidth = useWindowWidth();
   return (
-    <div className="login-page h-fit l:h-screen w-full">
+    <div className="form-page h-fit l:h-screen w-full">
       <BackArrow/>
       <div className='w-full h-full flex justify-center
                       l:items-center'>
