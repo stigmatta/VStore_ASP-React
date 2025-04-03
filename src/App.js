@@ -7,6 +7,7 @@ import { useLocation,Route,Routes } from "react-router-dom";
 
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
+import MainPage from "./pages/MainPage/MainPage";
 
 
 
@@ -18,7 +19,7 @@ function App() {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col">
+    <div className="relative min-h-screen w-full flex flex-col bg-page-gradient">
       {renderHeaderFooter() && <Header />}
       {renderHeaderFooter() && (
         <div className="block lg:hidden mx-auto w-[90%] md:w-3/4">
@@ -26,6 +27,7 @@ function App() {
         </div>
       )}
       <Routes>
+        <Route path="/" element={<MainPage />} />
         <Route path="/Login" element={<LoginPage />} />
         <Route path="/Registration" element={<RegistrationPage />} />
       </Routes>

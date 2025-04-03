@@ -44,8 +44,9 @@ code {
 }
 
 .formInput{
-  @apply w-fit h-fit rounded-3xl bg-form-gradient p-11 mx-auto
+  @apply w-fit h-fit rounded-3xl bg-form-gradient mx-auto
 }
+
 .form-page:before{
     width: 100%;
     height: 100%;
@@ -65,3 +66,7 @@ code {
     filter: brightness(60%);
     z-index: -1;
   }
+
+.default-page{
+    @apply bg-page-gradient px-36 flex-1 pt-10
+}
