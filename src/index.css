@@ -67,6 +67,3 @@ code {
     z-index: -1;
   }
 
-.default-page{
-    @apply bg-page-gradient px-36 flex-1 pt-10
-}
