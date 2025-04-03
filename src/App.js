@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import { useLocation,Route,Routes } from "react-router-dom";
 
 import LoginPage from "./pages/LoginPage/LoginPage";
+import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 
 
 
@@ -26,6 +27,7 @@ function App() {
       )}
       <Routes>
         <Route path="/Login" element={<LoginPage />} />
+        <Route path="/Registration" element={<RegistrationPage />} />
       </Routes>
 
       {renderHeaderFooter() && <Footer />}
