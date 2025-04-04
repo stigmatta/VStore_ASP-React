@@ -12,7 +12,7 @@ const AppLayout = () => {
       </div>
 
       <div className="px-0 w-[95%] mx-auto mb-16
-                     imd:px-36 imd:pt-10">
+                     imd:px-28 imd:pt-10">
         <Outlet />
       </div>
 

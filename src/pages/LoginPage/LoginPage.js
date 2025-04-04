@@ -13,8 +13,6 @@ export default function LoginPage() {
                       l:items-center'>
 
         {windowWidth > 1250 ? <LoginForm initial={0.8} final={1} /> : <LoginForm/>}
-            <SliderOneGame title="The End of the Sun" image={TheEndOfTheSun} price="515"/>
-
 
         {/* <motion.div
           initial={{ y: "-250%" }}

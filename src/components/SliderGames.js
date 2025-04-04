@@ -3,9 +3,9 @@ import SliderOneGame from "./SliderOneGame";
 export default function SliderGames({ games }) {
   return (
     <div className="w-full overflow-x-auto scrollbar-hide">
-      <div className="flex gap-4 min-w-max">
+      <div className="flex justify-between gap-4 min-w-max">
         {games.map((game, index) => (
-          <div key={index} className="min-w-[200px]">
+          <div key={index}>
             <SliderOneGame
               title={game.title}
               image={game.image}
