@@ -2,9 +2,6 @@ import LabelInput from './LabelInput';
 import FormGreenButton from './FormGreenButton';
 
 import { motion } from 'framer-motion';
-import {Link} from "react-router-dom";
-import GrayButton from "./GrayButton";
-
 
 export default function RegForm({initial = 1 ,final = 1})
 {

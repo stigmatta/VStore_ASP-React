@@ -2,13 +2,12 @@ import React from "react";
 import MainImage from "../images/main_image_tmp.png"
 import SecondImage from "../images/second-image.png"
 import ThirdImage from "../images/third-image.png"
-import FormGreenButton from "./FormGreenButton";
 import GreenButton from "./GreenButton";
 
 export default function MainGame({ title, subTitle,mainImage,secondImage,thirdImage}) {
     return (
-        <div className="flex-row formInput hidden lg:flex ">
-            <div className="overflow-hidden w-[40rem] xl:w-[48.125rem] h-[34.625rem]">  {/* Set fixed width and height for the container */}
+        <div className="rounded-3xl bg-form-gradient w-full hidden lg:flex ">
+            <div className="overflow-hidden w-[40rem] xl:w-[48.125rem] h-[34.625rem]">
               <img
                 src={MainImage}
                 alt={title || "No Image Available"}
@@ -27,6 +26,7 @@ export default function MainGame({ title, subTitle,mainImage,secondImage,thirdIm
                     <span className="text-green">FREE</span>
                     <GreenButton width="7rem" height="2.4rem" text="Learn more" />
                 </div>
+
             </div>
         </div>
     );

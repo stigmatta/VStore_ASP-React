@@ -19,7 +19,6 @@ body {
 
 
 html,body,#root{
-  height: 100vh;
   @apply text-gray-lightest;
   @apply font-roboto;
 }

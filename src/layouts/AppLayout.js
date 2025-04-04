@@ -5,13 +5,14 @@ import Searchbar from "../components/Searchbar";
 
 const AppLayout = () => {
   return (
-    <div className="relative min-h-screen w-full flex flex-col bg-page-gradient">
+    <div className="relative min-h-screen h-fit w-full flex flex-col bg-page-gradient">
       <Header />
       <div className="block lg:hidden mx-auto w-[90%] md:w-3/4">
         <Searchbar />
       </div>
 
-      <div className="px-36 flex-1 pt-10">
+      <div className="px-0 w-[95%] mx-auto mb-16
+                     imd:px-36 imd:pt-10">
         <Outlet />
       </div>
 

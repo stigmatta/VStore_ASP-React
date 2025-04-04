@@ -6,7 +6,7 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
     extract,
   ],
-  plugins: [fluid],
+  plugins: [require('tailwind-scrollbar-hide'), fluid],
   theme: {
 
     /** @type {import('fluid-tailwind').FluidThemeConfig} */
@@ -16,6 +16,7 @@ module.exports = {
     screens: { // for IPhone and PC
       sm: "27.5rem", // Custom small screen (440px)
       md: "42.8125rem", // (685px)
+      imd: "50rem", // (800px)
       lg: "66.25rem", // (1060px)
       l: "78.125rem", // (1250px)
       xl: "90rem",   // Custom large screen (1440px)
