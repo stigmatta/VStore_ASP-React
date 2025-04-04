@@ -1,6 +1,6 @@
 export default function SliderOneGame({title,image,price,discount}){
     return(
-        <div className="flex flex-col w-[177px]">
+        <div className="flex flex-col w-[177px] max-w-[177px] cursor-grab">
             <div className="h-[236px]">
                 <img className="w-full" src={image} alt="game-image"/>
             </div>

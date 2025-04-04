@@ -1,8 +1,8 @@
 import {Route,Routes } from "react-router-dom";
 
-import LoginPage from "./pages/LoginPage/LoginPage";
-import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
-import MainPage from "./pages/MainPage/MainPage";
+import LoginPage from "./pages/LoginPage";
+import RegistrationPage from "./pages/RegistrationPage";
+import MainPage from "./pages/MainPage";
 import AppLayout from "./layouts/AppLayout";
 import AuthLayout from "./layouts/AuthLayout";
 

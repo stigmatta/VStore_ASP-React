@@ -1,8 +1,7 @@
-import MainGame from "../../components/MainGame";
-import SliderOneGame from "../../components/SliderOneGame";
-import TheEndOfTheSun from "../../images/the-end-of-the-sun.png"
-import CategoryTitle from "../../components/CategoryTitle";
-import SliderGames from "../../components/SliderGames";
+import MainGame from "../components/MainGame";
+import TheEndOfTheSun from "../images/the-end-of-the-sun.png"
+import CategoryTitle from "../components/CategoryTitle";
+import SliderGames from "../components/SliderGames";
 
 export default function MainPage() {
     const discoverNew = Array(6).fill({
