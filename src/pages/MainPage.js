@@ -4,7 +4,7 @@ import CategoryTitle from "../components/CategoryTitle";
 import SliderGames from "../components/SliderGames";
 
 export default function MainPage() {
-    const discoverNew = Array(6).fill({
+    const gamesArr = Array(6).fill({
       title: "The End of the Sun",
       image: TheEndOfTheSun,
       price: 515,
@@ -12,8 +12,18 @@ export default function MainPage() {
     return (
         <div>
             <MainGame title="APEX LEGENDS" subTitle="NEW SEASON" />
+
             <CategoryTitle title="Discover something new"/>
-            <SliderGames games = {discoverNew}/>
+            <SliderGames games = {gamesArr}/>
+
+            <CategoryTitle title="Popular Games"/>
+            <SliderGames games = {gamesArr}/>
+
+            <CategoryTitle title="Recently Updated"/>
+            <SliderGames games = {gamesArr}/>
+
+            <CategoryTitle title="Now on the store"/>
+            <SliderGames games = {gamesArr}/>
         </div>
     )
 }
