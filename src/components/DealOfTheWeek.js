@@ -1,4 +1,5 @@
 import DiscountPrice from "./DiscountPrice";
+import GameTitle from './GameTitle'
 
 export default function DealOfTheWeek({game}) {
     return (
@@ -7,7 +8,7 @@ export default function DealOfTheWeek({game}) {
                 <img src={game.image} alt="deal-of-the-week-img" />
                 <span className="absolute flex justify-center items-center h-8 -left-2 w-[105%] bottom-0 bg-green-gradient text-center font-bold">Deal of the week</span>
             </div>
-            <h1 className="text-highlightedText font-bold">{game.title}</h1>
+            <GameTitle title={game.title}></GameTitle>
             <DiscountPrice price={game.price} discount={game.discount} direction="row" />
         </div>
     )

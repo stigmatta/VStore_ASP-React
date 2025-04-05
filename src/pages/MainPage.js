@@ -1,14 +1,13 @@
 import MainGame from "../components/MainGame";
 import CategoryTitle from "../components/CategoryTitle";
-import DealOfTheWeek from "../components/DealOfTheWeek";
-
+import CustomSlider from "../components/CustomSlider";
 
 import TheEndOfTheSun from "../images/the-end-of-the-sun.png"
 import CowboyBebop from '../images/cowboy.png'
 import TMNT from "../images/deal-of-the-week.png"
-import CustomSlider from "../components/CustomSlider";
-import SeeInShopGame from "../components/SeeInShopGame";
-import SliderOneGame from "../components/SliderOneGame";
+import FreeGameImg from "../images/free-game.png"
+import FreeGameDiv from "../components/FreeGameDiv";
+
 
 
 
@@ -41,6 +40,26 @@ export default function MainPage() {
         discount:60,
     })
 
+    const freeGames = [
+      {
+        title: "Mages of Mystralia",
+        image: FreeGameImg,
+        date: new Date('2025-02-27T17:00:00')
+      },
+      {
+        title: "Mages of Mystralia",
+        image: FreeGameImg,
+        date: new Date('2026-02-27T17:00:00')
+      },
+      {
+        title: "Mages of Mystralia",
+        image: FreeGameImg,
+        date: new Date('2025-02-27T17:00:00')
+      },
+    ];
+
+
+
     return (
         <div className="flex flex-col gap-[70px]">
             <MainGame title="APEX LEGENDS" subTitle="NEW SEASON" />
@@ -57,6 +76,7 @@ export default function MainPage() {
             </div>
 
             <CustomSlider games={dealOfTheWeekArr} componentName="DealOfTheWeek" />
+            <FreeGameDiv games={freeGames}/>
             <div>
                 <CategoryTitle title="Popular Games"/>
                 <CustomSlider games = {gamesArr} componentName="SliderOneGame"/>
