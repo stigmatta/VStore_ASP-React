@@ -1,5 +1,5 @@
 import LabelInput from './LabelInput';
-import GreenButton from './GreenButton';
+import FormGreenButton from './FormGreenButton';
 import Checkbox from "./Checkbox";
 import ReCAPTCHA from 'react-google-recaptcha';
 import { motion } from 'framer-motion';
@@ -15,9 +15,9 @@ export default function RegForm({initial = 1 ,final = 1})
             whileHover={{ scale:final}}
             transition={{type:'spring',duration:.25,stiffness:100}}
         >
-           <h1 className='l:ml-10 mx-auto my-0 w-fit text-formTitle font-extrabold
+           <h1 className='l:ml-11 mx-auto my-0 w-fit text-formTitle font-extrabold
                            l:mx-0'>Create an account</h1>
-            <form className='formInput mt-0 l: scale-90 md:scale-90 w-full max-w-[830px] flex flex-col items-center l:items-baseline l:flex-row gap-16'>
+            <form className='formInput p-11 mt-0 l:scale-90 md:scale-100 min-w-[90%] w-full max-w-[830px] flex flex-col items-center l:items-baseline l:flex-row gap-16'>
 
                 <div name="first-col" className='flex flex-col'>
                     <LabelInput label="EMAIL"/>
@@ -32,7 +32,7 @@ export default function RegForm({initial = 1 ,final = 1})
 
 
                     <div className='mt-7'>
-                        <GreenButton weight="800" size="1.125rem" text="SIGN IN" height="5.18rem"></GreenButton>
+                        <FormGreenButton weight="800" size="1.125rem" text="SIGN IN" height="5.18rem"></FormGreenButton>
                     </div>
 
                 </div>
