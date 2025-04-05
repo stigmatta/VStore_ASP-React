@@ -2,7 +2,7 @@ import VLogo from "./VLogo";
 
 export default function Footer(){
     return(
-        <footer className="flex absolute bottom-0 h-fit w-full ~py-5/8 ~px-5/80 bg-gray-footer bg-footer-gradient bg-blend-overlay">
+        <footer className="flex h-fit w-full ~py-5/8 ~px-5/80 mt-auto bg-gray-footer bg-footer-gradient bg-blend-overlay">
             <div className= "flex w-full flex-col gap-10">
                 <div name="first-row" className="flex w-full justify-between">
                     <div className="flex gap-6 items-center h-fit">
@@ -19,7 +19,7 @@ export default function Footer(){
                     <a onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
                         <svg className="hoverSvg" name="toUpImg" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="0.5" y="1.4375" width="35" height="34" rx="2.5" stroke="#EEEEEE"/>
-                            <path d="M11 22.4375L18 14.4375L25 22.4375" stroke="#EEEEEE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M11 22.4375L18 14.4375L25 22.4375" stroke="#EEEEEE" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                     </a>
 

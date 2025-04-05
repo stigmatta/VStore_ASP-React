@@ -2,7 +2,7 @@ import GrayButton from './GrayButton';
 import QrCode from '../images/qr_code.png'
 import { Link } from 'react-router-dom';
 import LabelInput from './LabelInput';
-import GreenButton from './GreenButton';
+import FormGreenButton from './FormGreenButton';
 
 import { motion } from 'framer-motion';
 
@@ -15,12 +15,12 @@ export default function LoginForm({initial = 1 ,final = 1}){
         >
             <h1 className='mx-auto my-0 w-fit text-formTitle font-extrabold
                            l:mx-0'>Log in</h1>
-            <form className='formInput mt-0 l:mt-11 scale-90 md:scale-100 min-w-[90%] flex flex-col items-center l:items-baseline l:flex-row gap-16'>
+            <form className='formInput p-11 mt-0 l:mt-11 scale-90 md:scale-100 min-w-[90%] flex flex-col items-center l:items-baseline l:flex-row gap-16'>
                 <div name="first-col" className='flex flex-col'>
                     <LabelInput label="SIGN IN WITH ACCOUNT NAME"/>
                     <LabelInput mt="1rem" label="PASSWORD"/>
                     <div className='flex gap-9 mt-9'>
-                        <GreenButton weight="800" size="1.125rem" text="SIGN IN" height="5.18rem"></GreenButton>
+                        <FormGreenButton weight="800" size="1.125rem" text="SIGN IN" height="5.18rem"></FormGreenButton>
                         <GrayButton opacity={0.8} px="2rem" text="Help, I can`t log in" flexGrow="1" height="5.18rem"></GrayButton>
                     </div>
 

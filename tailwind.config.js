@@ -1,22 +1,25 @@
-import fluid, { extract, screens } from "fluid-tailwind";
+import fluid, { extract} from "fluid-tailwind";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
-    extract, 
+    extract,
   ],
+  plugins: [require('tailwind-scrollbar-hide'), fluid],
   theme: {
 
     /** @type {import('fluid-tailwind').FluidThemeConfig} */
-    fluid: ({ theme }) => ({
-      defaultScreens: [theme('screens.sm'), theme('screens.xl')] 
+    fluid: ({theme}) => ({
+      defaultScreens: [theme('screens.sm'), theme('screens.xl')]
     }),
     screens: { // for IPhone and PC
       sm: "27.5rem", // Custom small screen (440px)
       md: "42.8125rem", // (685px)
+      imd: "50rem", // (800px)
       lg: "66.25rem", // (1060px)
-      l:"78.125rem", // (1250px)
+      l: "78.125rem", // (1250px)
+      fgl:"88.75rem", // (1420px)
       xl: "90rem",   // Custom large screen (1440px)
     },
     extend: {
@@ -37,11 +40,11 @@ module.exports = {
         bigButton: "1.125rem",    // 18px
         highlightedText: "1.25rem", // 20px
         title: "1.5rem",          // 24px
-        formTitle:"2.25rem",      // 36px
+        formTitle: "2.25rem",      // 36px
         header: "3rem",           // 48px
       },
-      
-      colors: { //overrided colors 
+
+      colors: { //overrided colors
         green: {
           DEFAULT: "#7BC74D",
           lighter: "#9FE277"
@@ -49,9 +52,9 @@ module.exports = {
         gray: {
           DEFAULT: "#222831",
           light: "#393E46",
-          lighterInput:"#4E5258",
-          formInput:"#60697666",
-          footer:"rgb(55, 60, 67)",
+          lighterInput: "#4E5258",
+          formInput: "#60697666",
+          footer: "rgb(55, 60, 67)",
           lighter: "#606976",
           lightest: "#EEEEEE",
         },
@@ -61,5 +64,4 @@ module.exports = {
       },
     },
   },
-  plugins: [fluid], 
 };
