@@ -14,8 +14,7 @@ export default function SeeInShopSlider({ games }) {
   };
 
   return (
-    <div className="overflow-x-hidden">
-
+    <div className="overflow-x-hidden mt-[70px]">
       <Slider {...settings}>
         {games.map((game, index) => (
           <div key={index} className="flex-none">

@@ -14,6 +14,13 @@ export default function MainPage() {
       price: 515,
     });
 
+    const withDiscount = Array(6).fill({
+        title: "The End of the Sun",
+        image: TheEndOfTheSun,
+        price: 515,
+        discount:60,
+    })
+
     const seeInShopArr = Array(3).fill({
         title:"Fortnite",
         image:CowboyBebop,
@@ -27,6 +34,9 @@ export default function MainPage() {
             <CategoryTitle title="Discover something new"/>
             <SliderGames games = {gamesArr}/>
             <SeeInShopSlider games={seeInShopArr}/>
+
+            <CategoryTitle title="Winter Sale Spotlight"/>
+            <SliderGames games={withDiscount}/>
 
             <CategoryTitle title="Popular Games"/>
             <SliderGames games = {gamesArr}/>
