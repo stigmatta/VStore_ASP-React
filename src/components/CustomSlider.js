@@ -2,6 +2,8 @@ import Slider from "react-slick";
 import SliderOneGame from "../components/SliderOneGame";
 import SeeInShopGame from "../components/SeeInShopGame";
 import DealOfTheWeek from "./DealOfTheWeek";
+import FreeGame from "./FreeGame";
+
 import React from 'react'
 
 import "slick-carousel/slick/slick.css";
@@ -12,6 +14,7 @@ const componentMap = {
   "SliderOneGame": SliderOneGame,
   "SeeInShopGame": SeeInShopGame,
   "DealOfTheWeek": DealOfTheWeek,
+  "FreeGame": FreeGame,
 };
 
 export default function CustomSlider({ componentName, games, children }) {
