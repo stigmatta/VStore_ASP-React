@@ -7,6 +7,7 @@ import CowboyBebop from '../images/cowboy.png'
 import TMNT from "../images/deal-of-the-week.png"
 import FreeGameImg from "../images/free-game.png"
 import FreeGameDiv from "../components/FreeGameDiv";
+import EpicStoreDiv from "../components/EpicStoreDiv";
 
 
 
@@ -77,6 +78,8 @@ export default function MainPage() {
 
             <CustomSlider games={dealOfTheWeekArr} componentName="DealOfTheWeek" />
             <FreeGameDiv games={freeGames}/>
+
+            <EpicStoreDiv/>
             <div>
                 <CategoryTitle title="Popular Games"/>
                 <CustomSlider games = {gamesArr} componentName="SliderOneGame"/>

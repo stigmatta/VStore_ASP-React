@@ -24,7 +24,7 @@ export default function CustomSlider({ componentName, games }) {
     dots: false,
     infinite: true,
     slidesToShow: games.length??0,
-    slidesToScroll: Math.min(games.length / 3, 1),
+    slidesToScroll: games.length / 3,
     adaptiveHeight: true,
     arrows: false,
   };

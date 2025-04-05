@@ -3,7 +3,7 @@ import FreeGame from "./FreeGame";
 export default function FreeGameDiv({games}){
     return (
         <div className="flex flex-col gap-9 bg-form-gradient ~px-8/11 pt-[23px] pb-[38px] rounded-3xl h-fit mx-auto
-                        w-fit fgl:w-full imd:mx-0">
+                        w-fit fgl:w-full fgl:mx-0">
             <div className="flex flex-row justify-between">
                 <div className="flex items-center gap-5">
                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
