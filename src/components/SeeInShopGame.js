@@ -1,9 +1,9 @@
-export default function SeeInShopGame({title,description,image}) {
+export default function SeeInShopGame({game}) {
     return (
         <div className="flex flex-col w-[369px] h-fit gap-5">
-            <img className="w-full h-[207px] object-contain" src={image} alt="see-in-shop-img"/>
-            <h1 className="text-highlightedText font-bold">{title}</h1>
-            <p className="text-text font-normal opacity-70">{description}</p>
+            <img className="w-full h-[207px] object-contain" src={game.image} alt="see-in-shop-img"/>
+            <h1 className="text-highlightedText font-bold">{game.title}</h1>
+            <p className="text-text font-normal opacity-70">{game.description}</p>
             <button className="py-3 w-[135px] bg-gray-light font-semibold flex gap-2 justify-center items-center">
                 <div>See in shop</div>
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
