@@ -1,4 +1,5 @@
 export default function DiscountPrice({price,discount,direction}) {
+    const gamePrice = price>0?`UAH ${price}`:"Free";
     return(
         <div className={`w-full flex flex-row items-center ${direction ==="row"? "gap-2.5":"justify-between"}`}>
            {discount != null ? (
@@ -8,14 +9,14 @@ export default function DiscountPrice({price,discount,direction}) {
             ) : (<></>)}
             {discount != null ? (
                 <div className={`flex w-fit ${direction === "row" ? "flex-row gap-2.5" : "flex-col"}`}>
-                    <span className="line-through opacity-70 font-semibold">UAH {price}</span>
+                    <span className="line-through opacity-70 font-semibold">{gamePrice}</span>
                     <span>
                         UAH {Math.round(price * (1 - discount / 100))}
                     </span>
                 </div>
 
             ):(
-                <span>UAH {price}</span>
+                <span>{gamePrice}</span>
                 )
             }
         </div>

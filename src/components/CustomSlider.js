@@ -2,6 +2,7 @@ import Slider from "react-slick";
 import SliderOneGame from "../components/SliderOneGame";
 import SeeInShopGame from "../components/SeeInShopGame";
 import DealOfTheWeek from "./DealOfTheWeek";
+import React from 'react'
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -13,18 +14,14 @@ const componentMap = {
   "DealOfTheWeek": DealOfTheWeek,
 };
 
-export default function CustomSlider({ componentName, games }) {
+export default function CustomSlider({ componentName, games, children }) {
   const Component = componentMap[componentName];
-
-  if(!games){
-    return <div>Games is null</div>
-  }
 
   const settings = {
     dots: false,
     infinite: true,
-    slidesToShow: games.length??0,
-    slidesToScroll: games.length / 3,
+    slidesToShow: children ? React.Children.count(children) : (games?.length ?? 0),
+    slidesToScroll: children ? React.Children.count(children) / 3 : (games?.length ?? 0) / 3,
     adaptiveHeight: true,
     arrows: false,
   };
@@ -32,11 +29,15 @@ export default function CustomSlider({ componentName, games }) {
   return (
     <div className="overflow-x-hidden scrollbar-hide">
       <Slider {...settings}>
-        {games.map((game, index) => (
-          <div key={index}>
-            <Component game={game} />
-          </div>
-        ))}
+        {children
+          ? React.Children.map(children, (child, index) => (
+              <div key={index}>{child}</div>
+            ))
+          : games.map((game, index) => (
+              <div key={index}>
+                <Component game={game} />
+              </div>
+            ))}
       </Slider>
     </div>
   );

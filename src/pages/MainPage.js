@@ -1,17 +1,15 @@
 import MainGame from "../components/MainGame";
 import CategoryTitle from "../components/CategoryTitle";
 import CustomSlider from "../components/CustomSlider";
+import FreeGameDiv from "../components/FreeGameDiv";
+import EpicStoreDiv from "../components/EpicStoreDiv";
+import ColumnCategory from "../components/ColumnCategory";
 
 import TheEndOfTheSun from "../images/the-end-of-the-sun.png"
 import CowboyBebop from '../images/cowboy.png'
 import TMNT from "../images/deal-of-the-week.png"
 import FreeGameImg from "../images/free-game.png"
-import FreeGameDiv from "../components/FreeGameDiv";
-import EpicStoreDiv from "../components/EpicStoreDiv";
-
-
-
-
+import ColumnImg from '../images/column-category.png'
 
 
 export default function MainPage() {
@@ -59,6 +57,36 @@ export default function MainPage() {
       },
     ];
 
+    const colGameArr =[
+        {
+            title:"Marvel Rivals",
+            image: ColumnImg,
+            price: 515,
+            discount:60
+        },
+        {
+            title:"Marvel Rivals",
+            image: ColumnImg,
+            price:0
+        },
+        {
+            title:"Marvel Rivals",
+            image: ColumnImg,
+            price:515
+        },
+        {
+            title:"Marvel Rivals",
+            image: ColumnImg,
+            price:515
+        },
+        {
+            title:"Marvel Rivals",
+            image: ColumnImg,
+            price:515
+        },
+
+    ]
+
 
 
     return (
@@ -80,6 +108,13 @@ export default function MainPage() {
             <FreeGameDiv games={freeGames}/>
 
             <EpicStoreDiv/>
+
+            <CustomSlider>
+              <ColumnCategory title="Most Played" games={colGameArr} />
+              <ColumnCategory title="Top Upcoming Wishlist" games={colGameArr} />
+              <ColumnCategory title="Top sellers" games={colGameArr} />
+            </CustomSlider>
+
             <div>
                 <CategoryTitle title="Popular Games"/>
                 <CustomSlider games = {gamesArr} componentName="SliderOneGame"/>

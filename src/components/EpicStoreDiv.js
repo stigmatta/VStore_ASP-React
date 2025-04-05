@@ -14,7 +14,7 @@ export default function EpicStoreDiv() {
                         Karuta Harley Quinn strike with a vengeance.
                     </span>
                 </div>
-                <button className="mt-10 w-[165px] h-[40px] flex flex-row items-center justify-center gap-2.5 bg-green rounded">
+                <button className="mt-10 w-[165px] h-[40px] flex flex-row items-center justify-center gap-2.5 bg-green rounded hover:bg-green-lighter">
                     <span className="text-gray font-black">Install mobile</span>
                     <Download size={20} color="#222831" />
                 </button>
