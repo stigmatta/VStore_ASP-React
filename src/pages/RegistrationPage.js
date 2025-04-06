@@ -1,25 +1,34 @@
 import BackArrow from '../components/BackArrow';
 import RegForm from '../components/RegForm';
+import CreatedForm from '../components/CreatedForm';
 import useWindowWidth from '../hooks/useWindowWidth';
+import { useState } from "react";
 
 export default function RegistrationPage() {
   const windowWidth = useWindowWidth();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [formVisible, setFormVisible] = useState(true);
+
   return (
-    <div className="form-page h-fit l:h-screen w-full">
-      <BackArrow/>
-      <div className='w-full h-full flex justify-center
-                      l:items-center'>
+    <div className="h-screen w-full relative">
+      <BackArrow />
 
-        {windowWidth > 1250 ? <RegForm initial={0.8} final={1} /> : <RegForm/>}
-
-        {/* <motion.div
-          initial={{ y: "-250%" }}
-          animate={{ y: "0%" }}
-          transition={{ type: 'spring', duration:.9, bounce: 0.4}}
-        > */}
-
+      <div className="w-full h-full flex justify-center items-center">
+        {formVisible && (
+          <RegForm
+            initial={windowWidth > 1250 ? 0.8 : 1}
+            final={1}
+            setModalVisible={setModalVisible}
+            setFormVisible={setFormVisible}
+          />
+        )}
       </div>
 
+      {modalVisible && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+          <CreatedForm initial={0.9} final={1} />
+        </div>
+      )}
     </div>
   );
 }
