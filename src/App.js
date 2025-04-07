@@ -1,10 +1,13 @@
 import {Route,Routes } from "react-router-dom";
 
-import LoginPage from "./pages/LoginPage";
-import RegistrationPage from "./pages/RegistrationPage";
-import MainPage from "./pages/MainPage";
 import AppLayout from "./layouts/AppLayout";
 import AuthLayout from "./layouts/AuthLayout";
+
+import LoginPage from "./pages/LoginPage";
+import CartPage from "./pages/CartPage";
+import RegistrationPage from "./pages/RegistrationPage";
+import MainPage from "./pages/MainPage";
+
 
 function App() {
 
@@ -17,7 +20,7 @@ function App() {
           <Route path ="/News"/>
           <Route path = "/Profile"/>
           <Route path = "/Wishlist"/>
-          <Route path = "/Cart"/>
+          <Route path = "/Cart" element={<CartPage/>}/>
         </Route>
 
         <Route element={<AuthLayout />}>

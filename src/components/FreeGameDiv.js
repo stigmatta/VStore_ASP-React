@@ -1,6 +1,7 @@
 import FreeGame from "./FreeGame";
 import CustomSlider from "./CustomSlider";
 import useWindowWidth from "../hooks/useWindowWidth";
+import TransparentButton from "./TransparentButton";
 
 export default function FreeGameDiv({games}){
     const windowWidth = useWindowWidth();
@@ -15,12 +16,7 @@ export default function FreeGameDiv({games}){
                     <h3 className="text-highlightedText font-bold">Free games!</h3>
                 </div>
 
-                <button
-                  className="opacity-70 px-[10px] py-[8px] border-solid border-2 rounded border-gray-lightest transition-all duration-200
-                             hover:opacity-100"
-                >
-                  View more
-                </button>
+                <TransparentButton title="View more" radius="4px"/>
 
             </div>
             <CustomSlider games={games} componentName="FreeGame" />

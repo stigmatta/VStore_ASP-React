@@ -1,5 +1,10 @@
-export  default  function GreenButton ({width,height,text}) {
+export default function GreenButton({ width, height, text, weight = 500 }) {
     return (
-        <button className="text-gray rounded bg-green hover:bg-green-lighter" style={{width:width,height:height}}>{text}</button>
-    )
+        <button
+            style={{ fontWeight: weight, width: width, height: height }}
+            className="text-gray rounded bg-green hover:bg-green-lighter"
+        >
+            {text}
+        </button>
+    );
 }
