@@ -19,7 +19,15 @@ export default function SupportPage(){
             </div>
             <div className="flex flex-col items-center text-center mt-12">
                <h1 className='text-[40px] font-black mb-6'>Have any other questions?</h1>
-               <GreenButton text="Contact us on our email!" width='30%' height='5rem' weight='700' fontSize='25px'></GreenButton>
+               <GreenButton
+    text="Contact us on our email!"
+    height="5rem"
+    fontSize="25px"
+    weight='700'
+    className="w-full sm:w-full md:w-full lg:w-[30%]"
+/>
+
+
             </div>
 
 
