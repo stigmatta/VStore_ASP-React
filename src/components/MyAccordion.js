@@ -10,8 +10,7 @@ export default function MyAccordion({ title, children }) {
     <Accordion sx={{
         backgroundColor: '#393E46',
         width: '100%',
-        borderRadius: 2,
-        mt: 2
+        borderRadius: 2
       }}>
       <AccordionSummary expandIcon={<ExpandMoreIcon sx={{color:'#EEEEEE', fontSize: 50}} />}>
         <Typography sx={{ fontSize: 20, fontWeight: 500, color: '#EEEEEE', my: 2}}>{title}</Typography>

@@ -1,16 +1,21 @@
 import MyAccordion from '../components/MyAccordion'
+import Searchbar from "../components/Searchbar";
 
 export default function SupportPage(){
     return(
         <div>
-            <MyAccordion title={"Game Problems"}>If you are contacted by VStore support,
-                the email will come from the domain @support.VStore.com,
-                help@acct.VStore.com or help@accts.VStore.com emails.
-                Any email with a different domain claiming to be VStore Support is not VStore Support.</MyAccordion>
-            <MyAccordion title={"Refund"}>If you are contacted by VStore support,
-                the email will come from the domain @support.VStore.com,
-                help@acct.VStore.com or help@accts.VStore.com emails.
-                Any email with a different domain claiming to be VStore Support is not VStore Support.</MyAccordion>
+            <h1 className='text-[38px] font-black imd:block sm:hidden mb-4'>Support</h1>
+            <Searchbar placeholder="Find help"  width="lg:max-w-[40rem]" border="border-[2px] border-solid border-white"></Searchbar>
+            <div className='grid gap-[15px] mt-9'>
+            <MyAccordion title={"Game Problems"}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at metus quis ex tincidunt pretium. Quisque dictum urna id nunc volutpat, a dapibus nunc gravida. Nullam vulputate, nulla vitae fermentum sagittis, arcu nisi feugiat eros, vel posuere velit mi ac quam. Donec viverra, arcu nec porttitor tempus, velit risus.</MyAccordion>
+            <MyAccordion title={"Refund"}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at metus quis ex tincidunt pretium. Quisque dictum urna id nunc volutpat, a dapibus nunc gravida. Nullam vulputate, nulla vitae fermentum sagittis, arcu nisi feugiat eros, vel posuere velit mi ac quam. Donec viverra, arcu nec porttitor tempus, velit risus.</MyAccordion>
+            <MyAccordion title={"My account"}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at metus quis ex tincidunt pretium. Quisque dictum urna id nunc volutpat, a dapibus nunc gravida. Nullam vulputate, nulla vitae fermentum sagittis, arcu nisi feugiat eros, vel posuere velit mi ac quam. Donec viverra, arcu nec porttitor tempus, velit risus.</MyAccordion>
+            <MyAccordion title={"Client"}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at metus quis ex tincidunt pretium. Quisque dictum urna id nunc volutpat, a dapibus nunc gravida. Nullam vulputate, nulla vitae fermentum sagittis, arcu nisi feugiat eros, vel posuere velit mi ac quam. Donec viverra, arcu nec porttitor tempus, velit risus.</MyAccordion>
+            <MyAccordion title={"Community problems"}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at metus quis ex tincidunt pretium. Quisque dictum urna id nunc volutpat, a dapibus nunc gravida. Nullam vulputate, nulla vitae fermentum sagittis, arcu nisi feugiat eros, vel posuere velit mi ac quam. Donec viverra, arcu nec porttitor tempus, velit risus.</MyAccordion>
+            <MyAccordion title={"Device problems"}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at metus quis ex tincidunt pretium. Quisque dictum urna id nunc volutpat, a dapibus nunc gravida. Nullam vulputate, nulla vitae fermentum sagittis, arcu nisi feugiat eros, vel posuere velit mi ac quam. Donec viverra, arcu nec porttitor tempus, velit risus.</MyAccordion>
+            <MyAccordion title={"Gifts"}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at metus quis ex tincidunt pretium. Quisque dictum urna id nunc volutpat, a dapibus nunc gravida. Nullam vulputate, nulla vitae fermentum sagittis, arcu nisi feugiat eros, vel posuere velit mi ac quam. Donec viverra, arcu nec porttitor tempus, velit risus.</MyAccordion>
+            <MyAccordion title={"FAQ"}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at metus quis ex tincidunt pretium. Quisque dictum urna id nunc volutpat, a dapibus nunc gravida. Nullam vulputate, nulla vitae fermentum sagittis, arcu nisi feugiat eros, vel posuere velit mi ac quam. Donec viverra, arcu nec porttitor tempus, velit risus.</MyAccordion>
+            </div>
         </div>
 
 
