@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage";
 import CartPage from "./pages/CartPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import MainPage from "./pages/MainPage";
+import SupportPage from "./pages/SupportPage";
 
 
 function App() {
@@ -16,11 +17,11 @@ function App() {
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<MainPage />} />
-          <Route path="/Support"/>
           <Route path ="/News"/>
           <Route path = "/Profile"/>
           <Route path = "/Wishlist"/>
           <Route path = "/Cart" element={<CartPage/>}/>
+          <Route path = "/Support" element={<SupportPage/>}/>
         </Route>
 
         <Route element={<AuthLayout />}>
