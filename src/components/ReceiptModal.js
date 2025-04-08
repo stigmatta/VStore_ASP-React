@@ -1,4 +1,3 @@
-import {Backdrop} from "@mui/material";
 import VLogo from "./VLogo";
 
 export default function ReceiptModal(){
