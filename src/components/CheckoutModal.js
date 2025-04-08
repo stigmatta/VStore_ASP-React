@@ -6,6 +6,7 @@ import LabelVisa from "./LabelVisa";
 import CardDetails from './CardDetails'
 import LabelMastercard from "./LabelMastercard";
 import OrderSummary from "./OrderSummary";
+import BreakLine from "./BreakLine";
 
 export default function CheckoutModal({games, close}) {
     const [selected, setSelected] = React.useState(null);
@@ -50,7 +51,7 @@ export default function CheckoutModal({games, close}) {
                                     <span>UAH {(game.price/100*4).toFixed(2)}</span>
                                 </div>
                             </div>
-                                <div className="h-[.5px] w-full bg-gray-lightest opacity-30"></div>
+                                <BreakLine/>
                         </div>
 
                     ))}

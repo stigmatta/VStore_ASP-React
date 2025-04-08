@@ -3,6 +3,8 @@ import SliderOneGame from "../components/SliderOneGame";
 import SeeInShopGame from "../components/SeeInShopGame";
 import DealOfTheWeek from "./DealOfTheWeek";
 import FreeGame from "./FreeGame";
+import NewsDiv from "./NewsDiv";
+
 
 import React from 'react'
 
@@ -15,6 +17,7 @@ const componentMap = {
   "SeeInShopGame": SeeInShopGame,
   "DealOfTheWeek": DealOfTheWeek,
   "FreeGame": FreeGame,
+  "MainNews": NewsDiv,
 };
 
 export default function CustomSlider({ componentName, games, children }) {

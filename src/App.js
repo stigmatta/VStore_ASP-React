@@ -9,6 +9,7 @@ import RegistrationPage from "./pages/RegistrationPage";
 import MainPage from "./pages/MainPage";
 import SupportPage from "./pages/SupportPage";
 import WishlistPage from "./pages/WishlistPage";
+import NewsPage from "./pages/NewsPage";
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<MainPage />} />
-          <Route path ="/News"/>
+          <Route path ="/News" element={<NewsPage />} />
           <Route path = "/Profile"/>
           <Route path = "/Wishlist" element={<WishlistPage/>}/>
           <Route path = "/Cart" element={<CartPage/>}/>

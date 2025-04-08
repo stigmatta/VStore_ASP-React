@@ -1,30 +1,31 @@
 import React from "react";
+import BreakLine from "./BreakLine";
 
 export default function CardDetails(){
     return (
         <div className="flex flex-col">
-            <div className="h-[.5px] w-full bg-gray-lightest opacity-30"></div>
+            <BreakLine/>
             <span className="my-5 font-normal">CARD DETAILS</span>
             <form className="flex flex-col gap-3 font-normal opacity-70 w-full">
                 <label className="gap-1 flex flex-col">
                     <span>Card number</span>
-                    <input type={"text"} className="bg-gray-formInput rounded h-[44px]"/>
+                    <input type={"text"} className="bg-gray-formInput rounded h-[44px] px-2"/>
                 </label>
 
                 <label className="gap-1 flex flex-col">
                     <span>Name on card</span>
-                    <input type={"text"} className="bg-gray-formInput rounded h-[44px]"/>
+                    <input type={"text"} className="bg-gray-formInput rounded h-[44px] px-2"/>
                 </label>
 
                 <div className="flex flex-row w-full justify-between gap-3">
                     <label className="gap-1 flex flex-col w-[47%]">
                         <span>Expiration</span>
-                        <input type={"text"} className="bg-gray-formInput rounded h-[44px]"/>
+                        <input type={"text"} className="bg-gray-formInput rounded h-[44px] px-2"/>
                     </label>
 
                     <label className="gap-1 flex flex-col w-[47%]">
                         <span>CVV</span>
-                        <input type={"text"} className="bg-gray-formInput rounded h-[44px]"/>
+                        <input type={"text"} className="bg-gray-formInput rounded h-[44px] px-2"/>
                     </label>
                 </div>
 

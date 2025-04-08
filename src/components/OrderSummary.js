@@ -1,6 +1,7 @@
 import GreenButton from "./GreenButton";
 import DisabledButton from "./DisabledButton";
 import React from "react";
+import BreakLine from "./BreakLine";
 
 export default function OrderSummary ({selected}){
     return(
@@ -11,7 +12,7 @@ export default function OrderSummary ({selected}){
                     <span className="opacity-70 text-text font-normal">I am 13 years of age or older and agree to the terms of the Steam Subscriber Agreement and the Valve Privacy Policy.</span>
                 </label>
             </form>
-            <div className="h-[.5px] w-full bg-gray-lightest opacity-30"></div>
+            <BreakLine/>
             <p className="hidden text-text opacity-50 font-normal lg:block">You are purchasing a digital license for this product. For full terms, see purchase policy.
                 <br/>
                 <br/>
