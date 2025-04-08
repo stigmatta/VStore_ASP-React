@@ -11,7 +11,7 @@ const AppLayout = () => {
         <Searchbar />
       </div>
 
-      <div className="px-0 w-[95%] mx-auto mb-16 pt-[70px]
+      <div className="px-0 w-[95%] mx-auto mb-16 pt-[36px]
                      imd:px-28">
         <Outlet />
       </div>

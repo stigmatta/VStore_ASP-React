@@ -5,7 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-export default function MyAccordion({ title, children }) {
+export default function SupportAccordion({ title, children }) {
   return (
     <Accordion sx={{
         backgroundColor: '#393E46',
