@@ -16,8 +16,6 @@ export default function RegistrationPage() {
       <div className="w-full h-full flex justify-center items-center">
         {formVisible && (
           <RegForm
-            initial={windowWidth > 1250 ? 0.8 : 1}
-            final={1}
             setModalVisible={setModalVisible}
             setFormVisible={setFormVisible}
           />

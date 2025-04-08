@@ -15,9 +15,11 @@ const NotificationToggle = () => {
         <div className="flex flex-col justify-center items-center text-[22px] bg-green h-full lg:w-[1.5rem] sm:w-[3rem] rounded-l-xl">!</div>
 
       <div className="flex items-center space-x-3">
-          <div className="ml-5"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#7BC74D"  className="size-8">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-        </svg></div>
+          <div className="ml-5 w-fit">
+            <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 3.5C1 2.96957 1.21071 2.46086 1.58579 2.08579C1.96086 1.71071 2.46957 1.5 3 1.5H17C17.5304 1.5 18.0391 1.71071 18.4142 2.08579C18.7893 2.46086 19 2.96957 19 3.5M1 3.5V13.5C1 14.0304 1.21071 14.5391 1.58579 14.9142C1.96086 15.2893 2.46957 15.5 3 15.5H17C17.5304 15.5 18.0391 15.2893 18.4142 14.9142C18.7893 14.5391 19 14.0304 19 13.5V3.5M1 3.5L10 9.5L19 3.5" stroke="#7BC74D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+        </div>
 
 
         <p className="text-md">

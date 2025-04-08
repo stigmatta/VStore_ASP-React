@@ -4,15 +4,10 @@ import { Link } from 'react-router-dom';
 import LabelInput from './LabelInput';
 import FormGreenButton from './FormGreenButton';
 
-import { motion } from 'framer-motion';
 
 export default function LoginForm({initial = 1 ,final = 1}){
     return(
-        <motion.div
-            initial={{scale:initial}}
-            whileHover={{ scale:final}}
-            transition={{type:'spring',duration:.25,stiffness:100}}
-        >
+        <div>
             <h1 className='mx-auto my-0 w-fit text-formTitle font-extrabold
                            l:mx-0'>Log in</h1>
             <form className='formInput p-11 mt-0 l:mt-11 scale-90 md:scale-100 min-w-[90%] flex flex-col items-center l:items-baseline l:flex-row gap-16'>
@@ -36,7 +31,7 @@ export default function LoginForm({initial = 1 ,final = 1}){
                 </div>
 
             </form>
-        </motion.div>
+        </div>
 
     )
 }

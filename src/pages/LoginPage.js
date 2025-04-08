@@ -9,15 +9,7 @@ export default function LoginPage() {
       <BackArrow/>
       <div className='w-full h-full flex justify-center
                       l:items-center'>
-
-        {windowWidth > 1250 ? <LoginForm initial={0.8} final={1} /> : <LoginForm/>}
-
-        {/* <motion.div
-          initial={{ y: "-250%" }}
-          animate={{ y: "0%" }} 
-          transition={{ type: 'spring', duration:.9, bounce: 0.4}}
-        > */}
-
+        <LoginForm />
       </div>
 
     </div>

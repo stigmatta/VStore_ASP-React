@@ -5,8 +5,6 @@ import FormAccordion from "./FormAccordion";
 import LabelVisa from "./LabelVisa";
 import CardDetails from './CardDetails'
 import LabelMastercard from "./LabelMastercard";
-import GreenButton from "./GreenButton";
-import DisabledButton from "./DisabledButton";
 import OrderSummary from "./OrderSummary";
 
 export default function CheckoutModal({games, close}) {

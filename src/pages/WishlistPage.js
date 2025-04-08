@@ -24,7 +24,7 @@ export default function CartPage() {
                 <PageTitle title="My Wishlist" />
                 <TransparentButton title="0.00 UAH" radius="20px" />
             </div>
-            <div><NotifyWishlist></NotifyWishlist></div>
+            <div><NotifyWishlist/></div>
             <div className='w-[5rem] mb-5'><Select/></div>
             <div className="flex flex-col l:flex-row gap-8">
                 <div className="flex w-full flex-col gap-8">
