@@ -8,10 +8,11 @@ import LabelMastercard from "./LabelMastercard";
 import OrderSummary from "./OrderSummary";
 import BreakLine from "./BreakLine";
 
-export default function CheckoutModal({games, close}) {
+export default function CheckoutModal({games, success,close}) {
     const [selected, setSelected] = React.useState(null);
     const withoutTax = games.reduce((price, game) => price + game.price, 0);
     const overall = withoutTax +(withoutTax/100*4);
+
 
     return (
         <div className="flex flex-col  lg:flex-row w-full h-fit p-6 bg-gray-light gap-5 rounded-lg">
@@ -60,14 +61,14 @@ export default function CheckoutModal({games, close}) {
                         <span>UAH {overall}</span>
                     </div>
                     <div className="hidden lg:block">
-                        <OrderSummary selected={selected}/>
+                        <OrderSummary success={success} selected={selected}/>
                     </div>
 
                 </div>
             </div>
 
             <div className="block order-last lg:hidden">
-                <OrderSummary selected={selected}/>
+                <OrderSummary selected={selected} success={success} />
             </div>
         </div>
     );

@@ -10,6 +10,7 @@ import MainPage from "./pages/MainPage";
 import SupportPage from "./pages/SupportPage";
 import WishlistPage from "./pages/WishlistPage";
 import NewsPage from "./pages/NewsPage";
+import AchievementsPage from "./pages/AchievementsPage";
 
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
           <Route path = "/Wishlist" element={<WishlistPage/>}/>
           <Route path = "/Cart" element={<CartPage/>}/>
           <Route path = "/Support" element={<SupportPage/>}/>
+          <Route path = "/Achievements" element={<AchievementsPage/>}/>
+
         </Route>
 
         <Route element={<AuthLayout />}>

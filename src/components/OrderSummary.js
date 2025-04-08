@@ -3,7 +3,7 @@ import DisabledButton from "./DisabledButton";
 import React from "react";
 import BreakLine from "./BreakLine";
 
-export default function OrderSummary ({selected}){
+export default function OrderSummary ({selected,success}){
     return(
         <div className="flex flex-col gap-5">
             <form>
@@ -18,10 +18,13 @@ export default function OrderSummary ({selected}){
                 <br/>
                 By clicking "Place Order" below, I represent that I am over 18 and an authorized user of this payment method, I agree to the End User License Agreement.
             </p>
-            {selected!=null?
-                (<GreenButton width={"100%"} height={"58px"} weight={800} text={"PLACE ORDER"}/>):
-                (<DisabledButton width={"100%"} height={"58px"} title={"PLACE ORDER"}/> )
-            }
+            <div onClick={success}>
+                {selected!=null?
+                    (<GreenButton width={"100%"} height={"58px"} weight={800} text={"PLACE ORDER"}/>):
+                    (<DisabledButton width={"100%"} height={"58px"} title={"PLACE ORDER"}/> )
+                }
+            </div>
+
         </div>
     )
 }
