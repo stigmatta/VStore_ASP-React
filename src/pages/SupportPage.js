@@ -24,14 +24,5 @@ export default function SupportPage(){
     height="5rem"
     fontSize="25px"
     weight='700'
-    className="w-full sm:w-full md:w-full lg:w-[30%]"
-/>
-
-
-            </div>
-
-
-        </div>
-
-
-);}
+    className="w-full sm:w-full md:w-full lg:w-[30%]"/></div>
+ </div>);}

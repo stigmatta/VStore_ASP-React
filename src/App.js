@@ -8,6 +8,7 @@ import CartPage from "./pages/CartPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import MainPage from "./pages/MainPage";
 import SupportPage from "./pages/SupportPage";
+import WishlistPage from "./pages/WishlistPage";
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path ="/News"/>
           <Route path = "/Profile"/>
-          <Route path = "/Wishlist"/>
+          <Route path = "/Wishlist" element={<WishlistPage/>}/>
           <Route path = "/Cart" element={<CartPage/>}/>
           <Route path = "/Support" element={<SupportPage/>}/>
         </Route>
