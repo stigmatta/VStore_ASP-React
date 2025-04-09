@@ -8,7 +8,7 @@ export default function ReceiptModal(){
             <div className="font-normal opacity-80 text-center">
                 <span>An email receipt has been sent to you.</span>
                 <br/><br/>
-                <span>If there is anything else you need, feel free to browse our shop! </span>
+                <span className>If there is anything else you need, feel free to browse our shop! </span>
             </div>
         </div>
     )

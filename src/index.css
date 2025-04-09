@@ -66,8 +66,10 @@ code {
     z-index: -1;
   }
 
-  .slick-slider, .slick-list {
+  .custom-slider .slick-slider,
+  .custom-slider .slick-list {
     min-width: 1130px;
   }
+
 
 

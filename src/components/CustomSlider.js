@@ -1,49 +1,50 @@
-import Slider from "react-slick";
-import SliderOneGame from "../components/SliderOneGame";
-import SeeInShopGame from "../components/SeeInShopGame";
-import DealOfTheWeek from "./DealOfTheWeek";
-import FreeGame from "./FreeGame";
-import NewsDiv from "./NewsDiv";
+import Slider from 'react-slick';
+import SliderOneGame from './SliderOneGame';
+import SeeInShopGame from './SeeInShopGame';
+import { AchievementForSlider } from './AchievementForSlider';
 
+import DealOfTheWeek from './DealOfTheWeek';
+import FreeGame from './FreeGame';
+import NewsDiv from './NewsDiv';
 
-import React from 'react'
+import React from 'react';
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const componentMap = {
-  "SliderOneGame": SliderOneGame,
-  "SeeInShopGame": SeeInShopGame,
-  "DealOfTheWeek": DealOfTheWeek,
-  "FreeGame": FreeGame,
-  "MainNews": NewsDiv,
+  'SliderOneGame': SliderOneGame,
+  'SeeInShopGame': SeeInShopGame,
+  'DealOfTheWeek': DealOfTheWeek,
+  'FreeGame': FreeGame,
+  'MainNews': NewsDiv,
+  'AchievementForSlider': AchievementForSlider
 };
 
-export default function CustomSlider({ componentName, games, children }) {
+export default function CustomSlider({ componentName, items = [], children }) {
   const Component = componentMap[componentName];
 
   const settings = {
     dots: false,
     infinite: true,
-    slidesToShow: children ? React.Children.count(children) : (games?.length ?? 0),
-    slidesToScroll: children ? React.Children.count(children) / 3 : (games?.length ?? 0) / 3,
+    slidesToShow: children ? React.Children.count(children) : items.length,
+    slidesToScroll: children ? React.Children.count(children) / 3 : items.length / 3,
     adaptiveHeight: true,
-    arrows: false,
+    arrows: false
   };
 
   return (
-    <div className="overflow-x-hidden scrollbar-hide">
-      <Slider {...settings}>
+    <div className="overflow-x-hidden scrollbar-hide custom-slider">
+      <Slider {...settings} className="max-w-[1130px]">
         {children
           ? React.Children.map(children, (child, index) => (
-              <div key={index}>{child}</div>
-            ))
-          : games.map((game, index) => (
-              <div key={index}>
-                <Component game={game} />
-              </div>
-            ))}
+            <div key={index}>{child}</div>
+          ))
+          : items.map((item, index) => (
+            <div key={index}>
+              <Component item={item} />
+            </div>
+          ))}
       </Slider>
     </div>
   );
