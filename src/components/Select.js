@@ -4,67 +4,46 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function SelectAutoWidth() {
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
+export default function SelectAutoWidth({ label = 'Select', value, onChange, items = [] }) {
   return (
     <div style={{ padding: '0px' }}>
       <FormControl
         sx={{
           m: 1,
           minWidth: 120,
-          '& .MuiInputLabel-root': {
-            color: 'white',
-          },
-          '& .MuiInputLabel-root.Mui-focused': {
-            color: 'white',
-          },
+          '& .MuiInputLabel-root': { color: 'white' },
+          '& .MuiInputLabel-root.Mui-focused': { color: 'white' },
           '& .MuiOutlinedInput-root': {
             color: 'white',
-            '& fieldset': {
-              borderColor: 'white',
-            },
-            '&:hover fieldset': {
-              borderColor: 'white',
-            },
-            '&.Mui-focused fieldset': {
-              borderColor: 'white',
-            },
+            '& fieldset': { borderColor: 'white' },
+            '&:hover fieldset': { borderColor: 'white' },
+            '&.Mui-focused fieldset': { borderColor: 'white' }
           },
-          '& .MuiSelect-icon': {
-            color: 'white',
-          },
-          '& .MuiMenu-paper': {
-            backgroundColor: '#333',
-            color: 'white',
-          },
+          '& .MuiSelect-icon': { color: 'white' }
         }}
       >
-        <InputLabel id="demo-simple-select-autowidth-label">Sort</InputLabel>
+        <InputLabel id="custom-select-label">{label}</InputLabel>
         <Select
-          labelId="demo-simple-select-autowidth-label"
-          id="demo-simple-select-autowidth"
-          value={age}
-          onChange={handleChange}
+          labelId="custom-select-label"
+          id="custom-select"
+          value={value}
+          onChange={onChange}
           autoWidth
-          label="Age"
+          label={label}
           MenuProps={{
             PaperProps: {
               sx: {
                 backgroundColor: '#333',
-                color: 'white',
-              },
-            },
+                color: 'white'
+              }
+            }
           }}
         >
-          <MenuItem value="">
-            <em style={{ color: 'white' }}>None</em>
-          </MenuItem>
-          <MenuItem value={20}>On Sale</MenuItem>
+          {items.map((item, index) => (
+            <MenuItem key={index} value={item.value}>
+              {item.label}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </div>
