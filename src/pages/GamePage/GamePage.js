@@ -13,13 +13,15 @@ import GreenButton from '../../components/GreenButton';
 import GrayButton from '../../components/GrayButton';
 
 import GameSectionTitle from '../../components/GameSectionTitle';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronRight, ChevronUp } from 'lucide-react';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import AchievementImage from '../../images/achievement.png';
 import CustomSlider from '../../components/CustomSlider';
 import Select from '../../components/Select';
 import Review from '../../components/Review';
 import useWindowWidth from '../../hooks/useWindowWidth';
+import ReviewInput from '../../components/ReviewInput';
 
 
 const strAndColor = {
@@ -161,7 +163,10 @@ export default function GamePage() {
       isLiked: true,
       user: 'dimabalawov',
       date: new Date('2025-01-17T16:00:00'),
-      text: 'Didn\'t like it much, but the graphics are amazing. The combat left me wanting more.'
+      text: 'Didn\'t like it much, but the graphics are amazing. The combat left me wanting more.' +
+        'Didn\'t like it much, but the graphics are amazing. The combat left me wanting more.' +
+        'Didn\'t like it much, but the graphics are amazing. The combat left me wanting more.' +
+        'Didn\'t like it much, but the graphics are amazing. The combat left me wanting more.'
     },
     {
       isLiked: true,
@@ -330,6 +335,12 @@ export default function GamePage() {
       </div>
       <GameSectionTitle title="Achievements" />
       <CustomSlider items={achievements} componentName="AchievementForSlider" />
+      <Link to="/Achievements">
+        <div className="flex gap-1">
+          <span className="text-green">Show more</span>
+          <ChevronRight size={24} color="#7BC74D" />
+        </div>
+      </Link>
       <GameSectionTitle title="Customer Reviews" />
       <div className="flex flex-col">
         <span className="text-highlightedText font-normal">Review score:</span>
@@ -344,6 +355,8 @@ export default function GamePage() {
             items={sortOptions}
           />
         </div>
+
+        <ReviewInput item={game} />
         {windowWidth > 1050 ? (
             <div className="flex gap-x-4 mt-10">
               <div className="flex flex-col gap-y-4 flex-1">

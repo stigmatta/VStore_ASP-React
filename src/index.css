@@ -5,48 +5,57 @@
 *,
 *::before,
 *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  border: none;
-  outline: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
 }
+
 body {
-  font-family: 'Roboto';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-family: 'Roboto';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 
-html,body,#root{
-  @apply text-gray-lightest;
-  @apply font-roboto;
+html, body, #root {
+    @apply text-gray-lightest;
+    @apply font-roboto;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
 /*common styles*/
 
-.hoverSvg{
-  @apply transition-all duration-500;
+.hoverSvg {
+    @apply transition-all duration-500;
 }
 
-.hoverSvg:hover{
-  filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(1652%) hue-rotate(48deg) brightness(88%) contrast(86%);
+.hoverSvg:hover {
+    filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(1652%) hue-rotate(48deg) brightness(88%) contrast(86%);
 }
 
 .activeSvg {
-  filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(1652%) hue-rotate(48deg) brightness(88%) contrast(86%);
+    filter: brightness(0) saturate(100%) invert(80%) sepia(15%) saturate(1652%) hue-rotate(48deg) brightness(88%) contrast(86%);
 }
 
-.formInput{
-  @apply w-fit h-fit rounded-3xl bg-form-gradient mx-auto
+.red-hover {
+    @apply transition-all duration-500
 }
 
-.form-page:before{
+.red-hover:hover {
+    filter: brightness(0) saturate(100%) invert(44%) sepia(46%) saturate(694%) hue-rotate(314deg) brightness(87%) contrast(100%);
+}
+
+.formInput {
+    @apply w-fit h-fit rounded-3xl bg-form-gradient mx-auto
+}
+
+.form-page:before {
     width: 100%;
     height: 100%;
     content: "";
@@ -55,21 +64,22 @@ code {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image:
-        linear-gradient(180deg,rgba(34, 40, 49, 0.8) 70%, rgba(123, 199, 77, 0.5) 100%),
-        url('./images/login_bg.png');
-    background-size:cover;
+    background-image: linear-gradient(180deg, rgba(34, 40, 49, 0.8) 70%, rgba(123, 199, 77, 0.5) 100%),
+    url('./images/login_bg.png');
+    background-size: cover;
     background-repeat: no-repeat;
     background-clip: content-box;
     background-position: center center;
     filter: brightness(60%);
     z-index: -1;
-  }
+}
 
-  .custom-slider .slick-slider,
-  .custom-slider .slick-list {
+.custom-slider .slick-slider,
+.custom-slider .slick-list {
     min-width: 1130px;
-  }
+}
+
+
 
 
 
