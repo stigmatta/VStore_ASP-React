@@ -25,20 +25,20 @@ export default function ReviewInput({ item }) {
               <span className="text-text">Do you recommend this game?</span>
               <div className="flex gap-3">
                 <button type={'button'}
-                        className="px-4 py-2 bg-gray-lighter w-fit flex gap-2 items-center rounded-md">
+                        className="px-4 text-highlightedText py-2 bg-gray-lighter w-fit flex gap-2 items-center rounded-md">
                   <div className="hoverSvg"><ThumbsUp size={24} /></div>
                   Yes
                 </button>
 
                 <button type={'button'}
-                        className="px-4 py-2 bg-gray-lighter w-fit flex gap-2 items-center rounded-md">
+                        className="px-4 py-2 text-highlightedText bg-gray-lighter w-fit flex gap-2 items-center rounded-md">
                   <div className="red-hover"><ThumbsDown size={24} /></div>
                   No
                 </button>
               </div>
             </div>
             <button type={'submit'}
-                    className="px-4 py-2 bg-gray-lighter w-fit flex gap-2 items-center rounded-md">Post
+                    className="px-4 py-2 text-highlightedText bg-gray-lighter w-fit flex gap-2 items-center rounded-md">Post
             </button>
 
           </div>
