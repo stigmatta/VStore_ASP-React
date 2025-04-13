@@ -3,16 +3,27 @@ import Image from "../images/user-profile.jpg";
 import AchievementImage from "../images/achievement.png";
 import React from "react";
 import useWindowWidth from "../hooks/useWindowWidth";
-import { Ban, UserPlus } from "lucide-react";
+import { Ban, Pencil, UserPlus } from "lucide-react";
 import GameSectionTitle from "../components/GameSectionTitle";
 import CustomSlider from "../components/CustomSlider";
 import ShowMoreGreen from "../components/ShowMoreGreen";
 import GameImage from "../images/game-collection.png";
 import GameCollectionItem from "../components/GameCollectionItem";
 import { Link } from "react-router-dom";
+import { Dialog, DialogContent } from "@mui/material";
+import EditModal from "../components/EditModal";
 
 export default function ProfilePage() {
   const windowWidth = useWindowWidth();
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const handleOpen = () => {
+    setModalIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setModalIsOpen(false);
+  };
+  const isMe = true;
   const user = {
     avatar: Image,
     username: "dimabalawov",
@@ -42,10 +53,16 @@ export default function ProfilePage() {
         <ProfileTitle user={user} />
         <div className="flex ml-auto">
           {windowWidth > 1060 && <Categories />}
-          <div className="flex gap-2 self-start md:gap-5 ">
-            <UserPlus size={30} />
-            <Ban size={30} />
-          </div>
+          {isMe ? (
+            <div className="hoverSvg hover:cursor-pointer" onClick={handleOpen}>
+              <Pencil size={30} />
+            </div>
+          ) : (
+            <div className="flex gap-2 self-start md:gap-5 ">
+              <UserPlus size={30} />
+              <Ban size={30} />
+            </div>
+          )}
         </div>
       </div>
 
@@ -61,6 +78,17 @@ export default function ProfilePage() {
           </div>
         ))}
       </div>
+      <Dialog
+        open={modalIsOpen}
+        onClose={handleClose}
+        PaperProps={{
+          sx: { width: "25%", bgcolor: "#393E46", maxWidth: "80%" },
+        }}
+      >
+        <DialogContent sx={{ color: "#EEEEEE", padding: 0 }}>
+          <EditModal user={user} closeModal={handleClose} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
