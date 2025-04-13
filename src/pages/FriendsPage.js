@@ -1,8 +1,9 @@
 import Image from "../images/user-profile.jpg";
 import ProfilePicture from "../components/ProfilePicture";
 import { useState } from "react";
-import { User, UserMinus, UserPlus, UserX } from "lucide-react";
+import { Ban, Mail, User, UserPlus } from "lucide-react";
 import Searchbar from "../components/Searchbar";
+import ProfileTitle from "../components/ProfileTitle";
 
 export default function FriendsPage() {
   const [view, setView] = useState("friends");
@@ -13,7 +14,6 @@ export default function FriendsPage() {
     username: "dimabalawov",
   };
 
-  // Mock user data
   const mockUsers = Array(7)
     .fill(null)
     .map((_, index) => ({
@@ -38,14 +38,11 @@ export default function FriendsPage() {
   };
 
   return (
-    <div className="p-6">
-      <div className="flex w-full gap-5 items-center mb-6">
-        <ProfilePicture size={"100px"} src={user.avatar} />
-        <h1 className="text-title font-semibold text-2xl">{user.username}</h1>
-      </div>
+    <div>
+      <ProfileTitle user={user} />
 
       <div className="flex flex-col md:flex-row gap-10">
-        <nav className="flex flex-row justify-between w-full md:flex-col md:justify-start  md:w-60 mt-5 gap-4">
+        <ul className="flex flex-row justify-between w-full md:flex-col md:justify-start  md:w-60 mt-5 gap-4">
           <FriendLink
             title="Your friends"
             ImgComp={User}
@@ -60,17 +57,17 @@ export default function FriendsPage() {
           />
           <FriendLink
             title="Pending"
-            ImgComp={UserMinus}
+            ImgComp={Mail}
             active={view === "pending"}
             onClick={() => setView("pending")}
           />
           <FriendLink
             title="Blocked"
-            ImgComp={UserX}
+            ImgComp={Ban}
             active={view === "blocked"}
             onClick={() => setView("blocked")}
           />
-        </nav>
+        </ul>
 
         <div className="flex-1">
           <FriendList

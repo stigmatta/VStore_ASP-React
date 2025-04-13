@@ -13,6 +13,7 @@ import NewsPage from "./pages/NewsPage";
 import AchievementsPage from "./pages/AchievementsPage";
 import GamePage from "./pages/GamePage/GamePage";
 import FriendsPage from "./pages/FriendsPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
         <Route element={<AppLayout />}>
           <Route path="/" element={<MainPage />} />
           <Route path="News" element={<NewsPage />} />
-          <Route path="Profile" />
+          <Route path="Profile" element={<ProfilePage />} />
           <Route path="Wishlist" element={<WishlistPage />} />
           <Route path="Cart" element={<CartPage />} />
           <Route path="Support" element={<SupportPage />} />

@@ -22,6 +22,7 @@ body {
 html, body, #root {
     @apply text-gray-lightest;
     @apply font-roboto;
+    @apply scroll-smooth;
 }
 
 code {
