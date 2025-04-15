@@ -22,6 +22,7 @@ import Review from "../../components/Review";
 import useWindowWidth from "../../hooks/useWindowWidth";
 import ReviewInput from "../../components/ReviewInput";
 import ShowMoreGreen from "../../components/ShowMoreGreen";
+import CustomPagination from "../../components/CustomPagination";
 
 const strAndColor = {
   Mixed: "text-yellow-400",
@@ -373,6 +374,8 @@ export default function GamePage() {
           </div>
         )}
       </div>
+
+      <CustomPagination totalItems={1000} />
     </div>
   );
 }
