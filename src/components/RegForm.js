@@ -44,14 +44,14 @@ export default function RegForm({ setModalVisible, setFormVisible }) {
   };
 
   return (
-    <div>
+    <div className="my-auto">
       <h1 className="l:ml-11 mx-auto my-0 w-fit text-formTitle font-extrabold l:mx-0">
         Create an account
       </h1>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="formInput p-11 mt-0 scale-[90%] lg:scale-100 max-w-[830px] flex flex-col items-center l:items-baseline l:flex-row gap-16"
+        className="formInput p-11 max-w-[90%] flex flex-col items-center l:items-baseline l:flex-row gap-16"
       >
         <div name="first-col" className="flex flex-col">
           <LabelInput

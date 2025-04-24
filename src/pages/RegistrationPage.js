@@ -1,19 +1,17 @@
-import BackArrow from '../components/BackArrow';
-import RegForm from '../components/RegForm';
-import CreatedForm from '../components/CreatedForm';
-import useWindowWidth from '../hooks/useWindowWidth';
+import BackArrow from "../components/BackArrow";
+import RegForm from "../components/RegForm";
+import CreatedForm from "../components/CreatedForm";
 import { useState } from "react";
 
 export default function RegistrationPage() {
-  const windowWidth = useWindowWidth();
   const [modalVisible, setModalVisible] = useState(false);
   const [formVisible, setFormVisible] = useState(true);
 
   return (
-    <div className="h-screen w-full relative">
+    <div className="w-full relative">
       <BackArrow />
 
-      <div className="w-full h-full flex justify-center items-center">
+      <div className="w-full h-screen  flex justify-center items-center">
         {formVisible && (
           <RegForm
             setModalVisible={setModalVisible}
