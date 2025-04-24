@@ -4,27 +4,44 @@ import Checkbox from "./Checkbox";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
 import { useRef, useState } from "react";
+import axios from "axios";
 
 export default function RegForm({ setModalVisible, setFormVisible }) {
   const captchaRef = useRef(null);
   const [captchaError, setCaptchaError] = useState(false);
-  const onSubmit = (e) => {
+  const [uniqueError, setUniqueError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm();
+
+  const onSubmit = async () => {
     const captchaValue = captchaRef.current.getValue();
+    const { email, password } = getValues(); // Using getValues() to get form values
+    const data = { email, password };
+
+    console.log("Sending data:", data); // Log to check if the data is correct
+
     if (!captchaValue) {
       setCaptchaError(true);
       return;
     }
     setCaptchaError(false);
-    console.log("ok");
+
+    try {
+      await axios.post("https://localhost:7192/api/register", data);
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setUniqueError("Email is already in use.");
+        return;
+      }
+    }
+
     setFormVisible(false);
     setModalVisible(true);
   };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
   return (
     <div>
@@ -47,7 +64,7 @@ export default function RegForm({ setModalVisible, setFormVisible }) {
                 message: "Please enter a valid email address",
               },
             })}
-            error={errors.email?.message}
+            error={errors.email?.message || uniqueError}
           />
           <LabelInput
             mt="1rem"
