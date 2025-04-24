@@ -1,34 +1,86 @@
-import LabelInput from './LabelInput';
-import FormGreenButton from './FormGreenButton';
+import LabelInput from "./LabelInput";
+import FormGreenButton from "./FormGreenButton";
 import Checkbox from "./Checkbox";
-import ReCAPTCHA from 'react-google-recaptcha';
+import ReCAPTCHA from "react-google-recaptcha";
+import { useForm } from "react-hook-form";
+import { useRef, useState } from "react";
 
-export default function RegForm({ initial = 1, final = 1, setModalVisible, setFormVisible }) {
-  const handleSubmit = (e) => {
-    e.preventDefault();
+export default function RegForm({ setModalVisible, setFormVisible }) {
+  const captchaRef = useRef(null);
+  const [captchaError, setCaptchaError] = useState(false);
+  const onSubmit = (e) => {
+    const captchaValue = captchaRef.current.getValue();
+    if (!captchaValue) {
+      setCaptchaError(true);
+      return;
+    }
+    setCaptchaError(false);
+    console.log("ok");
     setFormVisible(false);
     setModalVisible(true);
   };
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   return (
     <div>
-      <h1 className='l:ml-11 mx-auto my-0 w-fit text-formTitle font-extrabold l:mx-0'>
+      <h1 className="l:ml-11 mx-auto my-0 w-fit text-formTitle font-extrabold l:mx-0">
         Create an account
       </h1>
 
       <form
-        onSubmit={handleSubmit}
-        className='formInput p-11 mt-0 scale-[90%] lg:scale-100 max-w-[830px] flex flex-col items-center l:items-baseline l:flex-row gap-16'
+        onSubmit={handleSubmit(onSubmit)}
+        className="formInput p-11 mt-0 scale-[90%] lg:scale-100 max-w-[830px] flex flex-col items-center l:items-baseline l:flex-row gap-16"
       >
-        <div name="first-col" className='flex flex-col'>
-          <LabelInput label="EMAIL" />
-          <LabelInput mt="1rem" label="PASSWORD" />
-          <Checkbox />
-          <div className='mt-6 w-full'>
-            <ReCAPTCHA sitekey="6LdSNQsrAAAAAPxct6mgv8rSnBE8rC9UpMivQA5R"  size="normal"/>
+        <div name="first-col" className="flex flex-col">
+          <LabelInput
+            label="EMAIL"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value:
+                  /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+                message: "Please enter a valid email address",
+              },
+            })}
+            error={errors.email?.message}
+          />
+          <LabelInput
+            mt="1rem"
+            label="PASSWORD"
+            type="password"
+            {...register("password", {
+              required: "Password is required",
+              pattern: {
+                value: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])\w{8,20}$/,
+                message:
+                  "8–20 characters with upper, lower, number. Underscore allowed.",
+              },
+            })}
+            error={errors.password?.message}
+          />
+          <Checkbox
+            {...register("checkbox", { required: "Checkbox is required" })}
+            error={errors.checkbox?.message}
+          />
+          <div className="mt-6 w-full">
+            <ReCAPTCHA
+              sitekey="6LdSNQsrAAAAAPxct6mgv8rSnBE8rC9UpMivQA5R"
+              size="normal"
+              ref={captchaRef}
+            />
+            {captchaError && (
+              <span className="text-red-500 text-sm mt-1">
+                ReCAPTCHA is required
+              </span>
+            )}
           </div>
 
-          <div className='mt-7 w-full'>
+          <div className="mt-7 w-full">
             <FormGreenButton
               weight="800"
               size="1.125rem"
