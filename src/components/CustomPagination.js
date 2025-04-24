@@ -20,7 +20,6 @@ export default function CustomPagination({ totalItems, onPageChange }) {
   const [page, setPage] = useState(1);
   const pageItems = 20;
   const count = Math.ceil(totalItems / pageItems);
-
   const handleChange = (event, value) => {
     setPage(value);
     onPageChange(value);
