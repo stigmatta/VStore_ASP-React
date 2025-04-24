@@ -9,6 +9,7 @@
     "@mui/material": "^7.0.1",
     "@re-dev/react-truncate": "^0.5.1",
     "@tailwindcss/postcss": "^4.0.17",
+    "axios": "^1.8.4",
     "cra-template": "1.3.0",
     "flowbite-react": "^0.11.7",
     "framer-motion": "^12.6.3",

@@ -31,7 +31,7 @@ export default function ProfilePage() {
   const achievements = Array(6).fill({
     image: AchievementImage,
     title: "Professional newbies",
-    description: "Complete the game at the easiest difficulty",
+    description: "Complete the games at the easiest difficulty",
     percent: 35,
   });
 

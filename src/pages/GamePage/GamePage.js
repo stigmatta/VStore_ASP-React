@@ -83,10 +83,10 @@ export default function GamePage() {
     publisher: "pixyda,inc.",
     fullDescription:
       "Marvel Rivals is an exhilarating, fast-paced, team-based PvP shooter set in the Marvel Universe. Assemble your dream team of iconic Marvel superheroes, each with unique powers and abilities, and dive into intense battles where strategy, teamwork, and quick reflexes are key to victory.\n" +
-      "In Marvel Rivals, every match is a chance to create dynamic team-ups, combining the powers of different heroes to unleash devastating combo attacks and abilities that can turn the tide of battle. With multiple game modes, including objective-based missions and classic deathmatches, players can test their skills in a variety of ever-changing environments, all while experiencing the vibrant, destructive, and immersive worlds inspired by the Marvel Comics universe.\n" +
-      "The game features stunning, high-quality graphics that bring the iconic characters and environments to life. From epic cityscapes to alien worlds, each map is designed to push your strategic thinking and adaptability to the limit. Play with friends or challenge players from around the globe in ranked or casual matches, and rise through the ranks to prove you're the ultimate superhero team!\n" +
+      "In Marvel Rivals, every match is a chance to create dynamic team-ups, combining the powers of different heroes to unleash devastating combo attacks and abilities that can turn the tide of battle. With multiple games modes, including objective-based missions and classic deathmatches, players can test their skills in a variety of ever-changing environments, all while experiencing the vibrant, destructive, and immersive worlds inspired by the Marvel Comics universe.\n" +
+      "The games features stunning, high-quality graphics that bring the iconic characters and environments to life. From epic cityscapes to alien worlds, each map is designed to push your strategic thinking and adaptability to the limit. Play with friends or challenge players from around the globe in ranked or casual matches, and rise through the ranks to prove you're the ultimate superhero team!\n" +
       "Whether you're playing as the mighty Thor, the web-slinging Spider-Man, or the powerful Hulk, Marvel Rivals offers a diverse roster of heroes and villains, each bringing their own set of powerful abilities to the battlefield. Mastering each hero's unique skills is essential to overcoming your opponents and dominating the competition.\n" +
-      "Join the action, form your team, and prepare for the ultimate showdown. Marvel Rivals is the game where superheroes meet strategy in the most exciting battle arena ever created. Are you ready to rise and take on the challenge?",
+      "Join the action, form your team, and prepare for the ultimate showdown. Marvel Rivals is the games where superheroes meet strategy in the most exciting battle arena ever created. Are you ready to rise and take on the challenge?",
   };
 
   const systemRequirements = {
@@ -111,7 +111,7 @@ export default function GamePage() {
   const achievements = Array(6).fill({
     image: AchievementImage,
     title: "Professional newbies",
-    description: "Complete the game at the easiest difficulty",
+    description: "Complete the games at the easiest difficulty",
     percent: 35,
   });
 
@@ -120,13 +120,13 @@ export default function GamePage() {
       isLiked: true,
       user: "dimabalawov",
       date: new Date("2025-02-27T17:00:00"),
-      text: "It's a shame this game has gotten the hate it has. It's actually pretty awesome.",
+      text: "It's a shame this games has gotten the hate it has. It's actually pretty awesome.",
     },
     {
       isLiked: false,
       user: "johnDoe123",
       date: new Date("2025-03-12T14:30:00"),
-      text: "Love the game! The world is huge, and the quests are engaging. Though the combat could use more variety, it's overall an enjoyable experience. The side content adds a lot of depth, and the graphics are stunning.",
+      text: "Love the games! The world is huge, and the quests are engaging. Though the combat could use more variety, it's overall an enjoyable experience. The side content adds a lot of depth, and the graphics are stunning.",
     },
     {
       isLiked: true,
@@ -146,17 +146,17 @@ export default function GamePage() {
       date: new Date("2025-03-20T22:00:00"),
       text:
         "I wish the controls were smoother, but overall, it’s a fun experience. The combat feels engaging once you get the hang of it, and the variety of skills available makes it interesting." +
-        " The open-world aspect is great, but the game could use more variety in enemies.I wish the controls were smoother, but overall, it’s a fun experience. The combat feels engaging once you get the hang of it, and the variety of skills available makes it interesting." +
-        " The open-world aspect is great, but the game could use more variety in enemies.I wish the controls were smoother, but overall, it’s a fun experience. The combat feels engaging once you get the hang of it, and the variety of skills available makes it interesting." +
-        " The open-world aspect is great, but the game could use more variety in enemies.I wish the controls were smoother, but overall, it’s a fun experience. The combat feels engaging once you get the hang of it, and the variety of skills available makes it interesting." +
-        " The open-world aspect is great, but the game could use more variety in enemies.I wish the controls were smoother, but overall, it’s a fun experience. The combat feels engaging once you get the hang of it, and the variety of skills available makes it interesting." +
-        " The open-world aspect is great, but the game could use more variety in enemies.",
+        " The open-world aspect is great, but the games could use more variety in enemies.I wish the controls were smoother, but overall, it’s a fun experience. The combat feels engaging once you get the hang of it, and the variety of skills available makes it interesting." +
+        " The open-world aspect is great, but the games could use more variety in enemies.I wish the controls were smoother, but overall, it’s a fun experience. The combat feels engaging once you get the hang of it, and the variety of skills available makes it interesting." +
+        " The open-world aspect is great, but the games could use more variety in enemies.I wish the controls were smoother, but overall, it’s a fun experience. The combat feels engaging once you get the hang of it, and the variety of skills available makes it interesting." +
+        " The open-world aspect is great, but the games could use more variety in enemies.I wish the controls were smoother, but overall, it’s a fun experience. The combat feels engaging once you get the hang of it, and the variety of skills available makes it interesting." +
+        " The open-world aspect is great, but the games could use more variety in enemies.",
     },
     {
       isLiked: false,
       user: "gamer456",
       date: new Date("2025-02-25T11:00:00"),
-      text: "Great game for fans of action RPGs. The loot system is addictive, but the combat can be repetitive.",
+      text: "Great games for fans of action RPGs. The loot system is addictive, but the combat can be repetitive.",
     },
     {
       isLiked: true,
@@ -178,7 +178,7 @@ export default function GamePage() {
       isLiked: false,
       user: "randomPlayer",
       date: new Date("2025-02-18T18:00:00"),
-      text: "It’s okay. The game has its flaws, but it can be fun at times.",
+      text: "It’s okay. The games has its flaws, but it can be fun at times.",
     },
   ];
 

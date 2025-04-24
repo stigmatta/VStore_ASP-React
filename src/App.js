@@ -14,6 +14,7 @@ import AchievementsPage from "./pages/AchievementsPage";
 import GamePage from "./pages/GamePage/GamePage";
 import FriendsPage from "./pages/FriendsPage";
 import ProfilePage from "./pages/ProfilePage";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="Achievements" element={<AchievementsPage />} />
           <Route path="Game" element={<GamePage />} />
           <Route path="Friends" element={<FriendsPage />} />
+          <Route path="Admin" element={<AdminDashboard />} />
         </Route>
 
         <Route element={<AuthLayout />}>
