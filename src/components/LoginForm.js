@@ -1,19 +1,41 @@
 import GrayButton from "./GrayButton";
 import QrCode from "../images/qr_code.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LabelInput from "./LabelInput";
 import FormGreenButton from "./FormGreenButton";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useState } from "react";
 
 export default function LoginForm() {
+  const navigate = useNavigate();
+
+  const handleRedirect = () => {
+    navigate("/Main");
+  };
   const {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm();
+  const [invalidInput, setInvalidInput] = useState("");
 
-  const onSubmit = (e) => {
-    console.log("ok");
+  const onSubmit = async () => {
+    console.log("Submitting...");
+    const { username, password } = getValues();
+    const data = { username, password };
+    try {
+      await axios.post("https://localhost:7192/api/login", data);
+    } catch (error) {
+      console.log(error);
+      if (error.response && error.response.status === 400) {
+        setInvalidInput("Incorrect username or password");
+        return;
+      }
+    }
+    console.log("Logged in");
+    handleRedirect();
   };
   return (
     <div>
@@ -59,7 +81,7 @@ export default function LoginForm() {
                   "8–20 characters with upper, lower, number. Underscore allowed.",
               },
             })}
-            error={errors.password?.message}
+            error={errors.password?.message || invalidInput}
           />
           <div className="flex gap-9 mt-9">
             <FormGreenButton

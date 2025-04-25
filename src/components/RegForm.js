@@ -19,10 +19,10 @@ export default function RegForm({ setModalVisible, setFormVisible }) {
 
   const onSubmit = async () => {
     const captchaValue = captchaRef.current.getValue();
-    const { email, password } = getValues(); // Using getValues() to get form values
+    const { email, password } = getValues();
     const data = { email, password };
 
-    console.log("Sending data:", data); // Log to check if the data is correct
+    console.log("Sending data:", data);
 
     if (!captchaValue) {
       setCaptchaError(true);

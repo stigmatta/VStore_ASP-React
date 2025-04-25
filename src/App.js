@@ -22,6 +22,7 @@ function App() {
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<MainPage />} />
+          <Route path="/Main" element={<MainPage />} />
           <Route path="News" element={<NewsPage />} />
           <Route path="Profile" element={<ProfilePage />} />
           <Route path="Wishlist" element={<WishlistPage />} />
