@@ -26,16 +26,25 @@ export default function LoginForm() {
     const { username, password } = getValues();
     const data = { username, password };
     try {
-      await axios.post("https://localhost:7192/api/login", data);
+      const response = await axios.post(
+        "https://localhost:7192/api/login",
+        data,
+        {
+          withCredentials: true,
+        },
+      );
+
+      if (response.status === 200) {
+        console.log(response.data);
+        handleRedirect();
+      }
     } catch (error) {
       console.log(error);
       if (error.response && error.response.status === 400) {
-        setInvalidInput("Incorrect username or password");
+        setInvalidInput(error.response.data);
         return;
       }
     }
-    console.log("Logged in");
-    handleRedirect();
   };
   return (
     <div>
