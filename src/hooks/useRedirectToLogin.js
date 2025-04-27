@@ -4,21 +4,22 @@ import axios from "axios";
 
 const useRedirectToLogin = (url) => {
   const navigate = useNavigate();
+
   useEffect(() => {
-    axios
-      .get(url, {
-        withCredentials: true,
-      })
-      .then((res) => {
+    const checkAuth = async () => {
+      try {
+        const res = await axios.get(url, { withCredentials: true });
         console.log(res.data);
-      })
-      .catch((error) => {
+      } catch (error) {
         if (error.response?.status === 401) {
           navigate("/login");
         } else {
           console.error("API Error:", error);
         }
-      });
+      }
+    };
+
+    checkAuth();
   }, [navigate, url]);
 };
 

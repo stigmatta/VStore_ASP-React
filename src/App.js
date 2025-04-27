@@ -14,7 +14,7 @@ import AchievementsPage from "./pages/AchievementsPage";
 import GamePage from "./pages/GamePage/GamePage";
 import FriendsPage from "./pages/FriendsPage";
 import ProfilePage from "./pages/ProfilePage";
-import Mock from "./pages/admin/components/Mock";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 function App() {
   return (
@@ -31,13 +31,13 @@ function App() {
           <Route path="Achievements" element={<AchievementsPage />} />
           <Route path="Game" element={<GamePage />} />
           <Route path="Friends" element={<FriendsPage />} />
-          <Route path="Admin" element={<Mock />} />
         </Route>
 
         <Route element={<AuthLayout />}>
           <Route path="/Login" element={<LoginPage />} />
           <Route path="/Registration" element={<RegistrationPage />} />
         </Route>
+        <Route path="Admin" element={<AdminDashboard />} />
       </Routes>
     </div>
   );

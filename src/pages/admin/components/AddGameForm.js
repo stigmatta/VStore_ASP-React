@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function AddGameForm() {
@@ -24,8 +24,8 @@ export default function AddGameForm() {
     const fetchRequirements = async () => {
       try {
         const [minResponse, recResponse] = await Promise.all([
-          axios.get("https://localhost:7192/api/admin/minreqs"),
-          axios.get("https://localhost:7192/api/admin/recreqs"),
+          axios.get("https://localhost:7192/api/admin/reqs/minreqs"),
+          axios.get("https://localhost:7192/api/admin/reqs/recreqs"),
         ]);
 
         setMinimumRequirements(minResponse.data);
@@ -95,7 +95,8 @@ export default function AddGameForm() {
 
     try {
       const response = await axios.post(
-        "https://localhost:7192/api/admin/add-game",
+        "https://localhost:7192/api/admin/games/add-game",
+        { withCredentials: true },
         formData,
         {
           headers: {

@@ -5,11 +5,12 @@ export default function GameList() {
   const [games, setGames] = useState([]);
 
   useEffect(() => {
-    axios.get("https://localhost:7192/api/admin/games").then((res) => {
-      setGames(res.data);
-    });
+    axios
+      .get("https://localhost:7192/api/admin/games", { withCredentials: true })
+      .then((res) => {
+        setGames(res.data);
+      });
   }, []);
-
   return (
     <ul>
       {games.map((game) => (
