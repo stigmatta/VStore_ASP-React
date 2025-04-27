@@ -1,12 +1,39 @@
 import GrayButton from "./GrayButton";
 import Searchbar from "./Searchbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HeaderDropdown from "./HeaderDropdown";
 import { NavLink } from "react-router-dom";
 import VLogo from "./VLogo";
 import DownloadButton from "./Download";
+import axios from "axios";
 
 export default function Header() {
+  const [authorized, setAuthorized] = useState(false);
+  const handleLogout = async () => {
+    console.log("Logout");
+    const res = await axios.get("https://localhost:7192/api/logout", {
+      withCredentials: true,
+    });
+    if (res.status === 200) {
+      setAuthorized(false);
+      window.location.reload();
+    }
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("https://localhost:7192/api", {
+          withCredentials: true,
+        });
+        setAuthorized(res.data);
+      } catch (error) {
+        console.error(error);
+        setAuthorized(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   const [dropdownOpened, setDropdownOpening] = useState(false);
 
   const toggleDropdown = () => {
@@ -82,7 +109,6 @@ export default function Header() {
             />
           </svg>
         </NavLink>
-
         <NavLink
           to="/Wishlist"
           className={({ isActive }) =>
@@ -116,7 +142,7 @@ export default function Header() {
         >
           <svg
             name="cartImg"
-            className="hoverSvsg"
+            className="hoverSvg"
             width="24"
             height="24"
             viewBox="0 0 18 21"
@@ -132,10 +158,19 @@ export default function Header() {
             />
           </svg>
         </NavLink>
+        {authorized === false ? (
+          <NavLink to="/Login">
+            <GrayButton text="Sign in" width="4.5rem" height="2.4375rem" />
+          </NavLink>
+        ) : (
+          <GrayButton
+            handleClick={handleLogout}
+            text={"Sign out"}
+            width="4.5rem"
+            height="2.4375rem"
+          />
+        )}
 
-        <NavLink to="/Login">
-          <GrayButton text="Sign in" width="4.5rem" height="2.4375rem" />
-        </NavLink>
         <DownloadButton />
         <div className="block md:hidden">
           <svg

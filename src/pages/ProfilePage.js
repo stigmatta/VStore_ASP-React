@@ -12,8 +12,27 @@ import GameCollectionItem from "../components/GameCollectionItem";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent } from "@mui/material";
 import EditModal from "../components/EditModal";
+import useRedirectToLogin from "../hooks/useRedirectToLogin";
 
 export default function ProfilePage() {
+  useRedirectToLogin("https://localhost:7192/api/profile");
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   axios
+  //     .get("https://localhost:7192/api/profile", {
+  //       withCredentials: true,
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //     })
+  //     .catch((error) => {
+  //       if (error.response?.status === 401) {
+  //         navigate("/login", { state: { from: "/profile" } }); // Optional: Save where user came from
+  //       } else {
+  //         console.error("API Error:", error);
+  //       }
+  //     });
+  // }, [navigate]);
   const windowWidth = useWindowWidth();
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const handleOpen = () => {
