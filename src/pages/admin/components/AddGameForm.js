@@ -9,6 +9,9 @@ export default function AddGameForm() {
     discount: 0,
     logoFile: null,
     developer: "",
+    publisher: "", // New field
+    trailerLink: "", // New field
+    pegiRating: "", // New field
     recommendedRequirementId: "",
     minimumRequirementId: "",
     releaseDate: "",
@@ -19,6 +22,15 @@ export default function AddGameForm() {
   const [recommendedRequirements, setRecommendedRequirements] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // PEGI ratings options
+  const pegiRatings = [
+    { value: "PEGI 3", label: "PEGI 3" },
+    { value: "PEGI 7", label: "PEGI 7" },
+    { value: "PEGI 12", label: "PEGI 12" },
+    { value: "PEGI 16", label: "PEGI 16" },
+    { value: "PEGI 18", label: "PEGI 18" },
+  ];
 
   useEffect(() => {
     const fetchRequirements = async () => {
@@ -84,6 +96,9 @@ export default function AddGameForm() {
     formData.append("Price", form.price);
     formData.append("Discount", form.discount);
     formData.append("Developer", form.developer);
+    formData.append("Publisher", form.publisher); // New field
+    formData.append("TrailerLink", form.trailerLink); // New field
+    formData.append("PEGI", form.pegiRating); // New field
     formData.append("RecommendedRequirementId", form.recommendedRequirementId);
     formData.append("MinimumRequirementId", form.minimumRequirementId);
     formData.append("ReleaseDate", form.releaseDate);
@@ -96,9 +111,9 @@ export default function AddGameForm() {
     try {
       const response = await axios.post(
         "https://localhost:7192/api/admin/games/add-game",
-        { withCredentials: true },
         formData,
         {
+          withCredentials: true,
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -113,6 +128,9 @@ export default function AddGameForm() {
         discount: 0,
         logoFile: null,
         developer: "",
+        publisher: "", // Reset new field
+        trailerLink: "", // Reset new field
+        pegiRating: "", // Reset new field
         recommendedRequirementId: "",
         minimumRequirementId: "",
         releaseDate: "",
@@ -170,6 +188,39 @@ export default function AddGameForm() {
           </div>
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block mb-1 font-medium text-black">
+              Издатель
+            </label>
+            <input
+              name="publisher"
+              value={form.publisher}
+              onChange={handleInputChange}
+              className="w-full p-2 border rounded text-black"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1 font-medium text-black">
+              PEGI рейтинг
+            </label>
+            <select
+              name="pegiRating"
+              value={form.pegiRating}
+              onChange={handleInputChange}
+              className="w-full p-2 border rounded text-black"
+            >
+              <option value="">Выберите рейтинг...</option>
+              {pegiRatings.map((rating) => (
+                <option key={rating.value} value={rating.value}>
+                  {rating.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
         <div>
           <label className="block mb-1 font-medium text-black">Описание</label>
           <textarea
@@ -210,6 +261,20 @@ export default function AddGameForm() {
               max="100"
             />
           </div>
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium text-black">
+            Ссылка на трейлер (YouTube или другой)
+          </label>
+          <input
+            name="trailerLink"
+            type="url"
+            value={form.trailerLink}
+            onChange={handleInputChange}
+            className="w-full p-2 border rounded text-black"
+            placeholder="https://www.youtube.com/watch?v=..."
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

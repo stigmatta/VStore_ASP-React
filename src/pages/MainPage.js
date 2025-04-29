@@ -1,133 +1,106 @@
-import MainGame from '../components/MainGame';
-import CategoryTitle from '../components/CategoryTitle';
-import CustomSlider from '../components/CustomSlider';
-import FreeGameDiv from '../components/FreeGameDiv';
-import EpicStoreDiv from '../components/EpicStoreDiv';
-import ColumnCategory from '../components/ColumnCategory';
+import { lazy, Suspense, useEffect, useState } from "react";
+import axios from "axios";
+import CustomLoader from "../components/CustomLoader";
+import CategoryTitle from "../components/CategoryTitle";
+import EpicStoreDiv from "../components/EpicStoreDiv";
 
-import TheEndOfTheSun from '../images/the-end-of-the-sun.png';
-import CowboyBebop from '../images/cowboy.png';
-import TMNT from '../images/deal-of-the-week.png';
-import FreeGameImg from '../images/free-game.png';
-import ColumnImg from '../images/column-category.png';
-
-
+const MainGame = lazy(() => import("../components/MainGame"));
+const CustomSlider = lazy(() => import("../components/CustomSlider"));
+const FreeGameDiv = lazy(() => import("../components/FreeGameDiv"));
 export default function MainPage() {
-  const gamesArr = Array(6).fill({
-    title: 'The End of the Sun',
-    image: TheEndOfTheSun,
-    price: 515
-  });
+  const [mainGame, setMainGame] = useState(null);
+  const [discoverNew, setDiscoverNew] = useState([]);
+  const [withDiscount, setWithDiscount] = useState([]);
+  const [dealOfTheWeek, setDealOfTheWeek] = useState([]);
+  const [freeGames, setFreeGames] = useState([]);
+  const [popularGames, setPopularGames] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const withDiscount = Array(6).fill({
-    title: 'The End of the Sun',
-    image: TheEndOfTheSun,
-    price: 515,
-    discount: 60
-  });
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        const response = await axios.get("https://localhost:7192/api/main");
+        const {
+          mainGameWithGallery,
+          discoverNew,
+          withDiscount,
+          dealOfTheWeek,
+          freeGames,
+          popularGames,
+        } = response.data;
 
-  const seeInShopArr = Array(3).fill({
-    title: 'Fortnite',
-    image: CowboyBebop,
-    description: 'BANG! Take your shot with bounty hunters Spike Spiegel and Faye Valentine from COWBOY BEBOP.'
-  });
+        setMainGame(mainGameWithGallery);
+        setDiscoverNew(discoverNew);
+        setWithDiscount(withDiscount);
+        setDealOfTheWeek(dealOfTheWeek);
+        setFreeGames(freeGames);
+        setPopularGames(popularGames);
+      } catch (err) {
+        console.error("Game data fetch error:", err);
+        setError("Failed to load games. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const dealOfTheWeekArr = Array(3).fill({
-    title: 'Teenage Mutant Ninja Turtles: Splintered Fate',
-    image: TMNT,
-    price: 515,
-    discount: 60
-  });
+    fetchGames();
+  }, []);
 
-  const freeGames = [
-    {
-      title: 'Mages of Mystralia',
-      image: FreeGameImg,
-      date: new Date('2025-02-27T17:00:00')
-    },
-    {
-      title: 'Mages of Mystralia',
-      image: FreeGameImg,
-      date: new Date('2026-02-27T17:00:00')
-    },
-    {
-      title: 'Mages of Mystralia',
-      image: FreeGameImg,
-      date: new Date('2025-02-27T17:00:00')
-    }
-  ];
+  if (isLoading) return <CustomLoader />;
 
-  const colGameArr = [
-    {
-      title: 'Marvel Rivals',
-      image: ColumnImg,
-      price: 515,
-      discount: 60
-    },
-    {
-      title: 'Marvel Rivals',
-      image: ColumnImg,
-      price: 0
-    },
-    {
-      title: 'Marvel Rivals',
-      image: ColumnImg,
-      price: 515
-    },
-    {
-      title: 'Marvel Rivals',
-      image: ColumnImg,
-      price: 515
-    },
-    {
-      title: 'Marvel Rivals',
-      image: ColumnImg,
-      price: 515
-    }
-
-  ];
-
+  if (error) return <div className="error-message">{error}</div>;
 
   return (
     <div className="flex flex-col gap-[70px]">
-      <MainGame title="APEX LEGENDS" subTitle="NEW SEASON" />
+      <Suspense fallback={<CustomLoader />}>
+        {<MainGame item={mainGame} />}
+        <div>
+          <CategoryTitle title="Discover something new" />
+          <CustomSlider
+            items={discoverNew}
+            componentName="SliderOneGame"
+            visibleSlides={4}
+          />
+        </div>
+        <div>
+          <CategoryTitle title="Sale Spotlight" />
+          <CustomSlider
+            items={withDiscount}
+            componentName="SliderOneGame"
+            visibleSlides={4}
+          />
+        </div>
+        {/* <CustomSlider items={seeInShopArr} componentName="SeeInShopGame" /> */}
+        <CustomSlider
+          items={dealOfTheWeek}
+          componentName="DealOfTheWeek"
+          visibleSlides={3}
+        />
+        <FreeGameDiv games={freeGames} />
+        <EpicStoreDiv />
+        {/*
+          <CustomSlider>
+            <ColumnCategory title="Most Played" items={colGameArr} />
+            <ColumnCategory title="Top Upcoming Wishlist" items={colGameArr} />
+            <ColumnCategory title="Top sellers" items={colGameArr} />
+          </CustomSlider>
+        */}
 
-      <div>
-        <CategoryTitle title="Discover something new" />
-        <CustomSlider items={gamesArr} componentName="SliderOneGame" />
-      </div>
+        <div>
+          <CategoryTitle title="Popular Games" />
+          <CustomSlider items={popularGames} componentName="SliderOneGame" />
+        </div>
 
-      <CustomSlider items={seeInShopArr} componentName="SeeInShopGame" />
-      <div>
-        <CategoryTitle title="Winter Sale Spotlight" />
-        <CustomSlider items={withDiscount} componentName="SliderOneGame" />
-      </div>
-
-      <CustomSlider items={dealOfTheWeekArr} componentName="DealOfTheWeek" />
-      <FreeGameDiv games={freeGames} />
-
-      <EpicStoreDiv />
-
-      <CustomSlider>
-        <ColumnCategory title="Most Played" items={colGameArr} />
-        <ColumnCategory title="Top Upcoming Wishlist" items={colGameArr} />
-        <ColumnCategory title="Top sellers" items={colGameArr} />
-      </CustomSlider>
-
-      <div>
-        <CategoryTitle title="Popular Games" />
-        <CustomSlider items={gamesArr} componentName="SliderOneGame" />
-      </div>
-
-      <div>
-        <CategoryTitle title="Recently Updated" />
-        <CustomSlider items={gamesArr} componentName="SliderOneGame" />
-      </div>
-      <div>
-        <CategoryTitle title="Now on the store" />
-        <CustomSlider items={gamesArr} componentName="SliderOneGame" />
-      </div>
-
+        {/*<div>*/}
+        {/*  <CategoryTitle title="Recently Updated" />*/}
+        {/*  <CustomSlider items={gamesArr} componentName="SliderOneGame" />*/}
+        {/*</div>*/}
+        {/*<div>*/}
+        {/*  <CategoryTitle title="Now on the store" />*/}
+        {/*  <CustomSlider items={gamesArr} componentName="SliderOneGame" />*/}
+        {/*</div>*/}
+      </Suspense>
     </div>
   );
 }

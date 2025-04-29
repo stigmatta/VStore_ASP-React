@@ -1,18 +1,15 @@
+import useGetImage from "../hooks/useGetImage";
+
 export default function NewsDiv({ news, isBig = false }) {
   const dateStr = daysAgo(new Date(news.publishedDate));
-
-  const getImageUrl = (path) => {
-    if (!path) return "/placeholder.jpg";
-    return path.startsWith("http") ? path : `https://localhost:7192${path}`;
-  };
-
+  const photo = useGetImage(news.photo);
   return (
     <div
       className={`${isBig ? "flex flex-col  w-full" : "flex flex-row  gap-4 w-full mx-auto"}`}
     >
       <div className={`relative ${isBig ? "w-full" : "w-full"}`}>
         <img
-          src={getImageUrl(news.photo)}
+          src={photo}
           className={`w-full h-[226px] imd:h-[315px] max-w-[562px] object-cover rounded-xl ${
             isBig ? "object-center" : "object-center"
           }`}

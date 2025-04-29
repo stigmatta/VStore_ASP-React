@@ -1,14 +1,18 @@
-import DiscountPrice from './DiscountPrice';
+import DiscountPrice from "./DiscountPrice";
+import useGetImage from "../hooks/useGetImage";
 
 export default function SliderOneGame({ item }) {
+  const gameImage = useGetImage(item?.logoLink);
   return (
-    <div className="flex flex-col w-[177px] max-w-[177px] cursor-grab">
-      <div className="h-[236px]">
-        <img className="w-full" src={item.image} alt="game-image" />
-      </div>
+    <div className="flex flex-col w-[250px] max-w-[250px] cursor-grab">
+      <img className="w-full" src={gameImage} alt="game-image" />
       <h3 className="opacity-70">Base Game</h3>
-      <h2>{item.title}</h2>
-      <DiscountPrice price={item.price} discount={item.discount} direction="col" />
+      <h2 className="mb-3">{item.title}</h2>
+      <DiscountPrice
+        price={item.price}
+        discount={item.discount}
+        direction="row"
+      />
     </div>
   );
 }

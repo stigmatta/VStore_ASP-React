@@ -1,11 +1,10 @@
 import ProfileTitle from "../components/ProfileTitle";
 import Image from "../images/user-profile.jpg";
 import AchievementImage from "../images/achievement.png";
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import useWindowWidth from "../hooks/useWindowWidth";
 import { Ban, Pencil, UserPlus } from "lucide-react";
 import GameSectionTitle from "../components/GameSectionTitle";
-import CustomSlider from "../components/CustomSlider";
 import ShowMoreGreen from "../components/ShowMoreGreen";
 import GameImage from "../images/game-collection.png";
 import GameCollectionItem from "../components/GameCollectionItem";
@@ -13,26 +12,12 @@ import { Link } from "react-router-dom";
 import { Dialog, DialogContent } from "@mui/material";
 import EditModal from "../components/EditModal";
 import useRedirectToLogin from "../hooks/useRedirectToLogin";
+import CustomLoader from "../components/CustomLoader";
+
+const CustomSlider = lazy(() => import("../components/CustomSlider"));
 
 export default function ProfilePage() {
   useRedirectToLogin("https://localhost:7192/api/profile");
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   axios
-  //     .get("https://localhost:7192/api/profile", {
-  //       withCredentials: true,
-  //     })
-  //     .then((res) => {
-  //       console.log(res.data);
-  //     })
-  //     .catch((error) => {
-  //       if (error.response?.status === 401) {
-  //         navigate("/login", { state: { from: "/profile" } }); // Optional: Save where user came from
-  //       } else {
-  //         console.error("API Error:", error);
-  //       }
-  //     });
-  // }, [navigate]);
   const windowWidth = useWindowWidth();
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const handleOpen = () => {
@@ -84,10 +69,14 @@ export default function ProfilePage() {
           )}
         </div>
       </div>
-
       {windowWidth < 1060 && <Categories />}
       <GameSectionTitle title="Achievements" />
-      <CustomSlider items={achievements} componentName="AchievementForSlider" />
+      <Suspense fallback={<CustomLoader />}>
+        <CustomSlider
+          items={achievements}
+          componentName="AchievementForSlider"
+        />
+      </Suspense>{" "}
       <ShowMoreGreen />
       <GameSectionTitle title={"Game collection"} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

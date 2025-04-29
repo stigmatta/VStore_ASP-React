@@ -3,8 +3,8 @@ import NewsDiv from "../components/NewsDiv";
 import React, { useEffect, useState } from "react";
 import BreakLine from "../components/BreakLine";
 import axios from "axios";
-import { BounceLoader } from "react-spinners";
 import CategoryTitle from "../components/CategoryTitle";
+import CustomLoader from "../components/CustomLoader";
 
 export default function NewsPage() {
   const [bigNews, setBigNews] = useState([]);
@@ -33,19 +33,9 @@ export default function NewsPage() {
 
     fetchNews();
   }, []);
-  // const bigNews = Array(2).fill({
-  //   image: NewsImage,
-  //   text: "Star Wars: Knights of the Old Republic I and II available for free on the Epic Games Store on mobile",
-  //   date: new Date("2025-02-27T17:00:00"),
-  // });
-  //
-  // const smallNews = Array(8).fill({
-  //   image: SmallNews,
-  //   text: "SMITE 2 beginner's guide: Tips for understanding gods, roles, and teamwork",
-  //   date: new Date("2025-02-27T17:00:00"),
-  // });
+
   if (loading) {
-    return <BounceLoader />;
+    return <CustomLoader />;
   }
   if (bigNews.length === 0) return <CategoryTitle title="No news" />;
   return (
@@ -66,12 +56,7 @@ export default function NewsPage() {
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         {smallNews.map((item, index) => (
-          <NewsDiv
-            key={index}
-            news={item}
-            isBig={false}
-            className="w-full" // Ensures proper grid behavior
-          />
+          <NewsDiv key={index} news={item} isBig={false} className="w-full" />
         ))}
       </div>
     </div>
