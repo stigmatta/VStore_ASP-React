@@ -45,7 +45,7 @@ export default function FreeGame({ item }) {
 
   dateString += ` - ${formatDate(releaseDate)}`;
   return (
-    <div className="flex flex-col w-[340px]">
+    <div className="flex flex-col">
       <div className="relative w-full overflow-hidden rounded-xl">
         <img src={gameImage} alt="game image" />
         <span

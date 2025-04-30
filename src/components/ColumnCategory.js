@@ -6,12 +6,8 @@ function GameItem({ item }) {
   const imageUrl = useGetImage(item?.logoLink);
 
   return (
-    <div className="flex flex-row items-center gap-8">
-      <img
-        className="w-[94px]"
-        src={imageUrl}
-        alt={item.title || "Game image"}
-      />
+    <div className="flex flex-col items-start gap-3">
+      <img className="w-full" src={imageUrl} alt={item.title || "Game image"} />
       <div className="flex flex-col gap-3">
         <span className="text-bigButton font-black">{item.title}</span>
         <DiscountPrice

@@ -4,7 +4,7 @@ import useGetImage from "../hooks/useGetImage";
 export default function SeeInShopGame({ item }) {
   const gameImage = useGetImage(item?.logoLink);
   return (
-    <div className="flex flex-col w-[369px] h-fit gap-5">
+    <div className="flex flex-col h-fit gap-5">
       <img
         className="w-full h-[207px] object-contain"
         src={gameImage}

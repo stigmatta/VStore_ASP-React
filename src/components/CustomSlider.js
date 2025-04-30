@@ -43,7 +43,9 @@ export default function CustomSlider({
         ? Math.ceil(React.Children.count(children) / 2)
         : Math.ceil(items?.length / 2) || slidesToScroll,
     ),
-    adaptiveHeight: true,
+    adaptiveHeight: false,
+    centerMode: false,
+    variableWidth: false,
     arrows: false,
   };
 
@@ -60,7 +62,6 @@ export default function CustomSlider({
               ))
             : items?.map((item, index) => (
                 <div key={index} className="px-2">
-                  {" "}
                   <Component item={item} />
                 </div>
               ))}

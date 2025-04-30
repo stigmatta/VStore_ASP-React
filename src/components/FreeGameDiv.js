@@ -3,7 +3,7 @@ import TransparentButton from "./TransparentButton";
 
 export default function FreeGameDiv({ games }) {
   return (
-    <div className="flex flex-col gap-9 bg-form-gradient ~px-8/11 pt-[23px] pb-[38px] rounded-3xl h-fit  mx-auto w-full imd:mx-0">
+    <div className="flex flex-col gap-9 bg-form-gradient px-2 pt-[23px] pb-[38px] rounded-3xl h-fit  mx-auto w-full imd:mx-0">
       <div className="flex flex-row justify-between">
         <div className="flex items-center gap-5">
           <svg
