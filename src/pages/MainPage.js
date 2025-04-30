@@ -3,6 +3,7 @@ import axios from "axios";
 import CustomLoader from "../components/CustomLoader";
 import CategoryTitle from "../components/CategoryTitle";
 import EpicStoreDiv from "../components/EpicStoreDiv";
+import ColumnCategory from "../components/ColumnCategory";
 
 const MainGame = lazy(() => import("../components/MainGame"));
 const CustomSlider = lazy(() => import("../components/CustomSlider"));
@@ -14,6 +15,9 @@ export default function MainPage() {
   const [dealOfTheWeek, setDealOfTheWeek] = useState([]);
   const [freeGames, setFreeGames] = useState([]);
   const [popularGames, setPopularGames] = useState([]);
+  const [topWishlist, setTopWishlist] = useState([]);
+  const [topSellers, setTopSellers] = useState([]);
+  const [mostPlayed, setMostPlayed] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -28,6 +32,8 @@ export default function MainPage() {
           dealOfTheWeek,
           freeGames,
           popularGames,
+          wishlistGames,
+          topSellers,
         } = response.data;
 
         setMainGame(mainGameWithGallery);
@@ -36,6 +42,8 @@ export default function MainPage() {
         setDealOfTheWeek(dealOfTheWeek);
         setFreeGames(freeGames);
         setPopularGames(popularGames);
+        setTopWishlist(wishlistGames);
+        setTopSellers(topSellers);
       } catch (err) {
         console.error("Game data fetch error:", err);
         setError("Failed to load games. Please try again later.");
@@ -71,7 +79,11 @@ export default function MainPage() {
             visibleSlides={4}
           />
         </div>
-        {/* <CustomSlider items={seeInShopArr} componentName="SeeInShopGame" /> */}
+        <CustomSlider
+          items={discoverNew}
+          visibleSlides={3}
+          componentName="SeeInShopGame"
+        />
         <CustomSlider
           items={dealOfTheWeek}
           componentName="DealOfTheWeek"
@@ -79,27 +91,32 @@ export default function MainPage() {
         />
         <FreeGameDiv games={freeGames} />
         <EpicStoreDiv />
-        {/*
-          <CustomSlider>
-            <ColumnCategory title="Most Played" items={colGameArr} />
-            <ColumnCategory title="Top Upcoming Wishlist" items={colGameArr} />
-            <ColumnCategory title="Top sellers" items={colGameArr} />
-          </CustomSlider>
-        */}
+
+        <CustomSlider>
+          <ColumnCategory
+            title="Most Played"
+            items={popularGames.slice(0, 3)}
+          />
+          <ColumnCategory
+            title="Top Wishlist"
+            items={popularGames.slice(3, 6)}
+          />
+          <ColumnCategory title="Top sellers" items={topSellers} />
+        </CustomSlider>
 
         <div>
           <CategoryTitle title="Popular Games" />
           <CustomSlider items={popularGames} componentName="SliderOneGame" />
         </div>
 
-        {/*<div>*/}
-        {/*  <CategoryTitle title="Recently Updated" />*/}
-        {/*  <CustomSlider items={gamesArr} componentName="SliderOneGame" />*/}
-        {/*</div>*/}
-        {/*<div>*/}
-        {/*  <CategoryTitle title="Now on the store" />*/}
-        {/*  <CustomSlider items={gamesArr} componentName="SliderOneGame" />*/}
-        {/*</div>*/}
+        <div>
+          <CategoryTitle title="Recently Updated" />
+          <CustomSlider items={popularGames} componentName="SliderOneGame" />
+        </div>
+        <div>
+          <CategoryTitle title="Now on the store" />
+          <CustomSlider items={withDiscount} componentName="SliderOneGame" />
+        </div>
       </Suspense>
     </div>
   );
