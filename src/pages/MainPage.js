@@ -17,7 +17,7 @@ export default function MainPage() {
   const [popularGames, setPopularGames] = useState([]);
   const [topWishlist, setTopWishlist] = useState([]);
   const [topSellers, setTopSellers] = useState([]);
-  const [mostPlayed, setMostPlayed] = useState([]);
+  const [upcoming, setUpcoming] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -34,6 +34,7 @@ export default function MainPage() {
           popularGames,
           wishlistGames,
           topSellers,
+          upcoming,
         } = response.data;
 
         setMainGame(mainGameWithGallery);
@@ -44,6 +45,7 @@ export default function MainPage() {
         setPopularGames(popularGames);
         setTopWishlist(wishlistGames);
         setTopSellers(topSellers);
+        setUpcoming(upcoming);
       } catch (err) {
         console.error("Game data fetch error:", err);
         setError("Failed to load games. Please try again later.");
@@ -114,8 +116,8 @@ export default function MainPage() {
           <CustomSlider items={popularGames} componentName="SliderOneGame" />
         </div>
         <div>
-          <CategoryTitle title="Now on the store" />
-          <CustomSlider items={withDiscount} componentName="SliderOneGame" />
+          <CategoryTitle title="Upcoming Games" />
+          <CustomSlider items={upcoming} componentName="SliderOneGame" />
         </div>
       </Suspense>
     </div>
