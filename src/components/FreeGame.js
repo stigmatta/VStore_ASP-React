@@ -37,7 +37,7 @@ const formatDate = (dateInput) => {
   return `${month} ${day} at ${hours}:${minutes} ${ampm}`;
 };
 
-export default function FreeGame({ item }) {
+export default function FreeGame({ item, onClick }) {
   const releaseDate = new Date(item?.releaseDate);
   const gameImage = useGetImage(item?.logoLink);
   const isNow = Date.now() >= releaseDate;
@@ -46,8 +46,16 @@ export default function FreeGame({ item }) {
   dateString += ` - ${formatDate(releaseDate)}`;
   return (
     <div className="flex flex-col">
-      <div className="relative w-full overflow-hidden rounded-xl">
-        <img src={gameImage} alt="game image" />
+      <div
+        onClick={() => onClick?.(item?.id)}
+        className="relative w-full overflow-hidden rounded-xl"
+      >
+        <img
+          onClick={() => onClick?.(item?.id)}
+          className="hover:cursor-pointer"
+          src={gameImage}
+          alt="game"
+        />
         <span
           className={`absolute flex justify-center items-center h-8 -left-2 w-[105%] bottom-0 text-center font-bold 
                 ${isNow ? "bg-green-gradient" : "bg-gray-light"}`}

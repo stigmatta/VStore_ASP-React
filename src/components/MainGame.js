@@ -1,11 +1,18 @@
 import React from "react";
 import useGetImage from "../hooks/useGetImage";
 import GreenButton from "./GreenButton";
+import { useNavigate } from "react-router-dom";
 
 export default function MainGame({ item }) {
+  const navigate = useNavigate();
   const mainImage = useGetImage(item?.logoLink);
   const secondImage = useGetImage(item?.gallery?.[1]);
   const thirdImage = useGetImage(item?.gallery?.[2]);
+  const handleClick = () => {
+    navigate(`/game/${item.id}`, {
+      state: { game: item },
+    });
+  };
   return (
     <div className="rounded-3xl bg-form-gradient max-w-[1150px] mx-auto w-full hidden lg:flex ">
       <div className="overflow-hidden w-[40rem] xl:w-[48.125rem] h-[34.625rem]">
@@ -31,7 +38,7 @@ export default function MainGame({ item }) {
             alt={thirdImage}
           />
         </div>
-        <div className="flex w-full mt-auto">
+        <div onClick={handleClick} className="flex w-full mt-auto ">
           <GreenButton width="100%" height="2.4rem" text="Learn more" />
         </div>
       </div>

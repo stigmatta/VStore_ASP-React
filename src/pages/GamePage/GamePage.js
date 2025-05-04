@@ -1,28 +1,26 @@
 import "./GamePage.css";
 
 import PageTitle from "../../components/PageTitle";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import AchievementImage from "../../images/achievement.png";
+import useWindowWidth from "../../hooks/useWindowWidth";
+import CustomPagination from "../../components/CustomPagination";
+import { useLocation, useParams } from "react-router-dom";
+import useGetImage from "../../hooks/useGetImage";
 import SliderSyncing from "../../components/SliderSyncing";
-
-import Gallery1 from "../../images/gallery-marvel.jpg";
-import Gallery2 from "../../images/gallery-marvel2.jpg";
-import Gallery3 from "../../images/gallery-marvel3.jpg";
-import Pegi16 from "../../images/pegi16.png";
-import GameLogo from "../../images/rivals-logo.jpg";
-
+import GameSectionTitle from "../../components/GameSectionTitle";
+import axios from "axios";
 import GreenButton from "../../components/GreenButton";
 import GrayButton from "../../components/GrayButton";
-
-import GameSectionTitle from "../../components/GameSectionTitle";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import React, { useState } from "react";
-import AchievementImage from "../../images/achievement.png";
 import CustomSlider from "../../components/CustomSlider";
-import Select from "../../components/Select";
-import Review from "../../components/Review";
-import useWindowWidth from "../../hooks/useWindowWidth";
-import ReviewInput from "../../components/ReviewInput";
 import ShowMoreGreen from "../../components/ShowMoreGreen";
-import CustomPagination from "../../components/CustomPagination";
+import Select from "@mui/material/Select";
+import ReviewInput from "../../components/ReviewInput";
+import Review from "../../components/Review";
+import Pegi from "../../components/Pegi";
+import useGetImages from "../../hooks/useGetImages";
+import useScrollToTop from "../../hooks/useScrollToTop";
 
 const strAndColor = {
   Mixed: "text-yellow-400",
@@ -63,50 +61,47 @@ function reviewByPercent(percent) {
 }
 
 export default function GamePage() {
-  const windowWidth = useWindowWidth();
-  const game = {
-    title: "Marvel Rivals",
-    gallery: [
-      { type: "video", src: "https://www.youtube.com/watch?v=-b0veB7q9P4" },
-      { type: "image", src: Gallery1 },
-      { type: "image", src: Gallery2 },
-      { type: "video", src: "https://www.youtube.com/watch?v=DA4iVv4MARE" },
-      { type: "image", src: Gallery3 },
-    ],
-    logo: GameLogo,
-    shortDescription:
-      "Marvel Rivals is a Super Hero Team-Based PVP Shooter! Assemble an all-star Marvel squad, devise countless strategies by combining powers to form unique Team-Up skills and fight in destructible," +
-      " ever-changing battlefields across the continually evolving Marvel universe!",
-    percent: 93,
-    date: new Date("2025-02-27T17:00:00"),
-    developer: "pixyda,inc.",
-    publisher: "pixyda,inc.",
-    fullDescription:
-      "Marvel Rivals is an exhilarating, fast-paced, team-based PvP shooter set in the Marvel Universe. Assemble your dream team of iconic Marvel superheroes, each with unique powers and abilities, and dive into intense battles where strategy, teamwork, and quick reflexes are key to victory.\n" +
-      "In Marvel Rivals, every match is a chance to create dynamic team-ups, combining the powers of different heroes to unleash devastating combo attacks and abilities that can turn the tide of battle. With multiple games modes, including objective-based missions and classic deathmatches, players can test their skills in a variety of ever-changing environments, all while experiencing the vibrant, destructive, and immersive worlds inspired by the Marvel Comics universe.\n" +
-      "The games features stunning, high-quality graphics that bring the iconic characters and environments to life. From epic cityscapes to alien worlds, each map is designed to push your strategic thinking and adaptability to the limit. Play with friends or challenge players from around the globe in ranked or casual matches, and rise through the ranks to prove you're the ultimate superhero team!\n" +
-      "Whether you're playing as the mighty Thor, the web-slinging Spider-Man, or the powerful Hulk, Marvel Rivals offers a diverse roster of heroes and villains, each bringing their own set of powerful abilities to the battlefield. Mastering each hero's unique skills is essential to overcoming your opponents and dominating the competition.\n" +
-      "Join the action, form your team, and prepare for the ultimate showdown. Marvel Rivals is the games where superheroes meet strategy in the most exciting battle arena ever created. Are you ready to rise and take on the challenge?",
-  };
+  useScrollToTop();
 
-  const systemRequirements = {
-    minimal: {
-      os: "Windows 7/8/10 (64-bit)",
-      processor: "Intel Core i5-2300 / AMD FX-6350",
-      memory: "8 GB RAM",
-      graphics: "NVIDIA GeForce GTX 660 2GB / AMD Radeon HD 7870 2GB",
-      storage: "20 GB available space",
-      additionalInputDevice: "Gamepad",
-    },
-    required: {
-      os: "Windows 10/11 (64-bit)",
-      processor: "Intel Core i7-4770 / AMD Ryzen 5 1600",
-      memory: "16 GB RAM",
-      graphics: "NVIDIA GeForce GTX 1070 8GB / AMD Radeon RX Vega 56 8GB",
-      storage: "20 GB available space",
-      additionalInputDevice: "Gamepad",
-    },
-  };
+  const { id } = useParams();
+  const { state } = useLocation();
+  const game = state.game;
+  console.log(game);
+  const [minimum, setMinimum] = useState({});
+  const [recommended, setRecommended] = useState({});
+  const releaseDate = new Date(game?.releaseDate).toLocaleDateString("en-gb");
+  const logo = useGetImage(game?.logoLink);
+  const galleryImages = useGetImages(game?.gallery || []);
+  const media = [game?.trailerLink, ...galleryImages].filter(Boolean);
+  const percent = 93;
+  const windowWidth = useWindowWidth();
+
+  useEffect(() => {
+    const fetchRequirements = async () => {
+      try {
+        const response = await axios.post(
+          "https://localhost:7192/api/game/get-info/",
+          { id: id },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        );
+
+        const { minimum, recommended } = response.data;
+        setMinimum(minimum);
+        setRecommended(recommended);
+      } catch (error) {
+        console.error("Failed to fetch requirements:", {
+          status: error.response?.status,
+          message: error.response?.data?.message || error.message,
+        });
+      }
+    };
+
+    fetchRequirements();
+  }, [id]);
 
   const achievements = Array(6).fill({
     image: AchievementImage,
@@ -182,7 +177,7 @@ export default function GamePage() {
     },
   ];
 
-  const reviewStrColor = reviewByPercent(game.percent);
+  const reviewStrColor = reviewByPercent(percent);
 
   const [expanded, setExpanded] = useState(false);
 
@@ -193,15 +188,15 @@ export default function GamePage() {
 
   return (
     <div>
-      <PageTitle title={game.title} />
+      <PageTitle title={game?.title} />
       <div className="flex flex-col lg:flex-row justify-between gap-6 mt-8">
         <div name="first-col" className="first-col flex flex-col flex-1">
-          <SliderSyncing items={game.gallery} />
+          <SliderSyncing items={media} />
           <GameSectionTitle title="About this game" />
           <p className={`w-[85%] ${!expanded ? "fade-out-bottom" : ""}`}>
             {expanded
-              ? game.fullDescription
-              : `${game.fullDescription.slice(0, 300)}...`}
+              ? game.description + game.description
+              : `${(game.description + game.description).slice(0, 300)}...`}
           </p>
           <div onClick={toggleExpand} className="text-green">
             {expanded ? <ShowLessSpan /> : <ShowMoreSpan />}
@@ -210,37 +205,35 @@ export default function GamePage() {
           <div className="flex flex-row justify-between">
             <div className="flex flex-col gap-1 max-w-[43%]">
               <span className="font-bold text-bigButton mb-3">Minimum</span>
-              <Requirement
-                item={{ category: "OS:", text: systemRequirements.minimal.os }}
-              />
+              <Requirement item={{ category: "OS:", text: minimum.os }} />
               <Requirement
                 item={{
                   category: "Processor:",
-                  text: systemRequirements.minimal.processor,
+                  text: minimum.processor,
                 }}
               />
               <Requirement
                 item={{
                   category: "Memory:",
-                  text: systemRequirements.minimal.memory,
+                  text: minimum.memory,
                 }}
               />
               <Requirement
                 item={{
                   category: "Graphics:",
-                  text: systemRequirements.minimal.graphics,
+                  text: minimum.graphics,
                 }}
               />
               <Requirement
                 item={{
                   category: "Storage:",
-                  text: systemRequirements.minimal.storage,
+                  text: minimum.storage,
                 }}
               />
               <Requirement
                 item={{
                   category: "Additional Input Device",
-                  text: systemRequirements.minimal.additionalInputDevice,
+                  text: minimum.device,
                 }}
               />
             </div>
@@ -250,36 +243,39 @@ export default function GamePage() {
                 Recommended
               </span>
               <Requirement
-                item={{ category: "OS:", text: systemRequirements.required.os }}
+                item={{
+                  category: "OS:",
+                  text: recommended.os,
+                }}
               />
               <Requirement
                 item={{
                   category: "Processor:",
-                  text: systemRequirements.required.processor,
+                  text: recommended.processor,
                 }}
               />
               <Requirement
                 item={{
                   category: "Memory:",
-                  text: systemRequirements.required.memory,
+                  text: recommended.memory,
                 }}
               />
               <Requirement
                 item={{
                   category: "Graphics:",
-                  text: systemRequirements.required.graphics,
+                  text: recommended.graphics,
                 }}
               />
               <Requirement
                 item={{
                   category: "Storage:",
-                  text: systemRequirements.required.storage,
+                  text: recommended.storage,
                 }}
               />
               <Requirement
                 item={{
                   category: "Additional Input Device",
-                  text: systemRequirements.required.additionalInputDevice,
+                  text: recommended.device,
                 }}
               />
             </div>
@@ -287,20 +283,20 @@ export default function GamePage() {
         </div>
 
         <div name="second-col" className="flex flex-col min-w-[400px]">
-          <img className="object-contain" src={game.logo} alt="Game Logo" />
+          <img className="object-contain" src={logo} alt="Game Logo" />
           <p className="text-bigButton font-normal text-left opacity-90 mt-2">
-            {game.shortDescription}
+            {game.description}
           </p>
           <div className="flex flex-col gap-4 mt-6">
             <div className="flex justify-between">
               <span className="font-normal opacity-80">All reviews:</span>
               <span className={strAndColor[reviewStrColor.text]}>
-                {reviewStrColor.text} ({game.percent}%)
+                {reviewStrColor.text} ({percent}%)
               </span>
             </div>
             <div className="flex justify-between">
               <span className="font-normal opacity-80">Release date:</span>
-              <span>{game.date.toLocaleDateString("en-gb")}</span>
+              <span>{releaseDate}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-normal opacity-80">Developer:</span>
@@ -319,13 +315,7 @@ export default function GamePage() {
               />
               <GrayButton text="Wishlist" width="47%" height="100%" />
             </div>
-            <div className="h-[129px] border-solid border border-opacity-70 rounded-md flex justify-start px-3 items-center gap-5">
-              <img src={Pegi16} className="w-[87px] h-[105px]" alt="pegi-16" />
-              <div className="flex flex-col gap-2">
-                <span>16+</span>
-                <span className="font-normal opacity-70">Mild violence</span>
-              </div>
-            </div>
+            <Pegi pegiStr={game.pegi} />
           </div>
         </div>
       </div>

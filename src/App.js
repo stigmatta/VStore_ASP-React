@@ -29,7 +29,7 @@ function App() {
           <Route path="Cart" element={<CartPage />} />
           <Route path="Support" element={<SupportPage />} />
           <Route path="Achievements" element={<AchievementsPage />} />
-          <Route path="Game" element={<GamePage />} />
+          <Route path="Game/:id" element={<GamePage />} />{" "}
           <Route path="Friends" element={<FriendsPage />} />
         </Route>
 

@@ -17,16 +17,17 @@ const componentMap = {
   MainNews: NewsDiv,
   AchievementForSlider: AchievementForSlider,
 };
+
 export default function CustomSlider({
   componentName,
   items = [],
   children,
   visibleSlides = 4,
   slidesToScroll = 1,
+  onClick,
 }) {
   const Component = componentMap[componentName];
 
-  // Calculate responsive settings
   const settings = {
     dots: false,
     infinite: true,
@@ -56,13 +57,12 @@ export default function CustomSlider({
           {children
             ? React.Children.map(children, (child, index) => (
                 <div key={index} className="px-2">
-                  {" "}
                   {child}
                 </div>
               ))
             : items?.map((item, index) => (
-                <div key={index} className="px-2">
-                  <Component item={item} />
+                <div key={item.id || index} className="px-2">
+                  <Component item={item} onClick={onClick} />
                 </div>
               ))}
         </Slider>

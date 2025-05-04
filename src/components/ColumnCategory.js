@@ -2,12 +2,19 @@ import { ArrowRight } from "lucide-react";
 import DiscountPrice from "./DiscountPrice";
 import useGetImage from "../hooks/useGetImage";
 
-function GameItem({ item }) {
+function GameItem({ item, onClick }) {
   const imageUrl = useGetImage(item?.logoLink);
 
   return (
-    <div className="flex flex-col items-start gap-3">
-      <img className="w-full" src={imageUrl} alt={item.title || "Game image"} />
+    <div
+      onClick={() => onClick?.(item?.id)}
+      className="flex flex-col items-start gap-3"
+    >
+      <img
+        className="w-full  hover:cursor-pointer"
+        src={imageUrl}
+        alt={item.title || "Game image"}
+      />
       <div className="flex flex-col gap-3">
         <span className="text-bigButton font-black">{item.title}</span>
         <DiscountPrice
@@ -20,7 +27,7 @@ function GameItem({ item }) {
   );
 }
 
-export default function ColumnCategory({ title, items }) {
+export default function ColumnCategory({ title, items, onClick }) {
   return (
     <div className="flex flex-col">
       <div className="flex flex-row items-center gap-2">
@@ -29,7 +36,7 @@ export default function ColumnCategory({ title, items }) {
       </div>
       <div className="flex flex-col gap-4 mt-4 ml-2">
         {items.map((item, index) => (
-          <GameItem item={item} key={index} />
+          <GameItem item={item} key={index} onClick={onClick} />
         ))}
       </div>
     </div>

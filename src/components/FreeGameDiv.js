@@ -1,7 +1,7 @@
 import CustomSlider from "./CustomSlider";
 import TransparentButton from "./TransparentButton";
 
-export default function FreeGameDiv({ games }) {
+export default function FreeGameDiv({ games, onClick }) {
   return (
     <div className="flex flex-col gap-9 bg-form-gradient px-2 pt-[23px] pb-[38px] rounded-3xl h-fit  mx-auto w-full imd:mx-0">
       <div className="flex flex-row justify-between">
@@ -26,7 +26,7 @@ export default function FreeGameDiv({ games }) {
 
         <TransparentButton title="View more" radius="4px" />
       </div>
-      <CustomSlider items={games} componentName="FreeGame" />
+      <CustomSlider items={games} onClick={onClick} componentName="FreeGame" />
     </div>
   );
 }

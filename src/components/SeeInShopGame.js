@@ -1,18 +1,22 @@
 import GameTitle from "./GameTitle";
 import useGetImage from "../hooks/useGetImage";
 
-export default function SeeInShopGame({ item }) {
+export default function SeeInShopGame({ item, onClick }) {
   const gameImage = useGetImage(item?.logoLink);
   return (
     <div className="flex flex-col h-fit gap-5">
       <img
+        onClick={() => onClick?.(item?.id)}
         className="w-full h-[207px] object-contain"
         src={gameImage}
         alt="see-in-shop-img"
       />
       <GameTitle title={item.title}></GameTitle>
       <p className="text-text font-normal opacity-70">{item.description}</p>
-      <button className="py-3 w-[135px] bg-gray-light font-semibold flex gap-2 justify-center items-center">
+      <button
+        onClick={() => onClick?.(item?.id)}
+        className="py-3 w-[135px] bg-gray-light font-semibold flex gap-2 justify-center items-center"
+      >
         <div>See in shop</div>
         <svg
           width="18"
