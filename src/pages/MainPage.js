@@ -148,8 +148,11 @@ export default function MainPage() {
 
         <div>
           <CategoryTitle title="Popular Games" />
-          <CustomSlider items={popularGames} componentName="SliderOneGame" />
-          onClick={handleGameClick}
+          <CustomSlider
+            items={popularGames}
+            componentName="SliderOneGame"
+            onClick={handleGameClick}
+          />
         </div>
 
         <div>

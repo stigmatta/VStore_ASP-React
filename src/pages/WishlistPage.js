@@ -1,23 +1,37 @@
 import PageTitle from "../components/PageTitle";
 import TransparentButton from "../components/TransparentButton";
-import TheEndOfTheSun from "../images/the-end-of-the-sun.png";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ListGame from "../components/ListGame";
 import NotifyWishlist from "../components/NotifyWishlist";
 import Select from "../components/Select";
 import useRedirectToLogin from "../hooks/useRedirectToLogin";
+import axios from "axios";
 
 export default function WishlistPage() {
   useRedirectToLogin("https://localhost:7192/api/wishlist");
-  const games = Array(6).fill({
-    title: "The End of the Sun",
-    image: TheEndOfTheSun,
-    price: 515,
-    date: new Date("2025-02-27T17:00:00"),
-  });
+  const [games, setGames] = useState([]);
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        const response = await axios.get(
+          "https://localhost:7192/api/wishlist",
+          {
+            withCredentials: true,
+          },
+        );
+        setGames(response.data);
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+      }
+    };
 
-  const overallPrice = games.reduce((total, item) => total + item.price, 0);
-
+    fetchWishlist();
+  }, []);
+  const handleGameRemoved = (removedGameId) => {
+    setGames((prevGames) =>
+      prevGames.filter((game) => game.id !== removedGameId),
+    );
+  };
   const [sortValue, setSortValue] = React.useState("");
   const sortOptions = [
     { label: "None", value: "" },
@@ -43,9 +57,13 @@ export default function WishlistPage() {
       </div>
       <div className="flex flex-col l:flex-row gap-8">
         <div className="flex w-full flex-col gap-8">
-          {games.map((game, index) => (
-            <div key={index}>
-              <ListGame game={game} isCart={false} />
+          {games.map((game) => (
+            <div key={game.id}>
+              <ListGame
+                game={game}
+                onRemoveSuccess={handleGameRemoved}
+                isCart={false}
+              />
             </div>
           ))}
         </div>

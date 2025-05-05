@@ -13,12 +13,13 @@ export default function Pegi({ pegiStr }) {
     "PEGI 16": Sixteen,
     "PEGI 18": Eighteen,
   };
+
   return (
-    <div className="h-[129px]  rounded-md flex justify-start px-3 items-center gap-5">
+    <div className="h-[129px] rounded-md flex justify-start px-3 items-center gap-5">
       <img
-        src={ageRatings[pegiStr]}
+        src={ageRatings[pegiStr] || Sixteen}
         className="w-[87px] h-[105px]"
-        alt="pegi-16"
+        alt="pegi"
       />
     </div>
   );

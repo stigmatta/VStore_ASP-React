@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import AchievementImage from "../../images/achievement.png";
 import useWindowWidth from "../../hooks/useWindowWidth";
 import CustomPagination from "../../components/CustomPagination";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useGetImage from "../../hooks/useGetImage";
 import SliderSyncing from "../../components/SliderSyncing";
 import GameSectionTitle from "../../components/GameSectionTitle";
@@ -15,12 +15,13 @@ import GreenButton from "../../components/GreenButton";
 import GrayButton from "../../components/GrayButton";
 import CustomSlider from "../../components/CustomSlider";
 import ShowMoreGreen from "../../components/ShowMoreGreen";
-import Select from "@mui/material/Select";
+import Select from "../../components/Select";
 import ReviewInput from "../../components/ReviewInput";
 import Review from "../../components/Review";
 import Pegi from "../../components/Pegi";
 import useGetImages from "../../hooks/useGetImages";
 import useScrollToTop from "../../hooks/useScrollToTop";
+import CustomLoader from "../../components/CustomLoader";
 
 const strAndColor = {
   Mixed: "text-yellow-400",
@@ -62,11 +63,11 @@ function reviewByPercent(percent) {
 
 export default function GamePage() {
   useScrollToTop();
-
+  const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const { state } = useLocation();
   const game = state.game;
-  console.log(game);
+  const [userId, setUserId] = useState(null);
   const [minimum, setMinimum] = useState({});
   const [recommended, setRecommended] = useState({});
   const releaseDate = new Date(game?.releaseDate).toLocaleDateString("en-gb");
@@ -75,6 +76,31 @@ export default function GamePage() {
   const media = [game?.trailerLink, ...galleryImages].filter(Boolean);
   const percent = 93;
   const windowWidth = useWindowWidth();
+  const navigate = useNavigate();
+
+  const handleAddToCart = () => {
+    if (userId == null) navigate("/login");
+    else console.log("success");
+  };
+  const handleAddToWishlist = async () => {
+    if (userId == null) navigate("/login");
+    else {
+      try {
+        await axios.post("https://localhost:7192/api/wishlist/add", game.id, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+  const handleReviewPost = () => {
+    if (userId == null) navigate("/login");
+    else console.log("success");
+  };
 
   useEffect(() => {
     const fetchRequirements = async () => {
@@ -83,20 +109,23 @@ export default function GamePage() {
           "https://localhost:7192/api/game/get-info/",
           { id: id },
           {
+            withCredentials: true,
             headers: {
               "Content-Type": "application/json",
             },
           },
         );
-
-        const { minimum, recommended } = response.data;
+        const { minimum, recommended, userId } = response.data;
         setMinimum(minimum);
         setRecommended(recommended);
+        setUserId(userId);
       } catch (error) {
         console.error("Failed to fetch requirements:", {
           status: error.response?.status,
           message: error.response?.data?.message || error.message,
         });
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -185,6 +214,8 @@ export default function GamePage() {
     setExpanded(!expanded);
   };
   const [sortValue, setSortValue] = React.useState("");
+
+  if (isLoading) return <CustomLoader />;
 
   return (
     <div>
@@ -294,17 +325,17 @@ export default function GamePage() {
                 {reviewStrColor.text} ({percent}%)
               </span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between ">
               <span className="font-normal opacity-80">Release date:</span>
-              <span>{releaseDate}</span>
+              <div className="text-right">{releaseDate}</div>
             </div>
             <div className="flex justify-between">
               <span className="font-normal opacity-80">Developer:</span>
-              <span>{game.developer}</span>
+              <div className="text-right">{game.developer}</div>
             </div>
             <div className="flex justify-between">
               <span className="font-normal opacity-80">Publisher:</span>
-              <span>{game.publisher}</span>
+              <div className="text-right">{game.publisher}</div>
             </div>
             <div className="flex justify-between h-[47px]">
               <GreenButton
@@ -312,8 +343,14 @@ export default function GamePage() {
                 width="47%"
                 height="100%"
                 weight={700}
+                onClick={handleAddToCart}
               />
-              <GrayButton text="Wishlist" width="47%" height="100%" />
+              <GrayButton
+                text="Wishlist"
+                width="47%"
+                height="100%"
+                handleClick={handleAddToWishlist}
+              />
             </div>
             <Pegi pegiStr={game.pegi} />
           </div>
@@ -338,7 +375,7 @@ export default function GamePage() {
           />
         </div>
 
-        <ReviewInput item={game} />
+        <ReviewInput onClick={handleReviewPost} item={game} />
         {windowWidth > 1050 ? (
           <div className="flex gap-x-4 mt-10">
             <div className="flex flex-col gap-y-4 flex-1">

@@ -9,7 +9,6 @@ const useRedirectToLogin = (url) => {
     const checkAuth = async () => {
       try {
         const res = await axios.get(url, { withCredentials: true });
-        console.log(res.data);
       } catch (error) {
         if (error.response?.status === 401) {
           navigate("/login");

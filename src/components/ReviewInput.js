@@ -2,7 +2,7 @@ import { ThumbsDown, ThumbsUp } from "lucide-react";
 import ProfilePicture from "./ProfilePicture";
 import Image from "../images/user-profile.jpg";
 
-export default function ReviewInput({ item }) {
+export default function ReviewInput({ item, onClick }) {
   return (
     <form
       className="mt-6 mb-3 flex flex-col bg-gray-light rounded-xl shadow-xl p-5"
@@ -51,6 +51,7 @@ export default function ReviewInput({ item }) {
             </div>
             <button
               type={"submit"}
+              onClick={onClick}
               className="px-4 py-2 text-highlightedText bg-gray-lighter w-fit flex gap-2 items-center rounded-md"
             >
               Post

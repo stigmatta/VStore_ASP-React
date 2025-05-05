@@ -35,7 +35,6 @@ export default function LoginForm() {
       );
 
       if (response.status === 200) {
-        console.log(response.data);
         handleRedirect();
       }
     } catch (error) {

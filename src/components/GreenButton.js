@@ -5,9 +5,11 @@ export default function GreenButton({
   weight = 500,
   fontSize,
   className = "",
+  onClick,
 }) {
   return (
     <button
+      onClick={onClick}
       style={{
         fontWeight: weight,
         width: width,

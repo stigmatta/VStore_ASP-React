@@ -1,5 +1,7 @@
-export default function ActionGrayButton({title}) {
-    return(
-        <span className="opacity-80 font-medium">{title}</span>
-    )
+export default function ActionGrayButton({ title, onClick }) {
+  return (
+    <button onClick={onClick} className="opacity-80 font-medium">
+      {title}
+    </button>
+  );
 }
