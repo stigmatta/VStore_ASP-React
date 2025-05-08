@@ -5,7 +5,7 @@ import useGetImage from "../hooks/useGetImage";
 import DiscountPrice from "./DiscountPrice";
 import axios from "axios";
 
-export default function ListGame({ game, isCart, onRemoveSuccess }) {
+export default function ListGame({ game, isCart, onRemoveSuccess, onClick }) {
   const handleRemove = async () => {
     try {
       const response = await axios.delete(
@@ -33,6 +33,7 @@ export default function ListGame({ game, isCart, onRemoveSuccess }) {
           className="w-full lg:min-h-[150px] lg:min-w-[300px]"
           src={logo}
           alt="game"
+          onClick={onClick}
         />
       </div>
       <div className="flex flex-col w-full lg:w-3/4">
@@ -90,10 +91,12 @@ export default function ListGame({ game, isCart, onRemoveSuccess }) {
               </svg>
             </div>
           </div>
-          <div className="flex flex-row justify-between items-center gap-8 self-end">
+          <div className="flex flex-row justify-between items-center gap-6 self-end">
             <ActionGrayButton title="Remove" onClick={handleRemove} />
             {isCart ? (
-              <ActionGrayButton title="Move to wishlist" />
+              <div className="w-fit l:w-16 xl:w-fit">
+                <ActionGrayButton title="Move to wishlist" />
+              </div>
             ) : (
               <GreenButton width="112px" height="39px" text="Add to cart" />
             )}

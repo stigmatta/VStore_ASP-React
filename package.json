@@ -55,6 +55,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
+    "dependency-cruiser": "^16.10.2",
     "fluid-tailwind": "^1.0.4",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",

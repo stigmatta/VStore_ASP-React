@@ -22,6 +22,7 @@ import Pegi from "../../components/Pegi";
 import useGetImages from "../../hooks/useGetImages";
 import useScrollToTop from "../../hooks/useScrollToTop";
 import CustomLoader from "../../components/CustomLoader";
+import CustomSnackbar from "../../components/CustomSnackbar";
 
 const strAndColor = {
   Mixed: "text-yellow-400",
@@ -62,11 +63,19 @@ function reviewByPercent(percent) {
 }
 
 export default function GamePage() {
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [snackMessage, setSnackMessage] = useState("Game added to wishlist!");
+
+  const handleClose = () => {
+    setOpenSnackbar(false);
+  };
   useScrollToTop();
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const { state } = useLocation();
   const game = state.game;
+  console.log(game);
   const [userId, setUserId] = useState(null);
   const [minimum, setMinimum] = useState({});
   const [recommended, setRecommended] = useState({});
@@ -77,10 +86,36 @@ export default function GamePage() {
   const percent = 93;
   const windowWidth = useWindowWidth();
   const navigate = useNavigate();
-
   const handleAddToCart = () => {
-    if (userId == null) navigate("/login");
-    else console.log("success");
+    if (!userId) {
+      navigate("/login");
+      return;
+    }
+
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const existingItemIndex = cart.findIndex((item) => item.gameId === id);
+    if (existingItemIndex !== -1) {
+      setIsError(true);
+      setSnackMessage("Game is already in cart");
+      setOpenSnackbar(true);
+      return;
+    } else {
+      cart.push({
+        gameId: id,
+        title: game.title,
+        price: game.price,
+        logoLink: game.logoLink,
+        releaseDate: new Date(game?.releaseDate).toISOString(),
+        addedAt: new Date().toISOString(),
+      });
+    }
+    setOpenSnackbar(false);
+
+    setIsError(false);
+    setSnackMessage("Game successfully added to cart!");
+    setOpenSnackbar(true);
+    localStorage.setItem("cart", JSON.stringify(cart));
   };
   const handleAddToWishlist = async () => {
     if (userId == null) navigate("/login");
@@ -92,8 +127,19 @@ export default function GamePage() {
             "Content-Type": "application/json",
           },
         });
+        setOpenSnackbar(false);
+        setIsError(false);
+        setSnackMessage("Game successfully added to wishlist!");
+        setOpenSnackbar(true);
       } catch (error) {
-        console.error(error);
+        setIsError(true);
+        if (error.response.status === 400)
+          setSnackMessage("This game is already in the wishlist.");
+        else {
+          setSnackMessage(error.response.data.message);
+          console.error(error);
+        }
+        setOpenSnackbar(true);
       }
     }
   };
@@ -219,6 +265,12 @@ export default function GamePage() {
 
   return (
     <div>
+      <CustomSnackbar
+        close={handleClose}
+        isError={isError}
+        message={snackMessage}
+        open={openSnackbar}
+      />
       <PageTitle title={game?.title} />
       <div className="flex flex-col lg:flex-row justify-between gap-6 mt-8">
         <div name="first-col" className="first-col flex flex-col flex-1">

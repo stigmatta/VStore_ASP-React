@@ -1,10 +1,9 @@
-import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 
 export default function FormAccordion({ summary, children }) {
   return (
     <Accordion sx={{ backgroundColor: "#222831", boxShadow: "none" }}>
       <AccordionSummary
-        disableGutters
         sx={{
           padding: 0,
           "& .MuiAccordionSummary-content": {
@@ -16,8 +15,10 @@ export default function FormAccordion({ summary, children }) {
       </AccordionSummary>
 
       {children && (
-        <AccordionDetails sx={{ backgroundColor: "#222831", padding: "20px",color:"#EEEEEE" }} >
-            {children}
+        <AccordionDetails
+          sx={{ backgroundColor: "#222831", padding: "20px", color: "#EEEEEE" }}
+        >
+          {children}
         </AccordionDetails>
       )}
     </Accordion>

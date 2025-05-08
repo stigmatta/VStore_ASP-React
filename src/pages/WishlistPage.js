@@ -6,10 +6,13 @@ import NotifyWishlist from "../components/NotifyWishlist";
 import Select from "../components/Select";
 import useRedirectToLogin from "../hooks/useRedirectToLogin";
 import axios from "axios";
+import useRedirectToGame from "../hooks/useRedirectToGame";
 
 export default function WishlistPage() {
   useRedirectToLogin("https://localhost:7192/api/wishlist");
   const [games, setGames] = useState([]);
+  const handleGameClick = useRedirectToGame();
+
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
@@ -63,6 +66,7 @@ export default function WishlistPage() {
                 game={game}
                 onRemoveSuccess={handleGameRemoved}
                 isCart={false}
+                onClick={() => handleGameClick(game.id)}
               />
             </div>
           ))}

@@ -5,8 +5,6 @@ import TransparentButton from "../components/TransparentButton";
 import ListGame from "../components/ListGame";
 import GreenButton from "../components/GreenButton";
 
-import TheEndOfTheSun from "../images/the-end-of-the-sun.png";
-
 import { Backdrop, Dialog, DialogContent } from "@mui/material";
 import CheckoutModal from "../components/CheckoutModal";
 import ReceiptModal from "../components/ReceiptModal";
@@ -34,16 +32,10 @@ export default function CartPage() {
     setIsBackdropOpen(false);
   };
 
-  const games = Array(6).fill({
-    title: "The End of the Sun",
-    image: TheEndOfTheSun,
-    price: 515,
-    date: new Date("2025-02-27T17:00:00"),
-    publisher: "ZA/UM",
-  });
+  const games = JSON.parse(localStorage.getItem("cart")) || [];
 
   const overallPrice = games.reduce((total, item) => total + item.price, 0);
-  const overallStr = overallPrice.toFixed(2) + " UAH";
+  const overallStr = overallPrice.toFixed(2) + " $";
 
   return (
     <div className="flex flex-col">
@@ -73,14 +65,14 @@ export default function CartPage() {
             Of their respective owners in the US and other countries. VAT
             included in all prices where applicable
           </p>
-          <button onClick={handleOpen}>
+          <div onClick={handleOpen}>
             <GreenButton
               weight="700"
               width="100%"
               height="47px"
               text="Check out"
             />
-          </button>
+          </div>
         </div>
       </div>
 

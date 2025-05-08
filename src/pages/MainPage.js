@@ -4,13 +4,12 @@ import CustomLoader from "../components/CustomLoader";
 import CategoryTitle from "../components/CategoryTitle";
 import EpicStoreDiv from "../components/EpicStoreDiv";
 import ColumnCategory from "../components/ColumnCategory";
-import { useNavigate } from "react-router-dom";
+import useRedirectToGame from "../hooks/useRedirectToGame";
 
 const MainGame = lazy(() => import("../components/MainGame"));
 const CustomSlider = lazy(() => import("../components/CustomSlider"));
 const FreeGameDiv = lazy(() => import("../components/FreeGameDiv"));
 export default function MainPage() {
-  const navigate = useNavigate();
   const [mainGame, setMainGame] = useState(null);
   const [discoverNew, setDiscoverNew] = useState([]);
   const [withDiscount, setWithDiscount] = useState([]);
@@ -61,32 +60,7 @@ export default function MainPage() {
 
     fetchGames();
   }, []);
-
-  const handleGameClick = async (id) => {
-    try {
-      console.log("Sending ID:", id);
-      const response = await axios.post(
-        `https://localhost:7192/api/game`,
-        { id: id },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-      console.log("Game data fetched:", response.data);
-      navigate(`/game/${response.data.id}`, {
-        state: { game: response.data },
-      });
-    } catch (error) {
-      console.error("Error:", {
-        status: error.response?.status,
-        data: error.response?.data,
-        message: error.message,
-      });
-      throw error;
-    }
-  };
+  const handleGameClick = useRedirectToGame();
   if (isLoading) return <CustomLoader />;
 
   if (error) return <div className="error-message">{error}</div>;
