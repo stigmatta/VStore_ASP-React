@@ -2,30 +2,78 @@ import GameTitle from "./GameTitle";
 import ActionGrayButton from "./ActionGrayButton";
 import GreenButton from "./GreenButton";
 import useGetImage from "../hooks/useGetImage";
-import DiscountPrice from "./DiscountPrice";
+import { addToWishlist } from "../hooks/addToWishlist";
+import { addToCart } from "../hooks/addToCart";
 import axios from "axios";
+import useSnackbar from "../hooks/useSnackbar";
+import DiscountPrice from "./DiscountPrice";
 
-export default function ListGame({ game, isCart, onRemoveSuccess, onClick }) {
-  const handleRemove = async () => {
+export default function ListGame({
+  game,
+  isCart,
+  onRemoveSuccess,
+  onClick,
+  userId,
+  navigate,
+  onMoveSuccess,
+  handleOnError,
+}) {
+  const logo = useGetImage(game.logoLink);
+  const formattedDate = new Date(game.releaseDate).toLocaleDateString("en-GB");
+  const { createSnackbar } = useSnackbar();
+  const handleAddToCart = () => {
+    const { success, message } = addToCart({ game, userId });
+    onMoveSuccess(success, message);
+  };
+  const handleMoveToWishlist = async () => {
+    try {
+      const checkResponse = await axios.post(
+        "https://localhost:7192/api/wishlist/check-game",
+        game.id,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        },
+      );
+
+      const { success, message } = await addToWishlist({
+        game,
+        userId,
+        navigate,
+      });
+
+      onMoveSuccess(success, message);
+    } catch (error) {
+      if (error.response?.status === 400) {
+        onMoveSuccess(false, "This game is already in the wishlist.");
+        return;
+      }
+      onMoveSuccess(
+        false,
+        "An error occurred while moving the game to wishlist.",
+      );
+    }
+  };
+
+  const handleWishlistRemove = async () => {
     try {
       const response = await axios.delete(
         `https://localhost:7192/api/wishlist/${game.id}`,
         {
           withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
         },
       );
       if (response.status === 200) {
         onRemoveSuccess(game.id);
       }
     } catch (error) {
-      console.error(error.message);
+      createSnackbar(false, error.response?.data?.message || error.message);
     }
   };
-  const logo = useGetImage(game.logoLink);
-  const formattedDate = new Date(game.releaseDate).toLocaleDateString("en-GB");
+
   return (
     <div className="flex flex-col gap-4 lg:flex-row rounded-md h-fit bg-gray-light p-5 w-full lg:max-h-[200px]">
       <div className="flex flex-1">
@@ -56,13 +104,11 @@ export default function ListGame({ game, isCart, onRemoveSuccess, onClick }) {
                 <span>All reviews</span>
                 <span className="text-green">Mostly positive</span>
               </div>
-
               <div className="flex flex-row justify-between">
                 <span>Release date</span>
                 <span>{formattedDate}</span>
               </div>
             </div>
-
             <div className="flex flex-row gap-3 items-center">
               <svg
                 width="14"
@@ -76,7 +122,6 @@ export default function ListGame({ game, isCart, onRemoveSuccess, onClick }) {
                   fill="#EEEEEE"
                 />
               </svg>
-
               <svg
                 width="16"
                 height="9"
@@ -92,14 +137,31 @@ export default function ListGame({ game, isCart, onRemoveSuccess, onClick }) {
             </div>
           </div>
           <div className="flex flex-row justify-between items-center gap-6 self-end">
-            <ActionGrayButton title="Remove" onClick={handleRemove} />
-            {isCart ? (
-              <div className="w-fit l:w-16 xl:w-fit">
-                <ActionGrayButton title="Move to wishlist" />
-              </div>
-            ) : (
-              <GreenButton width="112px" height="39px" text="Add to cart" />
-            )}
+            <div className="flex flex-row justify-end gap-6 mt-4">
+              <ActionGrayButton
+                title="Remove"
+                onClick={() => {
+                  if (isCart) {
+                    onRemoveSuccess(game.id);
+                  } else {
+                    handleWishlistRemove();
+                  }
+                }}
+              />
+              {isCart ? (
+                <ActionGrayButton
+                  title="Move to wishlist"
+                  onClick={handleMoveToWishlist}
+                />
+              ) : (
+                <GreenButton
+                  text="Add to cart"
+                  height={"39px"}
+                  width={"112px"}
+                  onClick={handleAddToCart}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

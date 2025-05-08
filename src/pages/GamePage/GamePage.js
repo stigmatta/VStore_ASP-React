@@ -23,6 +23,9 @@ import useGetImages from "../../hooks/useGetImages";
 import useScrollToTop from "../../hooks/useScrollToTop";
 import CustomLoader from "../../components/CustomLoader";
 import CustomSnackbar from "../../components/CustomSnackbar";
+import { addToCart } from "../../hooks/addToCart";
+import { addToWishlist } from "../../hooks/addToWishlist";
+import useSnackbar from "../../hooks/useSnackbar";
 
 const strAndColor = {
   Mixed: "text-yellow-400",
@@ -63,13 +66,8 @@ function reviewByPercent(percent) {
 }
 
 export default function GamePage() {
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [snackMessage, setSnackMessage] = useState("Game added to wishlist!");
-
-  const handleClose = () => {
-    setOpenSnackbar(false);
-  };
+  const { openSnackbar, isSuccess, snackMessage, createSnackbar, handleClose } =
+    useSnackbar();
   useScrollToTop();
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
@@ -87,62 +85,19 @@ export default function GamePage() {
   const windowWidth = useWindowWidth();
   const navigate = useNavigate();
   const handleAddToCart = () => {
-    if (!userId) {
-      navigate("/login");
-      return;
-    }
-
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    const existingItemIndex = cart.findIndex((item) => item.gameId === id);
-    if (existingItemIndex !== -1) {
-      setIsError(true);
-      setSnackMessage("Game is already in cart");
-      setOpenSnackbar(true);
-      return;
-    } else {
-      cart.push({
-        gameId: id,
-        title: game.title,
-        price: game.price,
-        logoLink: game.logoLink,
-        releaseDate: new Date(game?.releaseDate).toISOString(),
-        addedAt: new Date().toISOString(),
-      });
-    }
-    setOpenSnackbar(false);
-
-    setIsError(false);
-    setSnackMessage("Game successfully added to cart!");
-    setOpenSnackbar(true);
-    localStorage.setItem("cart", JSON.stringify(cart));
+    const { success, message } = addToCart({ game, userId, navigate });
+    createSnackbar(success, message);
   };
+
   const handleAddToWishlist = async () => {
-    if (userId == null) navigate("/login");
-    else {
-      try {
-        await axios.post("https://localhost:7192/api/wishlist/add", game.id, {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        setOpenSnackbar(false);
-        setIsError(false);
-        setSnackMessage("Game successfully added to wishlist!");
-        setOpenSnackbar(true);
-      } catch (error) {
-        setIsError(true);
-        if (error.response.status === 400)
-          setSnackMessage("This game is already in the wishlist.");
-        else {
-          setSnackMessage(error.response.data.message);
-          console.error(error);
-        }
-        setOpenSnackbar(true);
-      }
-    }
+    const { success, message } = await addToWishlist({
+      game,
+      userId,
+      navigate,
+    });
+    createSnackbar(success, message);
   };
+
   const handleReviewPost = () => {
     if (userId == null) navigate("/login");
     else console.log("success");
@@ -267,7 +222,7 @@ export default function GamePage() {
     <div>
       <CustomSnackbar
         close={handleClose}
-        isError={isError}
+        isError={!isSuccess}
         message={snackMessage}
         open={openSnackbar}
       />

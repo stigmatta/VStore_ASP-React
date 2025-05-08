@@ -57,9 +57,7 @@ export default function CheckoutModal({ games, success, close }) {
                 <div className="flex flex-col flex-1 w-1/2">
                   <span className="text-button font-black">{game.title}</span>
                   <span className="opacity-70">{game.publisher}</span>
-                  <span className="opacity-70">
-                    UAH {game.price.toFixed(2)}
-                  </span>
+                  <span className="opacity-70">{game.price.toFixed(2)} $</span>
                 </div>
               </div>
               <div className="flex flex-col gap-1 font-normal opacity-70">

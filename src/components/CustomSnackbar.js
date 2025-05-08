@@ -1,7 +1,3 @@
-// const CustomSnackbar = styled(Snackbar)(({ theme }) => ({
-//
-// })
-
 import { Alert, Snackbar } from "@mui/material";
 
 const CustomSnackbar = ({ message, isError, open, close }) => {
