@@ -6,9 +6,13 @@ export default function GreenButton({
   fontSize,
   className = "",
   onClick,
+  form = null,
+  type = null,
 }) {
   return (
     <button
+      type={type}
+      form={form}
       onClick={onClick}
       style={{
         fontWeight: weight,

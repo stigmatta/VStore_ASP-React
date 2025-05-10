@@ -89,7 +89,7 @@ export default function RegForm({ setModalVisible, setFormVisible }) {
               ref={captchaRef}
             />
             {captchaError && (
-              <span className="text-red-500 text-sm mt-1">
+              <span className="text-red-700 text-sm mt-1">
                 ReCAPTCHA is required
               </span>
             )}

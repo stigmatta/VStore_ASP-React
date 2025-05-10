@@ -9,6 +9,7 @@ import axios from "axios";
 import useRedirectToGame from "../hooks/useRedirectToGame";
 import useGetAuth from "../hooks/useGetAuth";
 import { useNavigate } from "react-router-dom";
+import getOverallPrice from "../utils/getOverallPrice";
 import CustomSnackbar from "../components/CustomSnackbar";
 import useSnackbar from "../hooks/useSnackbar";
 
@@ -17,10 +18,12 @@ export default function WishlistPage() {
   const { openSnackbar, isSuccess, snackMessage, createSnackbar, handleClose } =
     useSnackbar();
   const [games, setGames] = useState([]);
+  const [filteredGames, setFilteredGames] = useState([]);
   const handleGameClick = useRedirectToGame();
   const userId = useGetAuth();
   const navigate = useNavigate();
   const [sortValue, setSortValue] = useState("");
+  const [overallPrice, setOverallPrice] = useState(0.0);
   const sortOptions = [
     { label: "None", value: "" },
     { label: "Top Rated", value: "top" },
@@ -42,6 +45,22 @@ export default function WishlistPage() {
     };
     fetchWishlist();
   }, []);
+  useEffect(() => {
+    const sum = getOverallPrice(filteredGames);
+    setOverallPrice(sum);
+  }, [filteredGames]);
+
+  useEffect(() => {
+    let result = [...games];
+
+    if (sortValue === "") return setFilteredGames(result);
+    else if (sortValue === "sale") {
+      result = result
+        .filter((game) => game.discount > 0)
+        .sort((a, b) => b.discount - a.discount);
+    }
+    setFilteredGames(result);
+  }, [sortValue, games]);
 
   const handleGameRemoved = (removedGameId) => {
     setGames((prevGames) => prevGames.filter((g) => g.id !== removedGameId));
@@ -57,9 +76,12 @@ export default function WishlistPage() {
         open={openSnackbar}
       />
 
-      <div className="flex flex-row justify-between mb-8">
+      <div className="flex flex-row justify-between items-center mb-8">
         <PageTitle title="My Wishlist" />
-        <TransparentButton title="0.00 UAH" radius="20px" />
+        <TransparentButton
+          title={overallPrice.toFixed(2) + " $"}
+          radius="20px"
+        />
       </div>
 
       <NotifyWishlist />
@@ -74,7 +96,7 @@ export default function WishlistPage() {
 
       <div className="flex flex-col l:flex-row gap-8">
         <div className="flex w-full flex-col gap-8">
-          {games.map((game) => (
+          {filteredGames.map((game) => (
             <ListGame
               key={game.id}
               game={game}

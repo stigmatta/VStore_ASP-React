@@ -16,11 +16,10 @@ export const addToCart = ({ game, userId, navigate = null }) => {
     id: game.id,
     title: game.title,
     price: game.price,
+    discount: game.discount,
     logoLink: game.logoLink,
-    releaseDate: new Date(game?.releaseDate).toISOString(),
-    addedAt: new Date().toISOString(),
+    releaseDate: new Date(game?.releaseDate).toISOString().split("T")[0],
   });
-
   localStorage.setItem("cart", JSON.stringify(cart));
 
   return { success: true, message: "Game successfully added to cart!" };

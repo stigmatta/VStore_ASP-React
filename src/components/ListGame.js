@@ -2,8 +2,8 @@ import GameTitle from "./GameTitle";
 import ActionGrayButton from "./ActionGrayButton";
 import GreenButton from "./GreenButton";
 import useGetImage from "../hooks/useGetImage";
-import { addToWishlist } from "../hooks/addToWishlist";
-import { addToCart } from "../hooks/addToCart";
+import { addToWishlist } from "../utils/addToWishlist";
+import { addToCart } from "../utils/addToCart";
 import axios from "axios";
 import useSnackbar from "../hooks/useSnackbar";
 import DiscountPrice from "./DiscountPrice";
@@ -150,7 +150,7 @@ export default function ListGame({
               />
               {isCart ? (
                 <ActionGrayButton
-                  title="Move to wishlist"
+                  title="Add to wishlist"
                   onClick={handleMoveToWishlist}
                 />
               ) : (

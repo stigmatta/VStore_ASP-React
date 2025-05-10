@@ -23,8 +23,8 @@ import useGetImages from "../../hooks/useGetImages";
 import useScrollToTop from "../../hooks/useScrollToTop";
 import CustomLoader from "../../components/CustomLoader";
 import CustomSnackbar from "../../components/CustomSnackbar";
-import { addToCart } from "../../hooks/addToCart";
-import { addToWishlist } from "../../hooks/addToWishlist";
+import { addToCart } from "../../utils/addToCart";
+import { addToWishlist } from "../../utils/addToWishlist";
 import useSnackbar from "../../hooks/useSnackbar";
 
 const strAndColor = {
