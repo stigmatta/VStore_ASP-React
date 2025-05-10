@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import CustomSnackbar from "../components/CustomSnackbar";
 import getOverallPrice from "../utils/getOverallPrice";
 import axios from "axios";
+import CustomLoader from "../components/CustomLoader";
 
 export default function CartPage() {
   useRedirectToLogin("https://localhost:7192/api/cart");

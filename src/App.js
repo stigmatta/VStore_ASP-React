@@ -24,7 +24,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/Main" element={<MainPage />} />
           <Route path="News" element={<NewsPage />} />
-          <Route path="Profile" element={<ProfilePage />} />
+          <Route path="/Profile/:userId" element={<ProfilePage />} />
           <Route path="Wishlist" element={<WishlistPage />} />
           <Route path="Cart" element={<CartPage />} />
           <Route path="Support" element={<SupportPage />} />

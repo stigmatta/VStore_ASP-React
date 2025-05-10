@@ -73,7 +73,6 @@ export default function GamePage() {
   const { id } = useParams();
   const { state } = useLocation();
   const game = state.game;
-  console.log(game);
   const [userId, setUserId] = useState(null);
   const [minimum, setMinimum] = useState({});
   const [recommended, setRecommended] = useState({});

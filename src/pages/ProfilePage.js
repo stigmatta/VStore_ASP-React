@@ -1,36 +1,72 @@
 import ProfileTitle from "../components/ProfileTitle";
-import Image from "../images/user-profile.jpg";
+import DefaultImage from "../images/user-profile.jpg";
 import AchievementImage from "../images/achievement.png";
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import useWindowWidth from "../hooks/useWindowWidth";
 import { Ban, Pencil, UserPlus } from "lucide-react";
 import GameSectionTitle from "../components/GameSectionTitle";
 import ShowMoreGreen from "../components/ShowMoreGreen";
 import GameImage from "../images/game-collection.png";
 import GameCollectionItem from "../components/GameCollectionItem";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Dialog, DialogContent } from "@mui/material";
 import EditModal from "../components/EditModal";
 import useRedirectToLogin from "../hooks/useRedirectToLogin";
 import CustomLoader from "../components/CustomLoader";
+import axios from "axios";
+import useGetImage from "../hooks/useGetImage";
 
 const CustomSlider = lazy(() => import("../components/CustomSlider"));
 
 export default function ProfilePage() {
-  useRedirectToLogin("https://localhost:7192/api/profile");
+  const { userId } = useParams();
+  useRedirectToLogin(`https://localhost:7192/api/profile/${userId}`);
   const windowWidth = useWindowWidth();
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [profile, setProfile] = useState(null);
+  const avatar = useGetImage(profile?.photo);
+  const [userGames, setUserGames] = useState([]);
+  const [gamesCount, setGamesCount] = useState(null);
+  const [friendsCount, setFriendsCount] = useState(null);
+  const [isSelfProfile, setIsSelfProfile] = useState(false);
   const handleOpen = () => {
     setModalIsOpen(true);
   };
-
   const handleClose = () => {
     setModalIsOpen(false);
   };
-  const isMe = true;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(
+          `https://localhost:7192/api/profile/${userId}`,
+          { withCredentials: true },
+        );
+        const { profile, isSelfProfile, userGames = [] } = response.data;
+
+        setProfile(profile);
+        setIsSelfProfile(isSelfProfile);
+        setUserGames(userGames);
+        setGamesCount(userGames.length);
+      } catch (error) {
+        console.error("Error:", error);
+        setGamesCount(0);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
+  console.log(userGames);
+  console.log(gamesCount);
+
   const user = {
-    avatar: Image,
-    username: "dimabalawov",
+    avatar: avatar === "placeholder.jpg" ? avatar : DefaultImage,
+    username: profile?.username,
   };
   const achievements = Array(6).fill({
     image: AchievementImage,
@@ -50,14 +86,20 @@ export default function ProfilePage() {
     hoursPlayed: 53,
     completed: 70,
   });
+  if (isLoading) return <CustomLoader />;
 
   return (
     <div>
       <div className="flex">
         <ProfileTitle user={user} />
         <div className="flex ml-auto">
-          {windowWidth > 1060 && <Categories />}
-          {isMe ? (
+          {windowWidth > 1060 && (
+            <Categories
+              gamesLength={gamesCount ?? userGames?.length ?? 0}
+              friendsLength={friendsCount ?? 0}
+            />
+          )}
+          {isSelfProfile ? (
             <div className="hoverSvg hover:cursor-pointer" onClick={handleOpen}>
               <Pencil size={30} />
             </div>
@@ -69,7 +111,12 @@ export default function ProfilePage() {
           )}
         </div>
       </div>
-      {windowWidth < 1060 && <Categories />}
+      {windowWidth < 1060 && (
+        <Categories
+          gamesLength={gamesCount ?? userGames?.length ?? 0}
+          friendsLength={friendsCount ?? 0}
+        />
+      )}
       <GameSectionTitle title="Achievements" />
       <Suspense fallback={<CustomLoader />}>
         <CustomSlider
@@ -110,15 +157,12 @@ function CategoryAndDigit({ title, digit }) {
   );
 }
 
-function Categories() {
+function Categories({ gamesLength = 0, friendsLength = 0 }) {
   return (
-    <div
-      className="flex  relative bottom-0 items-center justify-around mt-9
-    lg:mt-0 lg:gap-14 lg:justify-start lg:bottom-3"
-    >
-      <CategoryAndDigit title={"Games"} digit={48} />
+    <div className="flex relative bottom-0 items-center justify-around mt-9 lg:mt-0 lg:gap-14 lg:justify-start lg:bottom-3">
+      <CategoryAndDigit title={"Games"} digit={gamesLength ?? 0} />
       <Link to="/Friends">
-        <CategoryAndDigit title={"Friends"} digit={7} />
+        <CategoryAndDigit title={"Friends"} digit={friendsLength} />
       </Link>
     </div>
   );

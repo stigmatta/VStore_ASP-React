@@ -9,6 +9,7 @@ import axios from "axios";
 
 export default function Header() {
   const [authorized, setAuthorized] = useState(false);
+  const [userId, setUserId] = useState("");
   const handleLogout = async () => {
     console.log("Logout");
     const res = await axios.get("https://localhost:7192/api/logout", {
@@ -25,7 +26,9 @@ export default function Header() {
         const res = await axios.get("https://localhost:7192/api", {
           withCredentials: true,
         });
-        setAuthorized(res.data);
+        const { isAuthorized, userId } = res.data;
+        setAuthorized(isAuthorized);
+        setUserId(userId);
       } catch (error) {
         console.error(error);
         setAuthorized(false);
@@ -86,7 +89,7 @@ export default function Header() {
 
       <div className="flex gap-3 md:gap-4 ml-auto items-center">
         <NavLink
-          to="/Profile"
+          to={`/profile/${userId}`}
           className={({ isActive }) =>
             `hoverSvg ${isActive ? "activeSvg" : ""}`
           }
