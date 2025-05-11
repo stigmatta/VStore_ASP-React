@@ -1,5 +1,4 @@
 import Pagination from "@mui/material/Pagination";
-import { useState } from "react";
 import { styled } from "@mui/material/styles";
 
 const StyledPagination = styled(Pagination)(({ theme }) => ({
@@ -16,18 +15,25 @@ const StyledPagination = styled(Pagination)(({ theme }) => ({
   },
 }));
 
-export default function CustomPagination({ totalItems, onPageChange }) {
-  const [page, setPage] = useState(1);
-  const pageItems = 20;
-  const count = Math.ceil(totalItems / pageItems);
+export default function CustomPagination({
+  totalItems,
+  itemsPerPage,
+  onPageChange,
+  currentPage = 1,
+}) {
+  const count = Math.ceil(totalItems / itemsPerPage);
+
   const handleChange = (event, value) => {
-    setPage(value);
     onPageChange(value);
   };
 
   return (
     <div className="flex justify-center mt-14">
-      <StyledPagination count={count} page={page} onChange={handleChange} />
+      <StyledPagination
+        count={count}
+        page={currentPage}
+        onChange={handleChange}
+      />
     </div>
   );
 }

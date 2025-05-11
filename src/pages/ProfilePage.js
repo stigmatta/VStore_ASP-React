@@ -6,7 +6,6 @@ import useWindowWidth from "../hooks/useWindowWidth";
 import { Ban, Pencil, UserPlus } from "lucide-react";
 import GameSectionTitle from "../components/GameSectionTitle";
 import ShowMoreGreen from "../components/ShowMoreGreen";
-import GameImage from "../images/game-collection.png";
 import GameCollectionItem from "../components/GameCollectionItem";
 import { Link, useParams } from "react-router-dom";
 import { Dialog, DialogContent } from "@mui/material";
@@ -16,6 +15,8 @@ import CustomLoader from "../components/CustomLoader";
 import axios from "axios";
 import useGetImage from "../hooks/useGetImage";
 import useRedirectToGame from "../hooks/useRedirectToGame";
+import CustomPagination from "../components/CustomPagination";
+import usePagination from "../utils/usePagination";
 
 const CustomSlider = lazy(() => import("../components/CustomSlider"));
 
@@ -28,10 +29,11 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState(null);
   const avatar = useGetImage(profile?.photo);
   const [userGames, setUserGames] = useState([]);
-  const [gamesCount, setGamesCount] = useState(null);
   const [friendsCount, setFriendsCount] = useState(null);
   const [isSelfProfile, setIsSelfProfile] = useState(false);
   const handleGameClick = useRedirectToGame();
+  const { page, setPage, totalItems, setTotalItems, itemsPerPage } =
+    usePagination(1, 6);
 
   const handleOpen = () => {
     setModalIsOpen(true);
@@ -48,25 +50,34 @@ export default function ProfilePage() {
           `https://localhost:7192/api/profile/${userId}`,
           { withCredentials: true },
         );
-        const { profile, isSelfProfile, userGames = [] } = response.data;
-
+        const { profile, isSelf } = response.data;
         setProfile(profile);
-        setIsSelfProfile(isSelfProfile);
-        setUserGames(userGames);
-        setGamesCount(userGames.length);
-      } catch (error) {
-        console.error("Error:", error);
-        setGamesCount(0);
+        setIsSelfProfile(isSelf);
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchData();
   }, [userId]);
-  console.log(userGames);
-  console.log(gamesCount);
 
+  useEffect(() => {
+    const fetchPaginatedGames = async () => {
+      try {
+        const response = await axios.get(
+          `https://localhost:7192/api/profile/${userId}/games?pageNumber=${page}&pageSize=${itemsPerPage}`,
+          { withCredentials: true },
+        );
+        const { userGamesDTO, totalCount } = response.data;
+        setUserGames(userGamesDTO || []);
+        setTotalItems(totalCount || 0);
+      } catch (error) {
+        console.error("Error loading games:", error);
+        setUserGames([]);
+        setTotalItems(0);
+      }
+    };
+    fetchPaginatedGames();
+  }, [userId, page]);
   const user = {
     avatar: avatar === "placeholder.jpg" ? avatar : DefaultImage,
     username: profile?.username,
@@ -77,7 +88,6 @@ export default function ProfilePage() {
     description: "Complete the games at the easiest difficulty",
     percent: 35,
   });
-
   if (isLoading) return <CustomLoader />;
 
   return (
@@ -87,7 +97,7 @@ export default function ProfilePage() {
         <div className="flex ml-auto">
           {windowWidth > 1060 && (
             <Categories
-              gamesLength={gamesCount ?? userGames?.length ?? 0}
+              gamesLength={totalItems ?? userGames?.length ?? 0}
               friendsLength={friendsCount ?? 0}
             />
           )}
@@ -105,7 +115,7 @@ export default function ProfilePage() {
       </div>
       {windowWidth < 1060 && (
         <Categories
-          gamesLength={gamesCount ?? userGames?.length ?? 0}
+          gamesLength={totalItems ?? userGames?.length ?? 0}
           friendsLength={friendsCount ?? 0}
         />
       )}
@@ -127,6 +137,14 @@ export default function ProfilePage() {
             </div>
           ))}
       </div>
+      {totalItems > itemsPerPage && (
+        <CustomPagination
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={(newPage) => setPage(newPage)}
+          currentPage={page}
+        />
+      )}
       <Dialog
         open={modalIsOpen}
         onClose={handleClose}

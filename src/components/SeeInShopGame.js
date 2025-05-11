@@ -7,7 +7,7 @@ export default function SeeInShopGame({ item, onClick }) {
     <div className="flex flex-col h-fit gap-5">
       <img
         onClick={() => onClick?.(item?.id)}
-        className="w-full h-[207px] object-contain"
+        className="w-full h-[207px] object-contain hover:cursor-pointer"
         src={gameImage}
         alt="see-in-shop-img"
       />

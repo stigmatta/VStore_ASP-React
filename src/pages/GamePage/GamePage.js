@@ -73,9 +73,10 @@ export default function GamePage() {
   const { id } = useParams();
   const { state } = useLocation();
   const game = state.game;
-  const [userId, setUserId] = useState(null);
   const [minimum, setMinimum] = useState({});
+  const [achievements, setAchievements] = useState([]);
   const [recommended, setRecommended] = useState({});
+  const [userId, setUserId] = useState(null);
   const releaseDate = new Date(game?.releaseDate).toLocaleDateString("en-gb");
   const logo = useGetImage(game?.logoLink);
   const galleryImages = useGetImages(game?.gallery || []);
@@ -99,7 +100,6 @@ export default function GamePage() {
 
   const handleReviewPost = () => {
     if (userId == null) navigate("/login");
-    else console.log("success");
   };
 
   useEffect(() => {
@@ -115,10 +115,11 @@ export default function GamePage() {
             },
           },
         );
-        const { minimum, recommended, userId } = response.data;
+        const { minimum, recommended, userId, achievements } = response.data;
         setMinimum(minimum);
         setRecommended(recommended);
         setUserId(userId);
+        setAchievements(achievements);
       } catch (error) {
         console.error("Failed to fetch requirements:", {
           status: error.response?.status,
@@ -131,13 +132,6 @@ export default function GamePage() {
 
     fetchRequirements();
   }, [id]);
-
-  const achievements = Array(6).fill({
-    image: AchievementImage,
-    title: "Professional newbies",
-    description: "Complete the games at the easiest difficulty",
-    percent: 35,
-  });
 
   const reviews = [
     {

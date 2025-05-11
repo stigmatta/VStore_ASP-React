@@ -4,7 +4,7 @@ import useGetImage from "../hooks/useGetImage";
 
 export default function GameCollectionItem({ item, onClick }) {
   const logo = useGetImage(item.logoLink);
-  const lastPlayed = new Date(item.lastPlayed).toLocaleDateString("en");
+  const lastPlayed = new Date(item.lastPlayed).toLocaleDateString("en-gb");
 
   return (
     <div className="p-4 bg-gray-light flex flex-col rounded-md">

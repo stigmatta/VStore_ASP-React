@@ -9,63 +9,66 @@ import axios from "axios";
 import useRedirectToGame from "../hooks/useRedirectToGame";
 import useGetAuth from "../hooks/useGetAuth";
 import { useNavigate } from "react-router-dom";
-import getOverallPrice from "../utils/getOverallPrice";
 import CustomSnackbar from "../components/CustomSnackbar";
 import useSnackbar from "../hooks/useSnackbar";
+import usePagination from "../utils/usePagination";
+import CustomPagination from "../components/CustomPagination";
+import CustomLoader from "../components/CustomLoader";
+import getOverallPrice from "../utils/getOverallPrice";
 
 export default function WishlistPage() {
-  useRedirectToLogin("https://localhost:7192/api/wishlist");
+  const userId = useGetAuth();
+  useRedirectToLogin(`https://localhost:7192/api/wishlist`);
   const { openSnackbar, isSuccess, snackMessage, createSnackbar, handleClose } =
     useSnackbar();
+  const { page, setPage, totalItems, setTotalItems, itemsPerPage } =
+    usePagination(1, 10);
   const [games, setGames] = useState([]);
-  const [filteredGames, setFilteredGames] = useState([]);
   const handleGameClick = useRedirectToGame();
-  const userId = useGetAuth();
+  const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
-  const [sortValue, setSortValue] = useState("");
   const [overallPrice, setOverallPrice] = useState(0.0);
+  const [sortValue, setSortValue] = useState("");
   const sortOptions = [
-    { label: "None", value: "" },
+    { label: "None", value: "none" },
     { label: "Top Rated", value: "top" },
     { label: "On Sale", value: "sale" },
   ];
 
   useEffect(() => {
+    setLoading(true);
     const fetchWishlist = async () => {
       try {
         const response = await axios.get(
-          "https://localhost:7192/api/wishlist",
+          `https://localhost:7192/api/wishlist?pageNumber=${page}&pageSize=${itemsPerPage}&sortOption=${sortValue}`,
           { withCredentials: true },
         );
-        setGames(response.data);
+        const { games, totalCount } = response.data;
+        setGames(games);
+        setTotalItems(totalCount || 0);
       } catch (error) {
         createSnackbar(false, "Failed to fetch wishlist");
         console.error("Error fetching wishlist:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchWishlist();
-  }, []);
-  useEffect(() => {
-    const sum = getOverallPrice(filteredGames);
-    setOverallPrice(sum);
-  }, [filteredGames]);
+  }, [page, sortValue]);
 
   useEffect(() => {
-    let result = [...games];
-
-    if (sortValue === "") return setFilteredGames(result);
-    else if (sortValue === "sale") {
-      result = result
-        .filter((game) => game.discount > 0)
-        .sort((a, b) => b.discount - a.discount);
-    }
-    setFilteredGames(result);
-  }, [sortValue, games]);
+    setPage(1);
+  }, [sortValue, setPage]);
 
   const handleGameRemoved = (removedGameId) => {
     setGames((prevGames) => prevGames.filter((g) => g.id !== removedGameId));
     createSnackbar(true, "Game removed from wishlist!");
   };
+
+  if (loading) {
+    return <CustomLoader />;
+  }
 
   return (
     <div className="flex flex-col">
@@ -96,7 +99,7 @@ export default function WishlistPage() {
 
       <div className="flex flex-col l:flex-row gap-8">
         <div className="flex w-full flex-col gap-8">
-          {filteredGames.map((game) => (
+          {games.map((game) => (
             <ListGame
               key={game.id}
               game={game}
@@ -112,6 +115,15 @@ export default function WishlistPage() {
           ))}
         </div>
       </div>
+      {totalItems > itemsPerPage &&
+        (sortValue === "none" || games.length >= itemsPerPage) && (
+          <CustomPagination
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            onPageChange={(newPage) => setPage(newPage)}
+            currentPage={page}
+          />
+        )}
     </div>
   );
 }
