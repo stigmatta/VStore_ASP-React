@@ -5,6 +5,7 @@ import GamesSection from "./sections/GamesSection";
 import NewsSection from "./sections/NewsSection";
 import ReqsSection from "./sections/ReqsSection";
 import { useNavigate } from "react-router-dom";
+import AchiSection from "./sections/AchiSection";
 
 export default function AdminDashboard() {
   const [error, setError] = useState("");
@@ -69,6 +70,16 @@ export default function AdminDashboard() {
           >
             Требования
           </button>
+          <button
+            onClick={() => setActiveSection("achi")}
+            className={`w-full text-left px-3 py-2 rounded-md text-sm ${
+              activeSection === "reqs"
+                ? "bg-blue-50 text-blue-600 font-medium"
+                : "text-gray-600 hover:bg-gray-50"
+            }`}
+          >
+            Ачивки
+          </button>
         </nav>
       </div>
 
@@ -76,6 +87,7 @@ export default function AdminDashboard() {
         {activeSection === "games" && <GamesSection />}
         {activeSection === "news" && <NewsSection />}
         {activeSection === "reqs" && <ReqsSection />}
+        {activeSection === "achi" && <AchiSection />}
       </div>
       <button
         onClick={handleNavigate}
