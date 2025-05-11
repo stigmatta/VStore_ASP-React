@@ -15,6 +15,7 @@ import useRedirectToLogin from "../hooks/useRedirectToLogin";
 import CustomLoader from "../components/CustomLoader";
 import axios from "axios";
 import useGetImage from "../hooks/useGetImage";
+import useRedirectToGame from "../hooks/useRedirectToGame";
 
 const CustomSlider = lazy(() => import("../components/CustomSlider"));
 
@@ -30,6 +31,8 @@ export default function ProfilePage() {
   const [gamesCount, setGamesCount] = useState(null);
   const [friendsCount, setFriendsCount] = useState(null);
   const [isSelfProfile, setIsSelfProfile] = useState(false);
+  const handleGameClick = useRedirectToGame();
+
   const handleOpen = () => {
     setModalIsOpen(true);
   };
@@ -120,7 +123,7 @@ export default function ProfilePage() {
           userGames.length > 0 &&
           userGames.map((game, i) => (
             <div key={i}>
-              <GameCollectionItem item={game} />
+              <GameCollectionItem onClick={handleGameClick} item={game} />
             </div>
           ))}
       </div>

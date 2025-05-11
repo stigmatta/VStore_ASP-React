@@ -2,16 +2,17 @@ import { styled } from "@mui/material/styles";
 import { LinearProgress, linearProgressClasses } from "@mui/material";
 import useGetImage from "../hooks/useGetImage";
 
-export default function GameCollectionItem({ item }) {
+export default function GameCollectionItem({ item, onClick }) {
   const logo = useGetImage(item.logoLink);
   const lastPlayed = new Date(item.lastPlayed).toLocaleDateString("en");
 
   return (
     <div className="p-4 bg-gray-light flex flex-col rounded-md">
       <img
-        className="max-h-[200px] w-full object-cover object-center rounded"
+        className="max-h-[200px] w-full object-cover object-center rounded hover:cursor-pointer"
         src={logo}
         alt={item.title}
+        onClick={() => onClick?.(item.id)}
       />
 
       <span className="text-title font-black mt-4">{item.title}</span>
