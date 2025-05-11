@@ -75,17 +75,6 @@ export default function ProfilePage() {
     percent: 35,
   });
 
-  const games = Array(6).fill({
-    image: GameImage,
-    title: "Hades",
-    achievements: Array(3)
-      .fill(null)
-      .map(() => ({
-        image: AchievementImage,
-      })),
-    hoursPlayed: 53,
-    completed: 70,
-  });
   if (isLoading) return <CustomLoader />;
 
   return (
@@ -127,11 +116,13 @@ export default function ProfilePage() {
       <ShowMoreGreen />
       <GameSectionTitle title={"Game collection"} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {games.map((g, i) => (
-          <div key={i}>
-            <GameCollectionItem item={g} />
-          </div>
-        ))}
+        {userGames &&
+          userGames.length > 0 &&
+          userGames.map((game, i) => (
+            <div key={i}>
+              <GameCollectionItem item={game} />
+            </div>
+          ))}
       </div>
       <Dialog
         open={modalIsOpen}
