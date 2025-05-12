@@ -10,6 +10,9 @@ import axios from "axios";
 export default function Header() {
   const [authorized, setAuthorized] = useState(false);
   const [userId, setUserId] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
   const handleLogout = async () => {
     console.log("Logout");
     const res = await axios.get("https://localhost:7192/api/logout", {
@@ -36,6 +39,41 @@ export default function Header() {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (!searchInput.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    setIsSearching(true);
+
+    const searchTimer = setTimeout(async () => {
+      try {
+        console.log(searchInput);
+        const results = await axios.post(
+          "https://localhost:7192/api/game/search",
+          { SearchTerm: searchInput },
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        );
+        setSearchResults(results.data);
+      } catch (error) {
+        console.error("Search failed:", error);
+        setSearchResults([]);
+      } finally {
+        setIsSearching(false);
+      }
+    }, 1000);
+
+    return () => {
+      clearTimeout(searchTimer);
+      setIsSearching(false);
+    };
+  }, [searchInput]);
 
   const [dropdownOpened, setDropdownOpening] = useState(false);
 
@@ -84,7 +122,7 @@ export default function Header() {
       </div>
 
       <div className="hidden lg:block">
-        <Searchbar />
+        <Searchbar setValue={setSearchInput} options={searchResults} />
       </div>
 
       <div className="flex gap-3 md:gap-4 ml-auto items-center">

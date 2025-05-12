@@ -82,8 +82,9 @@ export default function ProfilePage() {
     avatar: avatar === "placeholder.jpg" ? avatar : DefaultImage,
     username: profile?.username,
   };
+  console.log(userGames);
   const achievements = Array(6).fill({
-    image: AchievementImage,
+    photo: AchievementImage,
     title: "Professional newbies",
     description: "Complete the games at the easiest difficulty",
     percent: 35,
@@ -125,7 +126,7 @@ export default function ProfilePage() {
           items={achievements}
           componentName="AchievementForSlider"
         />
-      </Suspense>{" "}
+      </Suspense>
       <ShowMoreGreen />
       <GameSectionTitle title={"Game collection"} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

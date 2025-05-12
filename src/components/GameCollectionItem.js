@@ -1,6 +1,7 @@
 import { styled } from "@mui/material/styles";
 import { LinearProgress, linearProgressClasses } from "@mui/material";
 import useGetImage from "../hooks/useGetImage";
+import useGetImages from "../hooks/useGetImages";
 
 export default function GameCollectionItem({ item, onClick }) {
   const logo = useGetImage(item.logoLink);
@@ -19,15 +20,11 @@ export default function GameCollectionItem({ item, onClick }) {
 
       <div className="flex justify-between mt-4 gap-3 w-full flex-row item-start md:flex-col lg:flex-row lg:items-center">
         <div className="flex gap-4">
-          {item.achievements?.length > 0 ? (
-            item.achievements.map((ach, index) => (
-              <img
-                key={ach.id || index}
-                src={ach.image?.default || ach.image}
-                alt={ach.title || `Achievement ${index + 1}`}
-                className="w-10 h-10 object-contain rounded-md"
-                title={ach.title}
-              />
+          {item?.achievements?.length > 0 ? (
+            item.achievements.slice(0, 4).map((ach, index) => (
+              <div key={ach.id || index}>
+                <AchievementImage logo={ach.photo} />
+              </div>
             ))
           ) : (
             <p className="text-sm text-gray-500">No achievements yet</p>
@@ -50,6 +47,17 @@ export default function GameCollectionItem({ item, onClick }) {
     </div>
   );
 }
+
+const AchievementImage = ({ logo }) => {
+  const photo = useGetImage(logo);
+  return (
+    <img
+      src={photo}
+      alt={"achievement"}
+      className="w-10 h-10 object-contain rounded-md"
+    />
+  );
+};
 
 const CustomProgress = styled(LinearProgress)(({}) => ({
   [`&.${linearProgressClasses.root}`]: {
