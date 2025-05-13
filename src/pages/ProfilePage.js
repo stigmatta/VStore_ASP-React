@@ -27,10 +27,13 @@ export default function ProfilePage() {
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [profile, setProfile] = useState(null);
-  const avatar = useGetImage(profile?.photo);
+  const [isSelfProfile, setIsSelfProfile] = useState(null);
   const [userGames, setUserGames] = useState([]);
   const [friendsCount, setFriendsCount] = useState(null);
-  const [isSelfProfile, setIsSelfProfile] = useState(false);
+  const [achievements, setAchievements] = useState([]);
+
+  const avatar = useGetImage(profile?.photo);
+
   const handleGameClick = useRedirectToGame();
   const { page, setPage, totalItems, setTotalItems, itemsPerPage } =
     usePagination(1, 6);
@@ -50,9 +53,9 @@ export default function ProfilePage() {
           `https://localhost:7192/api/profile/${userId}`,
           { withCredentials: true },
         );
-        const { profile, isSelf } = response.data;
+        const { profile, isSelfProfile } = response.data;
         setProfile(profile);
-        setIsSelfProfile(isSelf);
+        setIsSelfProfile(isSelfProfile);
       } finally {
         setIsLoading(false);
       }
@@ -78,19 +81,26 @@ export default function ProfilePage() {
     };
     fetchPaginatedGames();
   }, [userId, page]);
+  useEffect(() => {
+    const fetchAchievements = async () => {
+      try {
+        const response = await axios.get(
+          `https://localhost:7192/api/profile/${userId}/achievements?pageNumber=${page}&pageSize=${itemsPerPage}`,
+          { withCredentials: true },
+        );
+        setAchievements(response.data.items);
+      } catch (error) {
+        console.error("Error loading achievements:", error);
+      }
+    };
+    fetchAchievements();
+  }, []);
   const user = {
     avatar: avatar === "placeholder.jpg" ? avatar : DefaultImage,
     username: profile?.username,
   };
-  console.log(userGames);
-  const achievements = Array(6).fill({
-    photo: AchievementImage,
-    title: "Professional newbies",
-    description: "Complete the games at the easiest difficulty",
-    percent: 35,
-  });
-  if (isLoading) return <CustomLoader />;
 
+  if (isLoading) return <CustomLoader />;
   return (
     <div>
       <div className="flex">
@@ -120,14 +130,19 @@ export default function ProfilePage() {
           friendsLength={friendsCount ?? 0}
         />
       )}
-      <GameSectionTitle title="Achievements" />
-      <Suspense fallback={<CustomLoader />}>
-        <CustomSlider
-          items={achievements}
-          componentName="AchievementForSlider"
-        />
-      </Suspense>
-      <ShowMoreGreen />
+      {achievements && achievements.length > 0 && (
+        <>
+          <GameSectionTitle title="Achievements" />
+          <Suspense fallback={<CustomLoader />}>
+            <CustomSlider
+              items={achievements}
+              componentName="AchievementForSlider"
+            />
+          </Suspense>
+          <ShowMoreGreen isUser={true} id={userId} items={achievements} />
+        </>
+      )}
+
       <GameSectionTitle title={"Game collection"} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {userGames &&

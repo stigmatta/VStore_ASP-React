@@ -81,10 +81,6 @@ export default function WishlistPage() {
 
       <div className="flex flex-row justify-between items-center mb-8">
         <PageTitle title="My Wishlist" />
-        <TransparentButton
-          title={overallPrice.toFixed(2) + " $"}
-          radius="20px"
-        />
       </div>
 
       <NotifyWishlist />

@@ -112,7 +112,6 @@ export default function CartPage() {
       />
       <div className="flex flex-row justify-between items-center mb-8">
         <PageTitle title="My Cart" />
-        <TransparentButton title={overallStr} radius="20px" />
       </div>
       <div className="flex flex-col l:flex-row gap-8">
         <div className="flex w-full flex-col gap-8">
@@ -158,7 +157,6 @@ export default function CartPage() {
         )}
       </div>
 
-      {/* Dialog for Checkout Modal */}
       <Dialog
         open={open}
         onClose={handleCloseCheck}

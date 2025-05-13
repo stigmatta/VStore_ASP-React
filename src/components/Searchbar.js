@@ -35,9 +35,8 @@ export default function Searchbar({
   border = "border-none",
   setValue,
   options,
-  isGameSearch = true,
+  handleSearch,
 }) {
-  const handleGameSearch = useRedirectToGame();
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
@@ -56,7 +55,6 @@ export default function Searchbar({
         isOptionEqualToValue={(option, value) => option.id === value.id}
         clearOnEscape
         clearOnBlur
-        clearOnReopen
         open={open}
         onOpen={() => {
           setOpen(true);
@@ -68,7 +66,7 @@ export default function Searchbar({
             {...props}
             key={option.id}
             onClick={() => {
-              handleGameSearch(option.id);
+              handleSearch(option.id);
               handleClose();
             }}
             style={{ cursor: "pointer" }}

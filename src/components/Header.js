@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 import VLogo from "./VLogo";
 import DownloadButton from "./Download";
 import axios from "axios";
+import useRedirectToGame from "../hooks/useRedirectToGame";
 
 export default function Header() {
   const [authorized, setAuthorized] = useState(false);
@@ -13,6 +14,8 @@ export default function Header() {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
+  const handleSearch = useRedirectToGame();
+
   const handleLogout = async () => {
     console.log("Logout");
     const res = await axios.get("https://localhost:7192/api/logout", {
@@ -122,7 +125,11 @@ export default function Header() {
       </div>
 
       <div className="hidden lg:block">
-        <Searchbar setValue={setSearchInput} options={searchResults} />
+        <Searchbar
+          setValue={setSearchInput}
+          options={searchResults}
+          handleSearch={handleSearch}
+        />
       </div>
 
       <div className="flex gap-3 md:gap-4 ml-auto items-center">

@@ -24,12 +24,17 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/Main" element={<MainPage />} />
           <Route path="News" element={<NewsPage />} />
-          <Route path="/Profile/:userId" element={<ProfilePage />} />
           <Route path="Wishlist" element={<WishlistPage />} />
           <Route path="Cart" element={<CartPage />} />
           <Route path="Support" element={<SupportPage />} />
-          <Route path="Achievements" element={<AchievementsPage />} />
-          <Route path="Game/:id" element={<GamePage />} />{" "}
+          <Route path="/Profile/:userId">
+            <Route index element={<ProfilePage />} />
+            <Route path="Achievements" element={<AchievementsPage />} />
+          </Route>
+          <Route path="/Game/:id">
+            <Route index element={<GamePage />} />
+            <Route path="Achievements" element={<AchievementsPage />} />
+          </Route>
           <Route path="Friends" element={<FriendsPage />} />
         </Route>
 

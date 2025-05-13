@@ -26,6 +26,7 @@ import CustomSnackbar from "../../components/CustomSnackbar";
 import { addToCart } from "../../utils/addToCart";
 import { addToWishlist } from "../../utils/addToWishlist";
 import useSnackbar from "../../hooks/useSnackbar";
+import SoonBadge from "../../components/SoonBadge";
 
 const strAndColor = {
   Mixed: "text-yellow-400",
@@ -78,6 +79,7 @@ export default function GamePage() {
   const [recommended, setRecommended] = useState({});
   const [userId, setUserId] = useState(null);
   const releaseDate = new Date(game?.releaseDate).toLocaleDateString("en-gb");
+  const isReleased = new Date(game?.releaseDate) < new Date();
   const logo = useGetImage(game?.logoLink);
   const galleryImages = useGetImages(game?.gallery || []);
   const media = [game?.trailerLink, ...galleryImages].filter(Boolean);
@@ -105,9 +107,10 @@ export default function GamePage() {
   useEffect(() => {
     const fetchRequirements = async () => {
       try {
+        console.log(game?.id);
         const response = await axios.post(
           "https://localhost:7192/api/game/get-info/",
-          { id: id },
+          { id: game?.id },
           {
             withCredentials: true,
             headers: {
@@ -338,13 +341,20 @@ export default function GamePage() {
               <div className="text-right">{game.publisher}</div>
             </div>
             <div className="flex justify-between h-[47px]">
-              <GreenButton
-                text="Add to cart"
-                width="47%"
-                height="100%"
-                weight={700}
-                onClick={handleAddToCart}
-              />
+              {isReleased ? (
+                <GreenButton
+                  text="Add to cart"
+                  width="47%"
+                  height="100%"
+                  weight={700}
+                  onClick={handleAddToCart}
+                />
+              ) : (
+                <div className="m-auto">
+                  <SoonBadge size={"1.5em"} />
+                </div>
+              )}
+
               <GrayButton
                 text="Wishlist"
                 width="47%"
@@ -356,9 +366,16 @@ export default function GamePage() {
           </div>
         </div>
       </div>
-      <GameSectionTitle title="Achievements" />
-      <CustomSlider items={achievements} componentName="AchievementForSlider" />
-      <ShowMoreGreen />
+      {achievements.length > 0 && (
+        <>
+          <GameSectionTitle title="Achievements" />
+          <CustomSlider
+            items={achievements}
+            componentName="AchievementForSlider"
+          />
+          <ShowMoreGreen isUser={false} id={game.id} items={achievements} />
+        </>
+      )}
 
       <GameSectionTitle title="Customer Reviews" />
       <div className="flex flex-col">

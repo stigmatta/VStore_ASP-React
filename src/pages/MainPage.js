@@ -16,6 +16,7 @@ export default function MainPage() {
   const [dealOfTheWeek, setDealOfTheWeek] = useState([]);
   const [freeGames, setFreeGames] = useState([]);
   const [popularGames, setPopularGames] = useState([]);
+  const [mostPlayed, setMostPlayed] = useState([]);
   const [topWishlist, setTopWishlist] = useState([]);
   const [topSellers, setTopSellers] = useState([]);
   const [under5Games, setUnder5Games] = useState([]);
@@ -34,6 +35,7 @@ export default function MainPage() {
           dealOfTheWeek,
           freeGames,
           popularGames,
+          mostPlayed,
           wishlistGames,
           topSellers,
           under5Games,
@@ -46,6 +48,7 @@ export default function MainPage() {
         setDealOfTheWeek(dealOfTheWeek);
         setFreeGames(freeGames);
         setPopularGames(popularGames);
+        setMostPlayed(mostPlayed);
         setTopWishlist(wishlistGames);
         setTopSellers(topSellers);
         setUnder5Games(under5Games);
@@ -105,17 +108,17 @@ export default function MainPage() {
         <CustomSlider>
           <ColumnCategory
             title="Most Played"
-            items={popularGames.slice(0, 3)}
+            items={mostPlayed.slice(0, 3)}
             onClick={handleGameClick}
           />
           <ColumnCategory
             title="Top Wishlist"
-            items={popularGames.slice(3, 6)}
+            items={topWishlist.slice(0, 3)}
             onClick={handleGameClick}
           />
           <ColumnCategory
             title="Top sellers"
-            items={topSellers}
+            items={topSellers.slice(0, 3)}
             onClick={handleGameClick}
           />
         </CustomSlider>

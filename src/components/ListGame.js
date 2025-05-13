@@ -7,6 +7,8 @@ import { addToCart } from "../utils/addToCart";
 import axios from "axios";
 import useSnackbar from "../hooks/useSnackbar";
 import DiscountPrice from "./DiscountPrice";
+import GrayButton from "./GrayButton";
+import SoonBadge from "./SoonBadge";
 
 export default function ListGame({
   game,
@@ -20,6 +22,7 @@ export default function ListGame({
 }) {
   const logo = useGetImage(game.logoLink);
   const formattedDate = new Date(game.releaseDate).toLocaleDateString("en-GB");
+  const isReleased = new Date(game.releaseDate) < new Date();
   const { createSnackbar } = useSnackbar();
   const handleAddToCart = () => {
     const { success, message } = addToCart({ game, userId });
@@ -78,7 +81,7 @@ export default function ListGame({
     <div className="flex flex-col gap-4 lg:flex-row rounded-md h-fit bg-gray-light p-5 w-full lg:max-h-[200px]">
       <div className="flex flex-1">
         <img
-          className="w-full lg:min-h-[150px] lg:min-w-[300px]"
+          className="w-full lg:min-h-[150px] lg:min-w-[300px] hover:cursor-pointer"
           src={logo}
           alt="game"
           onClick={onClick}
@@ -89,12 +92,14 @@ export default function ListGame({
           <div className="rounded bg-gray-lighterInput text-subtext font-normal p-1 w-fit">
             Base Game
           </div>
-          <DiscountPrice
-            price={game.price}
-            discount={game.discount}
-            direction={"row"}
-            textAlign={true}
-          />
+          {isReleased && (
+            <DiscountPrice
+              price={game.price}
+              discount={game.discount}
+              direction={"row"}
+              textAlign={true}
+            />
+          )}
         </div>
         <div className="flex flex-col lg:flex-row justify-between">
           <div className="flex flex-col w-52">
@@ -153,15 +158,17 @@ export default function ListGame({
                   title="Add to wishlist"
                   onClick={handleMoveToWishlist}
                 />
-              ) : (
+              ) : isReleased ? (
                 <GreenButton
                   text="Add to cart"
-                  height={"39px"}
-                  width={"112px"}
+                  height="39px"
+                  width="112px"
                   onClick={handleAddToCart}
                 />
+              ) : (
+                <SoonBadge size={"1em"} />
               )}
-            </div>
+            </div>{" "}
           </div>
         </div>
       </div>

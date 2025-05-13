@@ -1,9 +1,11 @@
 import { ArrowRight } from "lucide-react";
 import DiscountPrice from "./DiscountPrice";
 import useGetImage from "../hooks/useGetImage";
+import SoonBadge from "./SoonBadge";
 
 function GameItem({ item, onClick }) {
   const imageUrl = useGetImage(item?.logoLink);
+  const isReleased = new Date(item.releaseDate) < new Date();
 
   return (
     <div
@@ -15,13 +17,17 @@ function GameItem({ item, onClick }) {
         src={imageUrl}
         alt={item.title || "Game image"}
       />
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 items-start">
         <span className="text-bigButton font-black">{item.title}</span>
-        <DiscountPrice
-          price={item.price}
-          discount={item.discount}
-          direction="row"
-        />
+        {isReleased ? (
+          <DiscountPrice
+            price={item.price}
+            discount={item.discount}
+            direction="row"
+          />
+        ) : (
+          <SoonBadge size={"1.4em"} />
+        )}
       </div>
     </div>
   );
