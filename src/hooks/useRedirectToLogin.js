@@ -1,14 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 const useRedirectToLogin = (url) => {
   const navigate = useNavigate();
+  const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get(url, { withCredentials: true });
+        await axios.get(url, { withCredentials: true });
+        setIsAuthorized(true); // Якщо авторизований, дозволяємо продовжувати
       } catch (error) {
         if (error.response?.status === 401) {
           navigate("/login");
@@ -20,6 +22,8 @@ const useRedirectToLogin = (url) => {
 
     checkAuth();
   }, [navigate, url]);
+
+  return isAuthorized;
 };
 
 export default useRedirectToLogin;

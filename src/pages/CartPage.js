@@ -50,6 +50,7 @@ export default function CartPage() {
             withCredentials: true,
           },
         );
+        if (response.data === null) return;
         setSavedMethod(response.data);
       } catch (err) {
         console.error("Failed to fetch saved method:", err);

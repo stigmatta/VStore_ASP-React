@@ -4,10 +4,10 @@ import Dislike from "../images/subway_dislike.png";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 export default function Review({ item }) {
+  console.log(item);
   const recommendStr = item.isLiked
-    ? "This user recommends this games"
-    : "This user does not recommend this games";
-
+    ? "User likes this game"
+    : "User does not like this game";
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLongText, setIsLongText] = useState(false);
   const textRef = useRef(null);
@@ -34,10 +34,10 @@ export default function Review({ item }) {
         />
         <div className="flex flex-col font-normal ml-3 w-full">
           <div className="flex justify-between">
-            <span className="opacity-90">@{item.user}</span>
+            <span className="opacity-90">@{item.username}</span>
             <div className="opacity-80 text-text">
-              Posted on:{" "}
-              {item.date.toLocaleString("en-US", {
+              Posted on:
+              {new Date(item.createdAt).toLocaleString("en-US", {
                 month: "long",
                 day: "numeric",
               })}

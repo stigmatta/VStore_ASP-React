@@ -27,6 +27,7 @@ import { addToCart } from "../../utils/addToCart";
 import { addToWishlist } from "../../utils/addToWishlist";
 import useSnackbar from "../../hooks/useSnackbar";
 import SoonBadge from "../../components/SoonBadge";
+import usePagination from "../../utils/usePagination";
 
 const strAndColor = {
   Mixed: "text-yellow-400",
@@ -37,12 +38,6 @@ const strAndColor = {
   "Mostly Negative": "text-red",
   "Overwhelmingly Negative": "text-red",
 };
-
-const sortOptions = [
-  { label: "None", value: "" },
-  { label: "Recent", value: "top" },
-  { label: "Popular", value: "sale" },
-];
 
 function reviewByPercent(percent) {
   if (percent == null)
@@ -70,26 +65,35 @@ export default function GamePage() {
   const { openSnackbar, isSuccess, snackMessage, createSnackbar, handleClose } =
     useSnackbar();
   useScrollToTop();
-  const [isLoading, setIsLoading] = useState(true);
-  const { id } = useParams();
-  const { state } = useLocation();
-  const game = state.game;
-  const [minimum, setMinimum] = useState({});
-  const [achievements, setAchievements] = useState([]);
-  const [recommended, setRecommended] = useState({});
-  const [userId, setUserId] = useState(null);
-  const releaseDate = new Date(game?.releaseDate).toLocaleDateString("en-gb");
-  const isReleased = new Date(game?.releaseDate) < new Date();
-  const logo = useGetImage(game?.logoLink);
-  const galleryImages = useGetImages(game?.gallery || []);
-  const media = [game?.trailerLink, ...galleryImages].filter(Boolean);
-  const percent = 93;
   const windowWidth = useWindowWidth();
   const navigate = useNavigate();
   const handleAddToCart = () => {
     const { success, message } = addToCart({ game, userId, navigate });
     createSnackbar(success, message);
   };
+  const { page, setPage, totalItems, setTotalItems, itemsPerPage } =
+    usePagination(1, 10);
+  const { id } = useParams();
+  const [userId, setUserId] = useState(null);
+  const [user, setUser] = useState(null);
+
+  const { state } = useLocation();
+  const game = state?.game;
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [minimum, setMinimum] = useState({});
+  const [achievements, setAchievements] = useState([]);
+  const [recommended, setRecommended] = useState({});
+  const releaseDate = new Date(game?.releaseDate).toLocaleDateString("en-gb");
+  const isReleased = new Date(game?.releaseDate) < new Date();
+
+  const logo = useGetImage(game?.logoLink);
+  const galleryImages = useGetImages(game?.gallery || []);
+  const media = [game?.trailerLink, ...galleryImages].filter(Boolean);
+  const [percent, setPercent] = useState(0);
+
+  const [reviews, setReviews] = useState([]);
+  const [isRated, setIsRated] = useState(false);
 
   const handleAddToWishlist = async () => {
     const { success, message } = await addToWishlist({
@@ -100,14 +104,62 @@ export default function GamePage() {
     createSnackbar(success, message);
   };
 
-  const handleReviewPost = () => {
-    if (userId == null) navigate("/login");
+  const handleReviewPost = async (newReview) => {
+    const reviewWithUsername = {
+      ...newReview,
+      username: user?.username,
+    };
+    if (userId == null && user == null) {
+      navigate("/login");
+      return;
+    }
+    try {
+      await axios.post(
+        "https://localhost:7192/api/game/post-review/",
+        newReview,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      createSnackbar(true, "Review posted successfully");
+      setReviews([...reviews, reviewWithUsername]);
+      setPage(1);
+      setTotalItems(totalItems + 1);
+      setIsRated(true);
+    } catch (error) {
+      createSnackbar(false, "Failed to post review");
+    }
   };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(
+          `https://localhost:7192/api/get-user`,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        );
+        setUser(response.data);
+      } catch (error) {
+        console.error("Failed to fetch user:", {
+          status: error.response?.status,
+          message: error.response?.data?.message || error.message,
+        });
+      }
+    };
+    fetchUser();
+  }, [userId]);
 
   useEffect(() => {
     const fetchRequirements = async () => {
       try {
-        console.log(game?.id);
         const response = await axios.post(
           "https://localhost:7192/api/game/get-info/",
           { id: game?.id },
@@ -136,72 +188,33 @@ export default function GamePage() {
     fetchRequirements();
   }, [id]);
 
-  const reviews = [
-    {
-      isLiked: true,
-      user: "dimabalawov",
-      date: new Date("2025-02-27T17:00:00"),
-      text: "It's a shame this games has gotten the hate it has. It's actually pretty awesome.",
-    },
-    {
-      isLiked: false,
-      user: "johnDoe123",
-      date: new Date("2025-03-12T14:30:00"),
-      text: "Love the games! The world is huge, and the quests are engaging. Though the combat could use more variety, it's overall an enjoyable experience. The side content adds a lot of depth, and the graphics are stunning.",
-    },
-    {
-      isLiked: true,
-      user: "gamer456",
-      date: new Date("2025-01-05T19:00:00"),
-      text: "The story is fantastic, but the gameplay can be a bit tedious at times. The world-building is top-notch, and the lore is rich and detailed. The combat system is solid, but it could use more depth.",
-    },
-    {
-      isLiked: false,
-      user: "randomPlayer",
-      date: new Date("2025-04-02T10:00:00"),
-      text: "Not a fan of the mechanics, but the world-building is phenomenal.",
-    },
-    {
-      isLiked: true,
-      user: "elite_gamer",
-      date: new Date("2025-03-20T22:00:00"),
-      text:
-        "I wish the controls were smoother, but overall, it’s a fun experience. The combat feels engaging once you get the hang of it, and the variety of skills available makes it interesting." +
-        " The open-world aspect is great, but the games could use more variety in enemies.I wish the controls were smoother, but overall, it’s a fun experience. The combat feels engaging once you get the hang of it, and the variety of skills available makes it interesting." +
-        " The open-world aspect is great, but the games could use more variety in enemies.I wish the controls were smoother, but overall, it’s a fun experience. The combat feels engaging once you get the hang of it, and the variety of skills available makes it interesting." +
-        " The open-world aspect is great, but the games could use more variety in enemies.I wish the controls were smoother, but overall, it’s a fun experience. The combat feels engaging once you get the hang of it, and the variety of skills available makes it interesting." +
-        " The open-world aspect is great, but the games could use more variety in enemies.I wish the controls were smoother, but overall, it’s a fun experience. The combat feels engaging once you get the hang of it, and the variety of skills available makes it interesting." +
-        " The open-world aspect is great, but the games could use more variety in enemies.",
-    },
-    {
-      isLiked: false,
-      user: "gamer456",
-      date: new Date("2025-02-25T11:00:00"),
-      text: "Great games for fans of action RPGs. The loot system is addictive, but the combat can be repetitive.",
-    },
-    {
-      isLiked: true,
-      user: "dimabalawov",
-      date: new Date("2025-01-17T16:00:00"),
-      text:
-        "Didn't like it much, but the graphics are amazing. The combat left me wanting more." +
-        "Didn't like it much, but the graphics are amazing. The combat left me wanting more." +
-        "Didn't like it much, but the graphics are amazing. The combat left me wanting more." +
-        "Didn't like it much, but the graphics are amazing. The combat left me wanting more.",
-    },
-    {
-      isLiked: true,
-      user: "johnDoe123",
-      date: new Date("2025-03-07T13:00:00"),
-      text: "An underrated gem! Loved exploring the world and finding hidden secrets. The side quests are some of the best I've ever played, and they often tell more compelling stories than the main quest.",
-    },
-    {
-      isLiked: false,
-      user: "randomPlayer",
-      date: new Date("2025-02-18T18:00:00"),
-      text: "It’s okay. The games has its flaws, but it can be fun at times.",
-    },
-  ];
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(
+          `https://localhost:7192/api/game/${game.id}/reviews?pageNumber=${page}&pageSize=${itemsPerPage}`,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        );
+        setReviews(response.data.items);
+        setTotalItems(response.data.totalCount);
+        setPercent(response.data.ratingInPercent);
+        if (reviews != null && reviews.length > 0) {
+          setIsRated(true);
+        }
+      } catch (error) {
+        console.error("Failed to fetch reviews:", {
+          status: error.response?.status,
+          message: error.response?.data?.message || error.message,
+        });
+      }
+    };
+    fetchReviews();
+  }, [game?.id, page, itemsPerPage]);
 
   const reviewStrColor = reviewByPercent(percent);
 
@@ -210,7 +223,6 @@ export default function GamePage() {
   const toggleExpand = () => {
     setExpanded(!expanded);
   };
-  const [sortValue, setSortValue] = React.useState("");
 
   if (isLoading) return <CustomLoader />;
 
@@ -324,9 +336,13 @@ export default function GamePage() {
           <div className="flex flex-col gap-4 mt-6">
             <div className="flex justify-between">
               <span className="font-normal opacity-80">All reviews:</span>
-              <span className={strAndColor[reviewStrColor.text]}>
-                {reviewStrColor.text} ({percent}%)
-              </span>
+              {isRated ? (
+                <span className={strAndColor[reviewStrColor.text]}>
+                  {reviewStrColor.text} ({percent}%)
+                </span>
+              ) : (
+                <span className="text-gray-lighter">Not rated yet</span>
+              )}
             </div>
             <div className="flex justify-between ">
               <span className="font-normal opacity-80">Release date:</span>
@@ -380,19 +396,15 @@ export default function GamePage() {
       <GameSectionTitle title="Customer Reviews" />
       <div className="flex flex-col">
         <span className="text-highlightedText font-normal">Review score:</span>
-        <span className={`${strAndColor[reviewStrColor.text]} text-title`}>
-          {reviewStrColor.text}
-        </span>
-        <div className="mt-5">
-          <Select
-            label="Sort by"
-            onChange={(e) => setSortValue(e.target.value)}
-            value={sortValue}
-            items={sortOptions}
-          />
-        </div>
+        {isRated ? (
+          <span className={`${strAndColor[reviewStrColor.text]} text-title`}>
+            {reviewStrColor.text}
+          </span>
+        ) : (
+          <span className="text-gray-lighter text-title">Not rated yet</span>
+        )}
 
-        <ReviewInput onClick={handleReviewPost} item={game} />
+        <ReviewInput onSubmit={handleReviewPost} item={game} user={user} />
         {windowWidth > 1050 ? (
           <div className="flex gap-x-4 mt-10">
             <div className="flex flex-col gap-y-4 flex-1">
@@ -406,7 +418,7 @@ export default function GamePage() {
               {reviews
                 .filter((_, i) => i % 2 !== 0)
                 .map((item, index) => (
-                  <Review key={index} item={item} />
+                  <Review key={index} item={item} user={user} />
                 ))}
             </div>
           </div>
@@ -419,7 +431,14 @@ export default function GamePage() {
         )}
       </div>
 
-      <CustomPagination totalItems={1000} />
+      {totalItems > itemsPerPage && (
+        <CustomPagination
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={(newPage) => setPage(newPage)}
+          currentPage={page}
+        />
+      )}
     </div>
   );
 }

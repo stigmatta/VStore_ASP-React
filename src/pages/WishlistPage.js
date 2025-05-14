@@ -1,5 +1,4 @@
 import PageTitle from "../components/PageTitle";
-import TransparentButton from "../components/TransparentButton";
 import React, { useEffect, useState } from "react";
 import ListGame from "../components/ListGame";
 import NotifyWishlist from "../components/NotifyWishlist";
@@ -14,7 +13,6 @@ import useSnackbar from "../hooks/useSnackbar";
 import usePagination from "../utils/usePagination";
 import CustomPagination from "../components/CustomPagination";
 import CustomLoader from "../components/CustomLoader";
-import getOverallPrice from "../utils/getOverallPrice";
 
 export default function WishlistPage() {
   const userId = useGetAuth();
@@ -28,7 +26,6 @@ export default function WishlistPage() {
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
-  const [overallPrice, setOverallPrice] = useState(0.0);
   const [sortValue, setSortValue] = useState("");
   const sortOptions = [
     { label: "None", value: "none" },
@@ -55,7 +52,7 @@ export default function WishlistPage() {
       }
     };
     fetchWishlist();
-  }, [page, sortValue]);
+  }, [page, itemsPerPage, sortValue]);
 
   useEffect(() => {
     setPage(1);

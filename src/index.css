@@ -51,6 +51,9 @@ code {
 .red-hover:hover {
     filter: brightness(0) saturate(100%) invert(44%) sepia(46%) saturate(694%) hue-rotate(314deg) brightness(87%) contrast(100%);
 }
+.redActive{
+    filter: brightness(0) saturate(100%) invert(44%) sepia(46%) saturate(694%) hue-rotate(314deg) brightness(87%) contrast(100%);
+}
 
 .formInput {
     @apply w-fit h-fit rounded-3xl bg-form-gradient mx-auto

@@ -1,13 +1,12 @@
 import ProfileTitle from "../components/ProfileTitle";
 import DefaultImage from "../images/user-profile.jpg";
-import AchievementImage from "../images/achievement.png";
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import useWindowWidth from "../hooks/useWindowWidth";
 import { Ban, Pencil, UserPlus } from "lucide-react";
 import GameSectionTitle from "../components/GameSectionTitle";
 import ShowMoreGreen from "../components/ShowMoreGreen";
 import GameCollectionItem from "../components/GameCollectionItem";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Dialog, DialogContent } from "@mui/material";
 import EditModal from "../components/EditModal";
 import useRedirectToLogin from "../hooks/useRedirectToLogin";
@@ -22,7 +21,7 @@ const CustomSlider = lazy(() => import("../components/CustomSlider"));
 
 export default function ProfilePage() {
   const { userId } = useParams();
-  useRedirectToLogin(`https://localhost:7192/api/profile/${userId}`);
+  const isAuthorized = useRedirectToLogin(`https://localhost:7192/api/profile`);
   const windowWidth = useWindowWidth();
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -46,6 +45,7 @@ export default function ProfilePage() {
   };
 
   useEffect(() => {
+    if (!isAuthorized) return;
     const fetchData = async () => {
       setIsLoading(true);
       try {
@@ -56,14 +56,16 @@ export default function ProfilePage() {
         const { profile, isSelfProfile } = response.data;
         setProfile(profile);
         setIsSelfProfile(isSelfProfile);
+        console.log(profile);
       } finally {
         setIsLoading(false);
       }
     };
     fetchData();
-  }, [userId]);
+  }, [userId, isAuthorized]);
 
   useEffect(() => {
+    if (!isAuthorized) return;
     const fetchPaginatedGames = async () => {
       try {
         const response = await axios.get(
@@ -80,8 +82,9 @@ export default function ProfilePage() {
       }
     };
     fetchPaginatedGames();
-  }, [userId, page]);
+  }, [userId, page, isAuthorized]);
   useEffect(() => {
+    if (!isAuthorized) return;
     const fetchAchievements = async () => {
       try {
         const response = await axios.get(
@@ -94,7 +97,7 @@ export default function ProfilePage() {
       }
     };
     fetchAchievements();
-  }, []);
+  }, [userId, page, itemsPerPage, isAuthorized]);
   const user = {
     avatar: avatar === "placeholder.jpg" ? avatar : DefaultImage,
     username: profile?.username,
