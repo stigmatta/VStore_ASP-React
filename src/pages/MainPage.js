@@ -70,7 +70,7 @@ export default function MainPage() {
 
   return (
     <div className="flex flex-col gap-[70px]">
-      <Suspense fallback={<CustomLoader />}>
+      <Suspense fallback={<p>Loading...</p>}>
         {<MainGame item={mainGame} onClick={handleGameClick} />}
         <div>
           <CategoryTitle title="Discover something new" />

@@ -30,12 +30,12 @@ function App() {
           <Route path="/Profile/:userId">
             <Route index element={<ProfilePage />} />
             <Route path="Achievements" element={<AchievementsPage />} />
+            <Route path="Friends" element={<FriendsPage />} />
           </Route>
           <Route path="/Game/:id">
             <Route index element={<GamePage />} />
             <Route path="Achievements" element={<AchievementsPage />} />
           </Route>
-          <Route path="Friends" element={<FriendsPage />} />
         </Route>
 
         <Route element={<AuthLayout />}>

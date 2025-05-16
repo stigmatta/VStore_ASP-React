@@ -1,45 +1,56 @@
-import Image from "../images/user-profile.jpg";
+import DefaultImage from "../images/user-profile.jpg";
 import ProfilePicture from "../components/ProfilePicture";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Ban, Mail, User, UserPlus } from "lucide-react";
-import Searchbar from "../components/Searchbar";
 import ProfileTitle from "../components/ProfileTitle";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Searchbar from "../components/Searchbar";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
 export default function FriendsPage() {
   const [view, setView] = useState("friends");
+  const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const API_BASE = "https://localhost:7192/api";
+  const navigate = useNavigate();
+  const user = useCurrentUser();
 
-  const user = {
-    avatar: Image,
-    username: "dimabalawov",
+  const ENDPOINTS = {
+    add: () => `${API_BASE}/get-all`,
+    friends: () => `${API_BASE}/profile/${user?.id}/friends`,
+    pending: () => `${API_BASE}/profile/${user?.id}/pending`,
+    blocked: () => `${API_BASE}/profile/${user?.id}/blocked`,
   };
 
-  const mockUsers = Array(7)
-    .fill(null)
-    .map((_, index) => ({
-      id: index,
-      avatar: Image,
-      username: `user${index}`,
-    }));
-
-  const getUsersByView = () => {
-    switch (view) {
-      case "friends":
-        return mockUsers;
-      case "add":
-        return [];
-      case "pending":
-        return mockUsers.slice(0, 2);
-      case "blocked":
-        return mockUsers.slice(2, 5);
-      default:
-        return [];
-    }
+  const handleUserRedirect = (id) => {
+    navigate(`/profile/${id}`);
   };
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const endpoint = ENDPOINTS[view]();
+      try {
+        const response = await axios.get(endpoint, { withCredentials: true });
+        setUsers(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchUsers();
+  }, [view, user?.id]);
+
+  const filteredUsers = useMemo(() => {
+    if (!Array.isArray(users)) return [];
+
+    return users.filter((user) => {
+      const username = user?.username || "";
+      return username.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+  }, [users, searchTerm]);
   return (
     <div>
-      <ProfileTitle user={user} />
+      {user && <ProfileTitle user={user} />}
 
       <div className="flex flex-col md:flex-row gap-10">
         <ul className="flex flex-row justify-between w-full md:flex-col md:justify-start  md:w-60 mt-5 gap-4">
@@ -50,7 +61,7 @@ export default function FriendsPage() {
             onClick={() => setView("friends")}
           />
           <FriendLink
-            title="Add new"
+            title="Search"
             ImgComp={UserPlus}
             active={view === "add"}
             onClick={() => setView("add")}
@@ -68,11 +79,12 @@ export default function FriendsPage() {
             onClick={() => setView("blocked")}
           />
         </ul>
-
         <div className="flex-1">
           <FriendList
             title={view.toUpperCase()}
-            users={getUsersByView()}
+            users={filteredUsers}
+            fallback={DefaultImage}
+            onUserClick={handleUserRedirect}
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
           />
@@ -100,37 +112,35 @@ function FriendLink({ title, ImgComp, onClick, active }) {
   );
 }
 
-function FriendList({ title, users, searchTerm, setSearchTerm }) {
-  const filteredUsers = users.filter((user) =>
-    user.username.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
-
+function FriendList({
+  title,
+  users,
+  fallback,
+  onUserClick,
+  searchTerm,
+  setSearchTerm,
+}) {
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold mb-4">{title}</h2>
-
       <Searchbar
         placeholder="Search by name"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-
-      {filteredUsers.length === 0 ? (
-        <p className="opacity-70 text-title">No users found.</p>
-      ) : (
-        <div className="grid grid-cols-1 l:grid-cols-2 gap-6">
-          {filteredUsers.map((user) => (
-            <div
-              key={user.id}
-              className="flex items-center gap-5 border border-solid overflow-hidden border-gray-light transition-all duration-300
-              hover:border-gray-lighter"
-            >
-              <ProfilePicture size={"75px"} src={user.avatar} />
-              <span className="text-title">{user.username}</span>
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="grid grid-cols-1 l:grid-cols-2 gap-6">
+        {users.map((user) => (
+          <div
+            key={user.id}
+            className="flex items-center gap-5 border border-solid overflow-hidden border-gray-light transition-all duration-300
+              hover:border-gray-lighter hover:cursor-pointer"
+            onClick={() => onUserClick(user.id)}
+          >
+            <ProfilePicture size={"75px"} src={user.avatar ?? fallback} />
+            <span className="text-title">{user.username}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

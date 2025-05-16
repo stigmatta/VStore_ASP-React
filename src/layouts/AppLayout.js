@@ -1,14 +1,14 @@
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Searchbar from "../components/Searchbar";
+import CustomAutocomplete from "../components/CustomAutocomplete";
 
 const AppLayout = () => {
   return (
     <div className="relative min-h-screen h-fit w-full flex flex-col bg-page-gradient">
       <Header />
       <div className="block lg:hidden mx-auto w-[90%] md:w-3/4">
-        <Searchbar />
+        <CustomAutocomplete />
       </div>
 
       <div

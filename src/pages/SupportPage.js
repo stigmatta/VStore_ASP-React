@@ -1,4 +1,4 @@
-import Searchbar from "../components/Searchbar";
+import CustomAutocomplete from "../components/CustomAutocomplete";
 import GreenButton from "../components/GreenButton";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -20,7 +20,7 @@ export default function SupportPage() {
       <h1 className="text-[48px] font-black imd:block sm:hidden mb-4">
         Support
       </h1>
-      <Searchbar
+      <CustomAutocomplete
         placeholder="Find help"
         width="lg:max-w-[40rem]"
         border="border-[2px] border-solid border-white"

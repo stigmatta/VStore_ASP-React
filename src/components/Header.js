@@ -1,5 +1,5 @@
 import GrayButton from "./GrayButton";
-import Searchbar from "./Searchbar";
+import CustomAutocomplete from "./CustomAutocomplete";
 import { useEffect, useState } from "react";
 import HeaderDropdown from "./HeaderDropdown";
 import { NavLink } from "react-router-dom";
@@ -125,10 +125,12 @@ export default function Header() {
       </div>
 
       <div className="hidden lg:block">
-        <Searchbar
+        <CustomAutocomplete
           setValue={setSearchInput}
           options={searchResults}
           handleSearch={handleSearch}
+          value={searchInput}
+          getOptionLabel={(option) => option?.title || ""}
         />
       </div>
 
