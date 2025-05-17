@@ -112,14 +112,7 @@ function FriendLink({ title, ImgComp, onClick, active }) {
   );
 }
 
-function FriendList({
-  title,
-  users,
-  fallback,
-  onUserClick,
-  searchTerm,
-  setSearchTerm,
-}) {
+function FriendList({ title, users, onUserClick, searchTerm, setSearchTerm }) {
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold mb-4">{title}</h2>
@@ -136,7 +129,7 @@ function FriendList({
               hover:border-gray-lighter hover:cursor-pointer"
             onClick={() => onUserClick(user.id)}
           >
-            <ProfilePicture size={"75px"} src={user.avatar ?? fallback} />
+            <ProfilePicture size={"75px"} user={user} />
             <span className="text-title">{user.username}</span>
           </div>
         ))}

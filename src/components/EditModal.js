@@ -4,6 +4,9 @@ import ProfilePicture from "./ProfilePicture";
 import GreenButton from "./GreenButton";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useSnackbar from "../hooks/useSnackbar";
+import axios from "axios";
+import CustomSnackbar from "./CustomSnackbar";
 
 export default function EditModal({ user, closeModal, onUpdate }) {
   const fileInputRef = useRef(null);
@@ -29,9 +32,29 @@ export default function EditModal({ user, closeModal, onUpdate }) {
       [name]: value,
     }));
   };
+  const { openSnackbar, isSuccess, snackMessage, createSnackbar, handleClose } =
+    useSnackbar();
+
+  const validateForm = () => {
+    if (
+      formData.newPassword &&
+      formData.newPassword !== formData.confirmPassword
+    ) {
+      createSnackbar(false, "New passwords don't match");
+      return false;
+    }
+    if (formData.newPassword && !formData.oldPassword) {
+      createSnackbar(false, "Please enter your old password");
+      return false;
+    }
+    return true;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
+
     setIsLoading(true);
 
     try {
@@ -46,27 +69,28 @@ export default function EditModal({ user, closeModal, onUpdate }) {
         payload.append("NewPassword", formData.newPassword);
       }
 
-      const response = await fetch(
+      const response = await axios.post(
         "https://localhost:7192/api/update-profile",
+        payload,
         {
-          method: "POST",
-          body: payload,
-          credentials: "include",
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         },
       );
 
-      if (!response.ok) {
-        const error = await response.text();
-        throw new Error(error || "Request failed");
-      }
-
-      const result = await response.json();
-      toast.success("Profile updated!");
-      onUpdate(result);
+      createSnackbar(true, "Profile updated successfully!");
+      onUpdate(response.data);
       closeModal();
     } catch (error) {
       console.error("Update error:", error);
-      toast.error(error.message);
+      const errorMessage =
+        error.response?.data?.message ||
+        error.response?.data ||
+        error.message ||
+        "Failed to update profile";
+      createSnackbar(false, errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -85,6 +109,12 @@ export default function EditModal({ user, closeModal, onUpdate }) {
 
   return (
     <div className="p-6 bg-gray-light rounded-lg">
+      <CustomSnackbar
+        close={handleClose}
+        isError={!isSuccess}
+        message={snackMessage}
+        open={openSnackbar}
+      />
       <div className="flex justify-between w-full items-center">
         <h1 className="text-formTitle">{user.username} Info</h1>
         <X
@@ -95,7 +125,7 @@ export default function EditModal({ user, closeModal, onUpdate }) {
       </div>
 
       <form className="flex flex-col w-full" onSubmit={handleSubmit}>
-        <ProfilePicture size={"177px"} src={previewUrl || user.avatar} />
+        <ProfilePicture size={"177px"} src={previewUrl || user.photo} />
 
         <div onClick={handleUploadClick}>
           <GreenButton
@@ -122,6 +152,7 @@ export default function EditModal({ user, closeModal, onUpdate }) {
             name="username"
             value={formData.username}
             onChange={handleInputChange}
+            required
           />
         </label>
 
@@ -133,7 +164,7 @@ export default function EditModal({ user, closeModal, onUpdate }) {
             name="oldPassword"
             value={formData.oldPassword}
             onChange={handleInputChange}
-            placeholder="Leave empty if not changing"
+            placeholder="Required if changing password"
           />
         </label>
 
@@ -162,7 +193,9 @@ export default function EditModal({ user, closeModal, onUpdate }) {
         </label>
 
         <button className="self-start mt-5" type="submit" disabled={isLoading}>
-          <div className="text-gray rounded bg-green hover:bg-green-lighter rounded-xl px-3 py-2 text-[36px]">
+          <div
+            className={`text-gray rounded ${isLoading ? "bg-green-lighter" : "bg-green hover:bg-green-lighter"} rounded-xl px-3 py-2 text-[36px]`}
+          >
             {isLoading ? "Saving..." : "Save"}
           </div>
         </button>

@@ -7,6 +7,7 @@ import CategoryTitle from "../components/CategoryTitle";
 import CustomLoader from "../components/CustomLoader";
 import usePagination from "../utils/usePagination";
 import CustomPagination from "../components/CustomPagination";
+import useScrollToTop from "../hooks/useScrollToTop";
 
 export default function NewsPage() {
   const [bigNews, setBigNews] = useState([]);
@@ -17,6 +18,8 @@ export default function NewsPage() {
     usePagination(1, 16);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     const fetchNews = async () => {
       setLoading(true);
       try {

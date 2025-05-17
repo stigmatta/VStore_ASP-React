@@ -1,10 +1,9 @@
-import React, { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Dialog, DialogContent } from "@mui/material";
 import axios from "axios";
 import { Ban, Pencil, UserPlus, UserMinus, Mail } from "lucide-react";
 
-// Components
 import ProfileTitle from "../components/ProfileTitle";
 import GameSectionTitle from "../components/GameSectionTitle";
 import ShowMoreGreen from "../components/ShowMoreGreen";
@@ -14,15 +13,13 @@ import CustomLoader from "../components/CustomLoader";
 import CustomPagination from "../components/CustomPagination";
 import AlertDialog from "../components/AlertDialog";
 
-// Hooks
 import useWindowWidth from "../hooks/useWindowWidth";
 import useRedirectToLogin from "../hooks/useRedirectToLogin";
 import useRedirectToGame from "../hooks/useRedirectToGame";
 import usePagination from "../utils/usePagination";
 import { useCurrentUser } from "../hooks/useCurrentUser";
-
-// Assets
-import DefaultImage from "../images/user-profile.jpg";
+import useSnackbar from "../hooks/useSnackbar";
+import CustomSnackbar from "../components/CustomSnackbar";
 
 const CustomSlider = lazy(() => import("../components/CustomSlider"));
 
@@ -36,6 +33,7 @@ export default function ProfilePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [profile, setProfile] = useState(null);
   const [status, setStatus] = useState("Stranger");
+  const [inverse, setInverse] = useState("Stranger");
   const [userGames, setUserGames] = useState([]);
   const [friendsCount, setFriendsCount] = useState(0);
   const [achievements, setAchievements] = useState([]);
@@ -44,32 +42,44 @@ export default function ProfilePage() {
   const handleGameClick = useRedirectToGame();
   const { page, setPage, totalItems, setTotalItems, itemsPerPage } =
     usePagination(1, 6);
+  const { openSnackbar, isSuccess, snackMessage, createSnackbar, handleClose } =
+    useSnackbar();
 
-  const handleOpen = () => setModalIsOpen(true);
-  const handleClose = () => setModalIsOpen(false);
+  const handleModalOpen = () => setModalIsOpen(true);
+  const handleModalClose = () => setModalIsOpen(false);
   const handleAlertOpen = () => setAlertIsOpen(true);
   const handleAlertClose = () => setAlertIsOpen(false);
 
-  const avatar = useMemo(() => {
-    if (profile?.photo) {
-      if (profile.photo.startsWith("http")) {
-        return profile.photo;
-      } else {
-        return `https://localhost:7192/${profile.photo}`;
-      }
-    }
-    return DefaultImage;
-  }, [profile?.photo]);
-
-  const user = useMemo(
-    () => ({
-      avatar,
-      username: profile?.username || "Your name",
-    }),
-    [avatar, profile],
-  );
+  const handleProfileUpdate = (updatedProfile) => {
+    setProfile(updatedProfile);
+  };
 
   const actionHandlers = {
+    add: async () => {
+      try {
+        const response = await axios.post(
+          `https://localhost:7192/api/profile/${selfUser.id}/add/${userId}`,
+          {},
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        );
+        const newStatus = response.data;
+        setStatus(newStatus);
+        if (newStatus === "Pending")
+          createSnackbar(true, "Friend request sent!");
+        else if (newStatus === "Friend") {
+          createSnackbar(true, "You are now friends!");
+          setFriendsCount((prevState) => prevState + 1);
+        }
+      } catch (error) {
+        createSnackbar(false, "Failed to add friend");
+        console.error("Error adding friend:", error);
+      }
+    },
     remove: async () => {
       try {
         await axios.delete(
@@ -77,33 +87,36 @@ export default function ProfilePage() {
           { withCredentials: true },
         );
         setStatus("Stranger");
-        setFriendsCount((prevState) => prevState - 1);
+        if (friendsCount > 0) setFriendsCount((prevState) => prevState - 1);
       } catch (error) {
+        createSnackbar(false, "Failed to remove friend");
         console.error("Error removing friend:", error);
       }
     },
     block: async () => {
       try {
-        await axios.post(
-          `https://localhost:7192/api/profile/${selfUser.id}/block`,
+        await axios.patch(
+          `https://localhost:7192/api/profile/${selfUser.id}/block/${userId}`,
           {},
           { withCredentials: true },
         );
         setStatus("Blocked");
       } catch (error) {
         console.error("Error blocking user:", error);
+        createSnackbar(false, "Failed to block user");
       }
     },
     unblock: async () => {
       try {
-        await axios.post(
-          `https://localhost:7192/api/profile/${selfUser.id}/unblock`,
+        await axios.patch(
+          `https://localhost:7192/api/profile/${selfUser.id}/unblock/${userId}`,
           {},
           { withCredentials: true },
         );
         setStatus("Stranger");
       } catch (error) {
         console.error("Error unblocking user:", error);
+        createSnackbar(false, "Failed to unblock user");
       }
     },
   };
@@ -123,7 +136,7 @@ export default function ProfilePage() {
             setAlertIsOpen(true);
           }}
         >
-          <UserMinus size={30} />
+          <UserMinus size={30} className={"text-red"} />
         </div>
         <div
           className="red-hover hover:cursor-pointer"
@@ -138,7 +151,13 @@ export default function ProfilePage() {
     ),
     Pending: () => (
       <div className="flex gap-2 self-start md:gap-5">
-        <div className="hover:cursor-pointer">
+        <div
+          className="hover:cursor-pointer"
+          onClick={() => {
+            setAlertIsOpen(true);
+            setAlertAction("remove");
+          }}
+        >
           <Mail size={30} className="text-yellow-500" />
         </div>
         <div
@@ -153,13 +172,25 @@ export default function ProfilePage() {
       </div>
     ),
     Blocked: () => (
-      <div className="hoverSvg hover:cursor-pointer">
+      <div
+        className="hoverSvg hover:cursor-pointer"
+        onClick={() => {
+          setAlertIsOpen(true);
+          setAlertAction("unblock");
+        }}
+      >
         <Ban size={30} className="text-red-500" />
       </div>
     ),
     Stranger: () => (
       <div className="flex gap-2 self-start md:gap-5">
-        <div className="hoverSvg hover:cursor-pointer">
+        <div
+          className="hoverSvg hover:cursor-pointer"
+          onClick={() => {
+            setAlertIsOpen(true);
+            setAlertAction("add");
+          }}
+        >
           <UserPlus size={30} />
         </div>
         <div
@@ -197,6 +228,7 @@ export default function ProfilePage() {
 
         setProfile(profileRes.data.profile);
         setStatus(profileRes.data.status);
+        setInverse(profileRes.data.inverseStatus);
         setFriendsCount(profileRes.data.friendCount || 0);
 
         setUserGames(gamesRes.data.userGamesDTO || []);
@@ -217,75 +249,92 @@ export default function ProfilePage() {
 
   return (
     <div className="profile-page">
+      <CustomSnackbar
+        close={handleClose}
+        isError={!isSuccess}
+        message={snackMessage}
+        open={openSnackbar}
+      />
       <div className="flex">
-        <ProfileTitle user={user} />
-        <div className="flex ml-auto">
-          {windowWidth > 1060 && (
-            <Categories
-              gamesLength={totalItems}
-              friendsLength={friendsCount}
-              userId={userId}
-              status={status}
-            />
-          )}
-          <div>
-            {STATUS_COMPONENTS[status]?.({
-              handleOpen,
-              handleAlertOpen,
-            })}
-          </div>
-        </div>
+        <ProfileTitle user={profile} />
+        {inverse === null ||
+          (inverse !== "Blocked" && (
+            <div className="flex ml-auto">
+              {windowWidth > 1060 && (
+                <Categories
+                  gamesLength={totalItems}
+                  friendsLength={friendsCount}
+                  userId={userId}
+                  status={status}
+                />
+              )}
+              <div>
+                {STATUS_COMPONENTS[status]?.({
+                  handleOpen: handleModalOpen,
+                  handleAlertOpen,
+                })}
+              </div>
+            </div>
+          ))}
       </div>
+      {(status !== "Blocked" && inverse === null) ||
+        (inverse !== "Blocked" && (
+          <div>
+            {windowWidth < 1060 && (
+              <Categories
+                gamesLength={totalItems}
+                friendsLength={friendsCount}
+                userId={userId}
+                status={status}
+              />
+            )}
 
-      {windowWidth < 1060 && (
-        <Categories
-          gamesLength={totalItems}
-          friendsLength={friendsCount}
-          userId={userId}
-          status={status}
-        />
-      )}
+            {achievements.length > 0 && (
+              <>
+                <GameSectionTitle title="Achievements" />
+                <Suspense fallback={<CustomLoader />}>
+                  <CustomSlider
+                    items={achievements}
+                    componentName="AchievementForSlider"
+                  />
+                </Suspense>
+                <ShowMoreGreen isUser={true} id={userId} items={achievements} />
+              </>
+            )}
 
-      {achievements.length > 0 && (
-        <>
-          <GameSectionTitle title="Achievements" />
-          <Suspense fallback={<CustomLoader />}>
-            <CustomSlider
-              items={achievements}
-              componentName="AchievementForSlider"
-            />
-          </Suspense>
-          <ShowMoreGreen isUser={true} id={userId} items={achievements} />
-        </>
-      )}
+            <GameSectionTitle title="Game collection" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {userGames.map((game, i) => (
+                <div key={`${game.id}-${i}`}>
+                  <GameCollectionItem onClick={handleGameClick} item={game} />
+                </div>
+              ))}
+            </div>
 
-      <GameSectionTitle title="Game collection" />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {userGames.map((game, i) => (
-          <div key={`${game.id}-${i}`}>
-            <GameCollectionItem onClick={handleGameClick} item={game} />
+            {totalItems > itemsPerPage && (
+              <CustomPagination
+                totalItems={totalItems}
+                itemsPerPage={itemsPerPage}
+                onPageChange={setPage}
+                currentPage={page}
+              />
+            )}
           </div>
         ))}
-      </div>
-
-      {totalItems > itemsPerPage && (
-        <CustomPagination
-          totalItems={totalItems}
-          itemsPerPage={itemsPerPage}
-          onPageChange={setPage}
-          currentPage={page}
-        />
-      )}
 
       <Dialog
         open={modalIsOpen}
-        onClose={handleClose}
+        onClose={handleModalClose}
         PaperProps={{
           sx: { width: "25%", bgcolor: "#393E46", maxWidth: "80%" },
         }}
       >
         <DialogContent sx={{ color: "#EEEEEE", padding: 0 }}>
-          <EditModal user={user} closeModal={handleClose} />
+          <EditModal
+            user={profile}
+            closeModal={handleModalClose}
+            onUpdate={handleProfileUpdate}
+          />
         </DialogContent>
       </Dialog>
 

@@ -12,6 +12,11 @@ export default function AlertDialog({
   onConfirm,
 }) {
   const config = {
+    add: {
+      title: "Add Friend",
+      message: "Are you sure you want to add this friend?",
+      confirmText: "Add",
+    },
     remove: {
       title: "Remove Friend",
       message: "Are you sure you want to remove this friend?",
@@ -21,6 +26,11 @@ export default function AlertDialog({
       title: "Block User",
       message: "Are you sure you want to block this user?",
       confirmText: "Block",
+    },
+    unblock: {
+      title: "Unblock User",
+      message: "Are you sure you want to unblock this user?",
+      confirmText: "Unblock",
     },
   };
 
