@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect, useMemo, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Dialog, DialogContent } from "@mui/material";
 import axios from "axios";
 import { Ban, Pencil, UserPlus, UserMinus, Mail } from "lucide-react";
@@ -17,13 +17,12 @@ import AlertDialog from "../components/AlertDialog";
 // Hooks
 import useWindowWidth from "../hooks/useWindowWidth";
 import useRedirectToLogin from "../hooks/useRedirectToLogin";
-import useGetImage from "../hooks/useGetImage";
 import useRedirectToGame from "../hooks/useRedirectToGame";
 import usePagination from "../utils/usePagination";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
 // Assets
 import DefaultImage from "../images/user-profile.jpg";
-import { useCurrentUser } from "../hooks/useCurrentUser";
 
 const CustomSlider = lazy(() => import("../components/CustomSlider"));
 
@@ -42,7 +41,6 @@ export default function ProfilePage() {
   const [achievements, setAchievements] = useState([]);
   const selfUser = useCurrentUser();
 
-  const avatar = useGetImage(profile?.photo);
   const handleGameClick = useRedirectToGame();
   const { page, setPage, totalItems, setTotalItems, itemsPerPage } =
     usePagination(1, 6);
@@ -51,6 +49,25 @@ export default function ProfilePage() {
   const handleClose = () => setModalIsOpen(false);
   const handleAlertOpen = () => setAlertIsOpen(true);
   const handleAlertClose = () => setAlertIsOpen(false);
+
+  const avatar = useMemo(() => {
+    if (profile?.photo) {
+      if (profile.photo.startsWith("http")) {
+        return profile.photo;
+      } else {
+        return `https://localhost:7192/${profile.photo}`;
+      }
+    }
+    return DefaultImage;
+  }, [profile?.photo]);
+
+  const user = useMemo(
+    () => ({
+      avatar,
+      username: profile?.username || "Your name",
+    }),
+    [avatar, profile],
+  );
 
   const actionHandlers = {
     remove: async () => {
@@ -157,14 +174,6 @@ export default function ProfilePage() {
       </div>
     ),
   };
-
-  const user = useMemo(
-    () => ({
-      avatar: avatar === "placeholder.jpg" ? avatar : DefaultImage,
-      username: profile?.username || "Your name",
-    }),
-    [avatar, profile],
-  );
 
   useEffect(() => {
     if (!isAuthorized) return;
